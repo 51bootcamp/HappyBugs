@@ -11,39 +11,36 @@ Request body:
     "password": "12345"
 }
 ```
+> 201 : account creation success  
+> 409 : account already exist
 
-Response Messages  
-HTTP Status Code
-
-> 201: account creation success  
-> 409: account creation conflict
-
-## Sign in (Logs user into the system)
+## Sign in
+*Logs user into the system*  
 Method: GET  
 URI: /api/v1/user/login/    
-Query Parameter:  
+Query string:  
 - email (string)  
 - password (string)  
-> Response status code: 202 (successfully login)
+> 200 : successfully login  
+> 404 : user not found  
 
-
-## Sign out (Logs out current logged in user session)
-Method: GET
+## Sign out
+*Logs out current logged in user session*  
+Method: GET  
 URI: /api/v1/user/logout/
-Response status code: 
+> 200 : successfully sign out  
+> 403 : Not logined  
 
-## Delete user (This can only be done by the logged in user.)
-Method: DELETE
-URI: /api/v1/user/delete
-Request body: Login User’s Session
-Response status code: 
+## Delete user
+Method: DELETE  
+URI: /api/v1/user/delete/    
+> 200 : successfully sign out  
+> 403 : Not logined  
 
 ## Create report
 Method: POST  
-URI:  /api/v1/report/create/
-redirect URI : /api/v1/report/list
-
-Request body: Login User’s Session
+URI:  /api/v1/report/create/  
+Request body:  
 ```
 {
     "data": [{
@@ -55,7 +52,6 @@ Request body: Login User’s Session
     }]
 }
 ```
-
 Response body:
 ```
 {
@@ -64,11 +60,12 @@ Response body:
     }]
 }
 ```
+> 200 : successfully created  
+> 403 : Not logined  
 
-## Show the list of reports (Requests all reports to be retrieved from the server.)
-Method: GET
-URI: /api/v1/report/list/
-Request body: Login User’s Session
+## List reports
+Method: GET  
+URI: /api/v1/report/list/  
 Response:
 ```
 {
@@ -83,13 +80,14 @@ Response:
     }]
 }
 ```
+> 200 : successfully listed  
+> 403 : Not logined   
 
-## Read a certain report
-
-Method: GET
-URI: /api/v1/report/read?report_id=<report_id>/
-Request body: Login User’s Session
-
+## Read a report
+Method: GET  
+URI: /api/v1/report/read/    
+Query string:  
+- report_id (string)  
 Response:
 ```{
     "data": [{
@@ -103,15 +101,16 @@ Response:
     }]
 }
 ```
+> 200 : successfully read a report  
+> 403 : Not logined  
 
-## Edit report
-
-Method: PUT
-URI: api/v1/report/update?report_id=<report_id>/
-Request body: Login User’s Session
-
-```
+## Edit report 
+Method: PUT  
+URI: api/v1/report/update/   
+Query string:  
+- report_id (string)  
 Request body: 
+```
 {
     "data":[{
         "what": "I was sexually assaulted.",
@@ -122,14 +121,14 @@ Request body:
     }]
 }
 ```
+> 200 : successfully Edit  
+> 403 : Not logined  
 
 ## Delete report
-
-Method: POST
-URI: api/v1/report/delete?report_id=<report_id>/  
-Request body: Login User’s Session
-Method: DELETE
-
+Method: DELETE  
+URI: api/v1/report/delete/ 
+Query string:  
+- report_id (string)  
 Request body:
 ```
 {
@@ -139,6 +138,8 @@ Request body:
    "user_ID" : "1554", 
 }
 ```
+> 200 : successfully read a report  
+> 403 : Not logined  
 
 
 Reference: https://technologyconversations.com/2014/08/12/rest-api-with-json/
