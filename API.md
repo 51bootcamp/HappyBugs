@@ -86,8 +86,9 @@ Response:
 ## Read a report
 Method: GET  
 URI: /api/v1/report/read/    
-Query string:  
-- report_id (string)  
+Query string:
+- report_id (string)
+
 Response:
 ```{
     "data": [{
@@ -107,8 +108,9 @@ Response:
 ## Edit report 
 Method: PUT  
 URI: api/v1/report/update/   
-Query string:  
-- report_id (string)  
+Query string:
+- report_id (string)
+
 Request body: 
 ```
 {
@@ -126,9 +128,10 @@ Request body:
 
 ## Delete report
 Method: DELETE  
-URI: api/v1/report/delete/ 
-Query string:  
-- report_id (string)  
+URI: api/v1/report/delete/   
+Query string:
+- report_id (string)
+
 Request body:
 ```
 {
