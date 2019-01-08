@@ -133,16 +133,7 @@ URI: api/v1/report/delete/
 Query string:
 - report_id (string)
 
-Request body:
-```
-{
-   "data": [{
-       "report_ID" : "7587",
-   }],
-   "user_ID" : "1554", 
-}
-```
-> 200 : successfully read a report  
+> 200 : successfully delete a report  
 > 403 : Not logined  
 
 
