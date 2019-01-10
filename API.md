@@ -133,7 +133,7 @@ URI: api/v1/report/delete/
 Query string:
 - report_id (string)
 
-> 200 : successfully delete a report  
+> 204 : successfully delete a report  
 > 403 : Not logined  
 
 
