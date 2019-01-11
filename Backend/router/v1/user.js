@@ -19,7 +19,6 @@ router.post('/signup', (req, res) => {
       console.log("everything is good");
       res.send(result);
   });
-  res.end();
 });
 
 module.exports = router;
