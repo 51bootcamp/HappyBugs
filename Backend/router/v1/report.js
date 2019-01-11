@@ -17,7 +17,7 @@ router.post('/create', (req, res) => {
       location : req.body.data[0].location,
       time : req.body.data[0].time,
       who : req.body.data[0].who,
-      details : req.body.data[0].details,    
+      details : req.body.data[0].details,
   }).then(result => {
       console.log(result);
       console.log("everything is good");
