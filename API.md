@@ -60,7 +60,7 @@ Response body:
     }]
 }
 ```
-> 200 : successfully created  
+> 201 : successfully created  
 > 403 : Not logined  
 
 ## List reports
