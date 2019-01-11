@@ -13,7 +13,7 @@ router.use((req,res,next) => {
 });
 
 
-router.all('/' + version + '/user', userrouter);
-router.all('/' + version + '/report', reportrouter);
+router.use('/' + version + '/user', userrouter);
+router.use('/' + version + '/report', reportrouter);
 
 module.exports = router;
