@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const models = require('../../models');
+const crypto = require('crypto')
 
 router.use((req,res,next) => {
   console.log("user router");
@@ -12,9 +13,12 @@ router.all('/', (req,res) => {
 })
 
 router.post('/signup', (req, res) => {
+  let hashPassword = crypto.createHash("sha512").update(req.body.password).digest("hex");
+
   models.user.create({
       email : req.body.email,
-      password : req.body.password,
+      password : hashPassword,
+
   }).then(result => {
       console.log("everything is good");
       res.send(result);
