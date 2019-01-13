@@ -1,4 +1,4 @@
-# Happy Bugs API document
+# Happy Bugs API document V1
 ***Response Content Type: application/json***
 
 ## Sign up
