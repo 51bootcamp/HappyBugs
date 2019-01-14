@@ -1,5 +1,4 @@
 # Happy Bugs API document
-***Response Content Type: application/json***
 
 MIT License
 
@@ -22,6 +21,8 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+***Response Content Type: application/json***
 
 ## Sign up
 Method: POST   
