@@ -1,4 +1,4 @@
-# Happy Bugs API document
+# Happy Bugs API document V1
 
 MIT License
 
