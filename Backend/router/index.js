@@ -12,7 +12,6 @@ router.use((req,res,next) => {
   next();
 });
 
-
 router.use('/' + version + '/user', userrouter);
 router.use('/' + version + '/report', reportrouter);
 

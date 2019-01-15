@@ -1,24 +1,24 @@
 const express = require('express');
 const app = express();
-// manage db
+// Manage db
 const models = require('./models');
-// routers
+// Routers
 const router = express.Router();
-const rootrouter = require('./router/index');
+const rootRouter = require('./router/index');
 
-// to get json data from body
+// To get json data from body
 const bodyParser = require('body-parser');
 
 models.sequelize.sync();
 
-//json encoded
+//Json encoded
 app.use(bodyParser.json());
-//url encoded
+//Url encoded
 app.use(bodyParser.urlencoded({
   extended: true,
 }));
 
-app.use('/api', rootrouter);
+app.use('/api', rootRouter);
 
 app.listen(3000, function(){
   console.log("Server Start");
