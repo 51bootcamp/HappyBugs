@@ -1,8 +1,8 @@
 {
   "development": {
-    "username": "username",
-    "password": "password",
-    "database": "database name",
+    "username": "",
+    "password": "",
+    "database": "",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
