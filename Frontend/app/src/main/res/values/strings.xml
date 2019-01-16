@@ -9,4 +9,17 @@
     <string name="nav_home">Home</string>
     <string name="nav_create">Create</string>
     <string name="nav_account">Account</string>
+    <string name="home_title"><b>What To Expect at Happy Maker</b></string>
+    <string name="home_content">
+        We want to empower you to make the\n
+        choice that\'s right for you. Here\'s what you\n
+        need to know before you begin.\n\n
+
+        Your record stays private to you.\n\n
+
+        If you\'re not ready to answer a question\n
+        choose "I\'d rather not say" or click "Next" to\n
+        move forward
+    </string>
+    <string name="start_report_button">START A NEW REPORT</string>
 </resources>
