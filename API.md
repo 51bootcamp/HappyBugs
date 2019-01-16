@@ -72,7 +72,8 @@ Request body:
 	  "when": "12/12/2018",
 	  "who": "J",
         "details": "blahblah"
-    }]
+    }],
+    "user": 2342
 }
 ```
 Response body:
