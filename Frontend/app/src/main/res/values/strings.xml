@@ -6,4 +6,17 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+
+    <!--SignIn & SignUp-->
+    <string name="text_welcome">Welcome To PeaceMaker</string>
+    <string name="text_email">Email</string>
+    <string name="text_password">Password</string>
+    <string name="text_login">LOG IN</string>
+    <string name="text_signup">REGISTER</string>
+    <string name="msg_unvalid_email">Enter valid email address</string>
+    <string name="text_create_account">Create account</string>
+    <string name="text_ask_email">What\'s your email?</string>
+    <string name="text_ask_password">Pick a password</string>
+    <string name="text_password_check">Re-enter password</string>
+
 </resources>
