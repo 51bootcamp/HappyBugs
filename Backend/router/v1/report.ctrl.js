@@ -20,14 +20,14 @@ const showReportList = (req, res) => {
 }
 
 const readReport = (req, res) => {
-  const report_ID = parseInt(req.params.report_ID)
+  const reportId = parseInt(req.params.reportId)
   //When ID is not a number
-  if (Number.isNaN(report_ID)) {
+  if (Number.isNaN(reportId)) {
     return res.status(400).end()
   }
   models.report.findAll({
     where: {
-      id: report_ID
+      id: reportId
     }
   }).then((result) => {
     res.json(result);
@@ -35,17 +35,17 @@ const readReport = (req, res) => {
 }
 
 const destroyReport = (req, res) => {
-  const report_ID = parseInt(req.params.report_ID)
+  const reportId = parseInt(req.params.reportId)
   //When ID is not a number
-  if (Number.isNaN(report_ID)) {
+  if (Number.isNaN(reportId)) {
     return res.status(400).end()
   }
   models.report.destroy({
     where: {
-      id: report_ID
+      id: reportId
     }
   }).then((result) => {
-    res.status(204); //no content
+    res.status(204).json(result);  //no content
   }).catch((err) => {});
 }
 
