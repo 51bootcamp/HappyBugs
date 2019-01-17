@@ -1,29 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const models = require('../../models');
+const ctrl = require('./report.ctrl')
 
-router.use((req, res, next) => {
+router.use((req,res,next) => {
   console.log("report router");
   next();
 });
 
-router.all('/', (req, res) => {
+router.all('/', (req,res) => {
   res.send("this is report root");
 });
 
-router.post('/create', (req, res) => {
-  models.report.create({
-    what: req.body.data[0].what,
-    location: req.body.data[0].location,
-    time: req.body.data[0].time,
-    who: req.body.data[0].who,
-    details: req.body.data[0].details,
-  }).then(result => {
-    console.log(result);
-    console.log("everything is good");
-  });
-
-  res.send("created report succefully");
-});
+router.post('/create', ctrl.create);
+router.get('/list', ctrl.list);
+router.get('/read/:report_ID', ctrl.read);
+router.delete('/delete/:report_ID', ctrl.destroy);
 
 module.exports = router;
