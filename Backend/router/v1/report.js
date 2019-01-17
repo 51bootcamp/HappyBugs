@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const ctrl = require('./report.ctrl')
+const reportCtrl = require('./report.ctrl');
 
 router.use((req, res, next) => {
-  console.log("report router");
   next();
 });
 
@@ -11,9 +10,9 @@ router.all('/', (req, res) => {
   res.send("this is report root");
 });
 
-router.post('/create', ctrl.create);
-router.get('/list', ctrl.list);
-router.get('/read/:report_ID', ctrl.read);
-router.delete('/delete/:report_ID', ctrl.destroy);
+router.post('/create', reportCtrl.createReport);
+router.get('/list', reportCtrl.showReportList);
+router.get('/read/:report_ID', reportCtrl.readReport);
+router.delete('/delete/:report_ID', reportCtrl.destroyReport);
 
 module.exports = router;
