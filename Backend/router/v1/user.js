@@ -28,19 +28,17 @@ router.post('/signup', (req, res) => {
         email : req.body.email,
         password : hashPassword,
       }).then(result => {
-          console.log("< " + req.body.email + " > membership has been completed.");
           res.send(
             "< " + req.body.email + " > membership has been completed."
           );
       });
     } else {
-      console.log("< " + req.body.email + " > are already a member");
       res.send(
         "< " + req.body.email + " > are already a member"
       );
     }
   }).catch(err => {
-    console.log(err);
+    res.send("err");
   });
 
 });
