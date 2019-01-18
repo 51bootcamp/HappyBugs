@@ -13,19 +13,17 @@ router.all('/', (req, res) => {
 });
 
 router.post('/signup', (req, res) => {
-  let encryption = crypto.createHash("sha512").update(req.body.password).digest("hex");
+  let hashedPassword = crypto.createHash("sha512").update(req.body.password).digest("hex");
 
   models.user.findAll({
     where: {
       email: req.body.email
     }
-
   }).then(result => {
-    if (result == ""){
-
+    if (result == "") {
       models.user.create({
-        email : req.body.email,
-        password : encryption,
+        email: req.body.email,
+        password: hashedPassword,
       }).then(result => {
           res.send(
             "< " + req.body.email + " > membership has been completed."
@@ -39,7 +37,6 @@ router.post('/signup', (req, res) => {
   }).catch(err => {
     res.send("err");
   });
-
 });
 
 module.exports = router;
