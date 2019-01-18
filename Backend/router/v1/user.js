@@ -13,8 +13,7 @@ router.all('/', (req, res) => {
 });
 
 router.post('/signup', (req, res) => {
-
-  let hashPassword = crypto.createHash("sha512").update(req.body.password).digest("hex");
+  let encryption = crypto.createHash("sha512").update(req.body.password).digest("hex");
 
   models.user.findAll({
     where: {
@@ -22,11 +21,11 @@ router.post('/signup', (req, res) => {
     }
 
   }).then(result => {
-    if (result==""){
+    if (result == ""){
 
       models.user.create({
         email : req.body.email,
-        password : hashPassword,
+        password : encryption,
       }).then(result => {
           res.send(
             "< " + req.body.email + " > membership has been completed."
