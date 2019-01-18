@@ -23,6 +23,33 @@ router.all('/', (req, res) => {
   res.send("this is user root");
 });
 
+router.post('/signup', (req, res) => {
+  let hashedPassword = crypto.createHash("sha512").update(req.body.password).digest("hex");
+
+  models.user.findAll({
+    where: {
+      email: req.body.email
+    }
+  }).then(result => {
+    if (result == "") {
+      models.user.create({
+        email: req.body.email,
+        password: hashedPassword,
+      }).then(result => {
+          res.send(
+            "< " + req.body.email + " > membership has been completed."
+          );
+      });
+    } else {
+      res.send(
+        "< " + req.body.email + " > are already a member"
+      );
+    }
+  }).catch(err => {
+    res.send("err");
+  });
+});
+
 router.get('/signin', (req, res) => {
   let session = req.session;
 
@@ -31,7 +58,8 @@ router.get('/signin', (req, res) => {
       email: req.query.email
     }
   }).then(result => {
-    if (result == "") {
+    if (result == "")
+    {
       res.json({msg: "User does not exist"});
     } else {
       let dbPassword = result[0].dataValues.password;
