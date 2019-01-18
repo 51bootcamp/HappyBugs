@@ -19,7 +19,7 @@ const showReportList = (req, res) => {
   }).catch((err) => {});
 }
 
-const readReport = (req, res) => {
+const findReport = (req, res) => {
   const reportId = parseInt(req.params.reportId)
   //When ID is not a number
   if (Number.isNaN(reportId)) {
@@ -34,7 +34,7 @@ const readReport = (req, res) => {
   }).catch((err) => {});
 }
 
-const destroyReport = (req, res) => {
+const deleteReport = (req, res) => {
   const reportId = parseInt(req.params.reportId)
   //When ID is not a number
   if (Number.isNaN(reportId)) {
@@ -52,6 +52,6 @@ const destroyReport = (req, res) => {
 module.exports = {
   createReport,
   showReportList,
-  readReport,
-  destroyReport
+  findReport,
+  deleteReport
 }

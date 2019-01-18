@@ -12,7 +12,7 @@ router.all('/', (req, res) => {
 
 router.post('/create', reportCtrl.createReport);
 router.get('/list', reportCtrl.showReportList);
-router.get('/read/:reportId', reportCtrl.readReport);
-router.delete('/delete/:reportId', reportCtrl.destroyReport);
+router.get('/find/:reportId', reportCtrl.findReport);
+router.delete('/delete/:reportId', reportCtrl.deleteReport);
 
 module.exports = router;
