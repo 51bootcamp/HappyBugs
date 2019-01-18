@@ -109,7 +109,7 @@ Response:
 
 ## Read a report
 Method: GET  
-URI: /api/v1/report/read/:report_ID   
+URI: /api/v1/report/read/:reportId   
 
 Response:
 ```
@@ -130,9 +130,7 @@ Response:
 
 ## Edit report 
 Method: PUT  
-URI: api/v1/report/update/   
-Query string:
-- report_id (string)
+URI: api/v1/report/update/:reportId   
 
 Request body: 
 ```
@@ -151,8 +149,7 @@ Request body:
 
 ## Delete report
 Method: DELETE  
-URI: api/v1/report/delete/:report_ID   
-
+URI: api/v1/report/delete/:reportId   
 
 > 204 : successfully delete a report  
 > 403 : Not logined  
