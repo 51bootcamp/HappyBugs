@@ -33,5 +33,4 @@
     <string name="text_ask_email">What\'s your email?</string>
     <string name="text_ask_password">Pick a password</string>
     <string name="text_password_check">Re-enter password</string>
-
 </resources>
