@@ -14,5 +14,6 @@ router.post('/create', reportCtrl.createReport);
 router.get('/list', reportCtrl.showReportList);
 router.get('/find/:reportId', reportCtrl.findReport);
 router.delete('/delete/:reportId', reportCtrl.deleteReport);
+router.put('/update/:reportId', reportCtrl.editReport);
 
 module.exports = router;

@@ -49,9 +49,31 @@ const deleteReport = (req, res) => {
   }).catch((err) => {});
 }
 
+const editReport = (req, res) => {
+  const reportId = parseInt(req.params.reportId);
+  const newWhat = req.body.data[0].what;
+  const newLocation = req.body.data[0].location;
+  const newTime = req.body.data[0].time;
+  const newWho = req.body.data[0].who;
+  const newDetails = req.body.data[0].details;
+
+  models.report.update({
+      what: newWhat, 
+      location: newLocation,
+      time: newTime,
+      who: newWho,
+      details: newDetails 
+    },{
+      where: {id: reportId}
+  }).then((result) => {
+    res.send("good");
+  }).catch((err) => {});
+}
+
 module.exports = {
   createReport,
   showReportList,
   findReport,
-  deleteReport
+  deleteReport,
+  editReport
 }
