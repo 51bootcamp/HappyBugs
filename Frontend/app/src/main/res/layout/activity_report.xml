@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#4CAF50">
+
+    <RelativeLayout
+        android:id="@+id/linear1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
+        <CheckBox
+            android:id="@+id/whatCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="15dp"
+            android:buttonTint="@android:color/white"
+            android:clickable="false" />
+
+        <Button
+            android:id="@+id/whatBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/whatCheck"
+            android:background="#00ff0000"
+            android:paddingLeft="20dp"
+            android:paddingTop="20dp"
+            android:paddingRight="200dp"
+            android:paddingBottom="20dp"
+            android:text="@string/whatBtn"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="18dp" />
+
+        <ImageButton
+            android:id="@+id/whatArrow"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="#00ff0000"
+            android:src="@android:drawable/arrow_down_float"
+            android:visibility="visible" />
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/whatText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/linear1"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="20dp"
+        android:background="@android:color/white"
+        android:gravity="top"
+        android:hint="What happened?"
+        android:isScrollContainer="true"
+        android:minLines="3"
+        android:scrollbars="vertical"
+        android:visibility="gone" />
+
+    <View
+        android:id="@+id/whatView"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/whatText"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@android:color/white">
+    </View>
+
+
+    <RelativeLayout
+        android:id="@+id/linear2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/whatView"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
+        <CheckBox
+            android:id="@+id/whereCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="15dp"
+            android:buttonTint="@android:color/white"
+            android:clickable="false" />
+
+        <Button
+            android:id="@+id/whereBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/whereCheck"
+            android:background="#00ff0000"
+            android:paddingLeft="20dp"
+            android:paddingTop="20dp"
+            android:paddingRight="200dp"
+            android:paddingBottom="20dp"
+            android:text="@string/whereBtn"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="18dp" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="#00ff0000"
+            android:src="@android:drawable/arrow_down_float"
+            android:visibility="visible" />
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/whereText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linear2"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="20dp"
+        android:background="@android:color/white"
+        android:gravity="top"
+        android:hint="Where did it happen?"
+        android:minLines="2"
+        android:scrollbars="vertical"
+        android:visibility="gone" />
+
+    <View
+        android:id="@+id/whereView"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/whereText"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@android:color/white">
+    </View>
+
+
+    <RelativeLayout
+        android:id="@+id/linear3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/whereView"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
+        <CheckBox
+            android:id="@+id/whenCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="15dp"
+            android:buttonTint="@android:color/white"
+            android:clickable="false" />
+
+        <Button
+            android:id="@+id/whenBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/whenCheck"
+            android:background="#00ff0000"
+            android:paddingLeft="20dp"
+            android:paddingTop="20dp"
+            android:paddingRight="200dp"
+            android:paddingBottom="20dp"
+            android:text="@string/whenText"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="18dp" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="#00ff0000"
+            android:src="@android:drawable/arrow_down_float"
+            android:visibility="visible" />
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/whenText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linear3"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="20dp"
+        android:background="@android:color/white"
+        android:gravity="top"
+        android:hint="When did it happen?"
+        android:minLines="2"
+        android:scrollbars="vertical"
+        android:visibility="gone" />
+
+    <View
+        android:id="@+id/whenView"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/whenText"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@android:color/white">
+    </View>
+
+
+    <RelativeLayout
+        android:id="@+id/linear4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/whenView"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
+        <CheckBox
+            android:id="@+id/whoCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="15dp"
+            android:buttonTint="@android:color/white"
+            android:clickable="false" />
+
+        <Button
+            android:id="@+id/whoBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/whoCheck"
+            android:background="#00ff0000"
+            android:paddingLeft="20dp"
+            android:paddingTop="20dp"
+            android:paddingRight="200dp"
+            android:paddingBottom="20dp"
+            android:text="@string/whoBtn"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="18dp" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="#00ff0000"
+            android:src="@android:drawable/arrow_down_float"
+            android:visibility="visible" />
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/whoText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linear4"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="20dp"
+        android:background="@android:color/white"
+        android:gravity="top"
+        android:hint="Who was the perpetrator(s)?"
+        android:minLines="2"
+        android:scrollbars="vertical"
+        android:visibility="gone" />
+
+    <View
+        android:id="@+id/whoView"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/whoText"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@android:color/white">
+    </View>
+
+
+    <RelativeLayout
+        android:id="@+id/linear5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/whoView"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
+        <CheckBox
+            android:id="@+id/detailsCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="15dp"
+            android:buttonTint="@android:color/white"
+            android:clickable="false" />
+
+        <Button
+            android:id="@+id/detailsBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/detailsCheck"
+            android:background="#00ff0000"
+            android:paddingLeft="20dp"
+            android:paddingTop="20dp"
+            android:paddingRight="180dp"
+            android:paddingBottom="20dp"
+            android:text="@string/detailsBtn"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="18dp" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="#00ff0000"
+            android:src="@android:drawable/arrow_down_float"
+            android:visibility="visible" />
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/detailsText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linear5"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="20dp"
+        android:background="@android:color/white"
+        android:gravity="top"
+        android:hint="Anything else you want to report about?"
+        android:minLines="3"
+        android:scrollbars="vertical"
+        android:visibility="gone" />
+
+    <View
+        android:id="@+id/detailsView"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/detailsText"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@android:color/white">
+    </View>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/detailsView"
+        android:layout_marginBottom="30dp">
+
+        <Button
+            android:id="@+id/saveBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="#FFC107"
+            android:enabled="false"
+            android:text="@string/saveBtn" />
+    </RelativeLayout>
+</RelativeLayout>

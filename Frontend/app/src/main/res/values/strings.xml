@@ -33,4 +33,11 @@
     <string name="text_ask_email">What\'s your email?</string>
     <string name="text_ask_password">Pick a password</string>
     <string name="text_password_check">Re-enter password</string>
+    <!--Create Report-->
+    <string name="whatBtn">What</string>
+    <string name="whereBtn">Where</string>
+    <string name="whenText">When</string>
+    <string name="whoBtn">Who</string>
+    <string name="detailsBtn">Details</string>
+    <string name="saveBtn">Save and Exit</string>
 </resources>
