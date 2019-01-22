@@ -1,6 +1,7 @@
 package io.happybugs.happybugs;
 
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.EditText;
 
 public class ReportEditTexts extends AppCompatActivity {
@@ -37,5 +38,15 @@ public class ReportEditTexts extends AppCompatActivity {
 
     public EditText getDetailsText() {
         return detailsText;
+    }
+
+    // Sets edit texts to invisibility.
+    // Used when opening and collapsing answer texts on question click events.
+    public void openAndCollapse(ReportEditTexts editTexts){
+        editTexts.whatText.setVisibility(View.GONE);
+        editTexts.whereText.setVisibility(View.GONE);
+        editTexts.whenText.setVisibility(View.GONE);
+        editTexts.whoText.setVisibility(View.GONE);
+        editTexts.detailsText.setVisibility(View.GONE);
     }
 }
