@@ -38,4 +38,14 @@ public class ReportViews extends AppCompatActivity {
     public View getDetailsView() {
         return detailsView;
     }
+
+    // Sets underline views to visibility.
+    // Used when removing and making underlines on question click events.
+    public void makeUnderline(ReportViews views){
+        views.whatView.setVisibility(View.VISIBLE);
+        views.whereView.setVisibility(View.VISIBLE);
+        views.whenView.setVisibility(View.VISIBLE);
+        views.whoView.setVisibility(View.VISIBLE);
+        views.detailsView.setVisibility(View.VISIBLE);
+    }
 }
