@@ -4,8 +4,7 @@ const models = require('../../models');
 const crypto = require('crypto');
 const session = require('express-session');
 
-let MIN_PASSWORD_LENGTH = 6;
-let MAX_PASSWORD_LENGTH = 16;
+const MIN_PASSWORD_LENGTH = 6;
 
 router.use(session({
   key: 'sid',
@@ -26,6 +25,13 @@ router.all('/', (req, res) => {
   res.send("this is user root");
 });
 
+function password_length_check(length){
+  if(length < MIN_PASSWORD_LENGTH) {
+    return false;
+  }
+  return true;
+}
+
 router.post('/signup', (req, res) => {
   let hashedPassword = crypto.createHash("sha512").update(req.body.password).digest("hex");
 
@@ -35,15 +41,15 @@ router.post('/signup', (req, res) => {
     }
   }).then(result => {
     if (result == "") {
-      if (req.body.password.length < MIN_PASSWORD_LENGTH || req.body.password.length > MAX_PASSWORD_LENGTH ) {
-        res.status(400).send("Password must be between " + MIN_PASSWORD_LENGTH + ' and ' + MAX_PASSWORD_LENGTH + " characters long");
+      if (password_length_check(req.body.password.length) == false ) {
+        res.status(400).send("Password must be " + MIN_PASSWORD_LENGTH + " over");
       } else {
         models.user.create({
           email: req.body.email,
           password: hashedPassword,
         }).then(result => {
             res.send(
-              "< " + req.body.email + " > membership has been completed."
+              "Account successfully created"
             );
         });
       }
@@ -69,8 +75,8 @@ router.get('/signin', (req, res) => {
     {
       res.json({msg: "User does not exist"});
     } else {
-      if (req.body.password.length < MIN_PASSWORD_LENGTH || req.body.password.length > MAX_PASSWORD_LENGTH ) {
-        res.status(400).send("Password must be between " + MIN_PASSWORD_LENGTH + ' and ' + MAX_PASSWORD_LENGTH + " characters long");
+      if (password_length_check(req.body.password.length) == false ) {
+        res.status(400).send("Password must be " + MIN_PASSWORD_LENGTH + " over");
       } else {
         let dbPassword = result[0].dataValues.password;
         let hashPassword = crypto.createHash("sha512").update(req.query.password).digest("hex");
