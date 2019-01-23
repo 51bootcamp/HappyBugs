@@ -4,6 +4,9 @@ const models = require('../../models');
 const crypto = require('crypto');
 const session = require('express-session');
 
+let MIN_PASSWORD_LENGTH = 6;
+let MAX_PASSWORD_LENGTH = 16;
+
 router.use(session({
   key: 'sid',
   secret: 'secret',
@@ -32,14 +35,18 @@ router.post('/signup', (req, res) => {
     }
   }).then(result => {
     if (result == "") {
-      models.user.create({
-        email: req.body.email,
-        password: hashedPassword,
-      }).then(result => {
-          res.send(
-            "< " + req.body.email + " > membership has been completed."
-          );
-      });
+      if (req.body.password.length < MIN_PASSWORD_LENGTH || req.body.password.length > MAX_PASSWORD_LENGTH ) {
+        res.status(400).send("Password must be between " + MIN_PASSWORD_LENGTH + ' and ' + MAX_PASSWORD_LENGTH + " characters long");
+      } else {
+        models.user.create({
+          email: req.body.email,
+          password: hashedPassword,
+        }).then(result => {
+            res.send(
+              "< " + req.body.email + " > membership has been completed."
+            );
+        });
+      }
     } else {
       res.send(
         "< " + req.body.email + " > are already a member"
@@ -62,14 +69,18 @@ router.get('/signin', (req, res) => {
     {
       res.json({msg: "User does not exist"});
     } else {
-      let dbPassword = result[0].dataValues.password;
-      let hashPassword = crypto.createHash("sha512").update(req.query.password).digest("hex");
-      if(dbPassword == hashPassword) {
-        req.session.email = req.query.email;
-        res.json({msg: req.session.email});
+      if (req.body.password.length < MIN_PASSWORD_LENGTH || req.body.password.length > MAX_PASSWORD_LENGTH ) {
+        res.status(400).send("Password must be between " + MIN_PASSWORD_LENGTH + ' and ' + MAX_PASSWORD_LENGTH + " characters long");
       } else {
-        res.json({msg: "Password not Match"});
-      };
+        let dbPassword = result[0].dataValues.password;
+        let hashPassword = crypto.createHash("sha512").update(req.query.password).digest("hex");
+        if(dbPassword == hashPassword) {
+          req.session.email = req.query.email;
+          res.json({msg: req.session.email});
+        } else {
+          res.json({msg: "Password not Match"});
+        };
+      }
     };
   }).catch( err => {
     res.json({msg: "err"});
