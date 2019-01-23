@@ -76,6 +76,8 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    // This is an event handler function of question click event.
+    // It deals with all the actions needed on clicking a question.
     public void questionClickEvent(ReportEditTexts editTexts, EditText editText,
                                    CheckBox checkBox, Button saveBtn,
                                    ReportViews views, View view){
