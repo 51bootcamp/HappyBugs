@@ -73,12 +73,13 @@ public class SignInActivity extends AppCompatActivity {
         requestSignIn.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                //TODO(Jelldo): Need an improvement
                 //Response<ResponseBody> rb = response;
                 Toast.makeText(getBaseContext(), "Login success", Toast.LENGTH_LONG).show();
 
                 //TODO(Jelldo): get the response and show a status message
                 //TODO(Jelldo): add progressbar, make async
-                int delayMillis = 3000;
+                final int DELAY_MILLIS = 3000;
                 new android.os.Handler().postDelayed(
                         new Runnable() {
                             @Override
@@ -88,7 +89,7 @@ public class SignInActivity extends AppCompatActivity {
                                 //finish();
                                 //dismiss dialogs, close cursors, close search dialogs
                             }
-                        }, delayMillis);
+                        }, DELAY_MILLIS);
             }
 
             @Override
