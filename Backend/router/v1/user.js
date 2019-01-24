@@ -4,6 +4,8 @@ const models = require('../../models');
 const crypto = require('crypto');
 const session = require('express-session');
 
+const MIN_PASSWORD_LENGTH = 6;
+
 router.use(session({
   key: 'sid',
   secret: 'secret',
@@ -23,6 +25,10 @@ router.all('/', (req, res) => {
   res.send("this is user root");
 });
 
+function password_length_check(length){
+  return !(length < MIN_PASSWORD_LENGTH);
+}
+
 router.post('/signup', (req, res) => {
   let hashedPassword = crypto.createHash("sha512").update(req.body.password).digest("hex");
 
@@ -32,14 +38,18 @@ router.post('/signup', (req, res) => {
     }
   }).then(result => {
     if (result == "") {
-      models.user.create({
-        email: req.body.email,
-        password: hashedPassword,
-      }).then(result => {
-          res.send(
-            "< " + req.body.email + " > membership has been completed."
-          );
-      });
+      if (password_length_check(req.body.password.length) == false ) {
+        res.status(400).send("Password must be " + MIN_PASSWORD_LENGTH + " over");
+      } else {
+        models.user.create({
+          email: req.body.email,
+          password: hashedPassword,
+        }).then(result => {
+            res.send(
+              "Account successfully created"
+            );
+        });
+      }
     } else {
       res.send(
         "< " + req.body.email + " > are already a member"
@@ -62,14 +72,18 @@ router.get('/signin', (req, res) => {
     {
       res.json({msg: "User does not exist"});
     } else {
-      let dbPassword = result[0].dataValues.password;
-      let hashPassword = crypto.createHash("sha512").update(req.query.password).digest("hex");
-      if(dbPassword == hashPassword) {
-        req.session.email = req.query.email;
-        res.json({msg: req.session.email});
+      if (password_length_check(req.query.password.length) == false ) {
+        res.status(400).send("Password must be " + MIN_PASSWORD_LENGTH + " over");
       } else {
-        res.json({msg: "Password not Match"});
-      };
+        let dbPassword = result[0].dataValues.password;
+        let hashPassword = crypto.createHash("sha512").update(req.query.password).digest("hex");
+        if(dbPassword == hashPassword) {
+          req.session.email = req.query.email;
+          res.json({msg: req.session.email});
+        } else {
+          res.json({msg: "Password not Match"});
+        };
+      }
     };
   }).catch( err => {
     res.json({msg: "err"});
