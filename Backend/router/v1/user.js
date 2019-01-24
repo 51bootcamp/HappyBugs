@@ -26,10 +26,7 @@ router.all('/', (req, res) => {
 });
 
 function password_length_check(length){
-  if(length < MIN_PASSWORD_LENGTH) {
-    return false;
-  }
-  return true;
+  return !(length < MIN_PASSWORD_LENGTH);
 }
 
 router.post('/signup', (req, res) => {
@@ -75,7 +72,7 @@ router.get('/signin', (req, res) => {
     {
       res.json({msg: "User does not exist"});
     } else {
-      if (password_length_check(req.body.password.length) == false ) {
+      if (password_length_check(req.query.password.length) == false ) {
         res.status(400).send("Password must be " + MIN_PASSWORD_LENGTH + " over");
       } else {
         let dbPassword = result[0].dataValues.password;
