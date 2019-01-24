@@ -26,4 +26,16 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    //Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    //Converter GSON for managing json
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+    //Google GSON
+    implementation 'com.google.code.gson:gson:2.8.5'
+    //okhttp
+    implementation 'com.squareup.okhttp3:okhttp:3.12.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.1'
+    //simpleJSON
+    implementation files('libs/json-simple-1.1.1.jar')
 }

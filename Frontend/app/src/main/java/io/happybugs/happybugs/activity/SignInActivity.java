@@ -1,4 +1,4 @@
-package io.happybugs.happybugs;
+package io.happybugs.happybugs.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,12 +10,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import io.happybugs.happybugs.APIInterface.APIInterface;
+import io.happybugs.happybugs.R;
+import io.happybugs.happybugs.network.RetrofitInstance;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
 public class SignInActivity extends AppCompatActivity {
 
     private Context curContext;
     private Button btnGoToSignUp;
     private Button btnSignIn;
-
     private EditText etuserEmail;
     private EditText etuserPwd;
 
@@ -28,15 +36,17 @@ public class SignInActivity extends AppCompatActivity {
         etuserEmail = (EditText) findViewById(R.id.editText_userEmail);
         etuserPwd = (EditText) findViewById(R.id.editText_userPwd);
         btnSignIn = (Button) findViewById(R.id.button_SignIn);
+        btnGoToSignUp = (Button) findViewById(R.id.button_GoToSignUp);
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO(Jelldo): make counter for preventing multiple login attempts
+                //Will be defined in Backend
                 startSignIn();
             }
         });
-        btnGoToSignUp = (Button) findViewById(R.id.button_GoToSignUp);
+
         btnGoToSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,19 +65,38 @@ public class SignInActivity extends AppCompatActivity {
 
         String userEmail = etuserEmail.getText().toString();
         String userPwd = etuserPwd.getText().toString();
-        //TODO(Jelldo): send email,pw to server / add authenticate
 
-        //TODO(Jelldo): add progressbar, make async
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        //TODO(Jelldo): need to change into HomeActivity
-                        startActivity(new Intent(curContext, MainActivity.class));
-                        //finish();
-                        // dismiss dialogs, close cursors, close search dialogs
-                    }
-                }, 3000);
+        Retrofit rfInstance;
+        rfInstance = RetrofitInstance.getInstance();
+        APIInterface service = rfInstance.create(APIInterface.class);
+
+        Call<ResponseBody> requestSignIn = service.signin(userEmail, userPwd);
+        requestSignIn.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Response<ResponseBody> rb = response;
+                Toast.makeText(getBaseContext(), "Login success", Toast.LENGTH_LONG).show();
+
+                //TODO(Jelldo): get the response and show a status message
+                //TODO(Jelldo): add progressbar, make async
+                new android.os.Handler().postDelayed(
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                //TODO(Jelldo): need to change into HomeActivity
+                                startActivity(new Intent(curContext, MainActivity.class));
+                                //finish();
+                                //dismiss dialogs, close cursors, close search dialogs
+                            }
+                        }, 3000);
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                //Network Failure
+                Toast.makeText(getBaseContext(), "Login failed due to network error", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     public void onBackPressed() {
@@ -75,24 +104,24 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     public boolean isValidSignInForm() {
-        boolean valid = true;
+        boolean isValid = true;
 
         String userEmail = etuserEmail.getText().toString();
         String userPwd = etuserPwd.getText().toString();
 
         if (userEmail.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()) {
             etuserEmail.setError("Enter valid email address");
-            valid = false;
+            isValid = false;
         } else {
             etuserEmail.setError(null);
         }
 
-        if (userPwd.isEmpty() || userPwd.length() < 6 || userPwd.length() > 16) {
-            etuserPwd.setError("Between 6 and 16 alphanumeric characters");
-            valid = false;
+        if (userPwd.isEmpty() || userPwd.length() < 8) {
+            etuserPwd.setError("Longer than alphanumeric characters");
+            isValid = false;
         } else {
             etuserPwd.setError(null);
         }
-        return valid;
+        return isValid;
     }
 }
