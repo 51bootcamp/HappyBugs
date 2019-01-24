@@ -1,4 +1,4 @@
-package io.happybugs.happybugs;
+package io.happybugs.happybugs.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +8,8 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import io.happybugs.happybugs.R;
 
 public class SignUpActivity extends AppCompatActivity {
 

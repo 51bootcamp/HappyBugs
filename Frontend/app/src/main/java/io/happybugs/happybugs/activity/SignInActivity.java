@@ -22,10 +22,10 @@ import retrofit2.Retrofit;
 public class SignInActivity extends AppCompatActivity {
 
     private Context curContext;
-    private Button btnGoToSignUp;
-    private Button btnSignIn;
-    private EditText etuserEmail;
-    private EditText etuserPwd;
+    private Button btnOpenSignUp;
+    private Button btnStartSignIn;
+    private EditText etUserEmail;
+    private EditText etUserPwd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +33,12 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
         curContext = this;
 
-        etuserEmail = (EditText) findViewById(R.id.editText_userEmail);
-        etuserPwd = (EditText) findViewById(R.id.editText_userPwd);
-        btnSignIn = (Button) findViewById(R.id.button_SignIn);
-        btnGoToSignUp = (Button) findViewById(R.id.button_GoToSignUp);
+        etUserEmail = (EditText) findViewById(R.id.editText_userEmail);
+        etUserPwd = (EditText) findViewById(R.id.editText_userPwd);
+        btnStartSignIn = (Button) findViewById(R.id.button_SignIn);
+        btnOpenSignUp = (Button) findViewById(R.id.button_OpenSignUp);
 
-        btnSignIn.setOnClickListener(new View.OnClickListener() {
+        btnStartSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO(Jelldo): make counter for preventing multiple login attempts
@@ -47,7 +47,7 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
 
-        btnGoToSignUp.setOnClickListener(new View.OnClickListener() {
+        btnOpenSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(curContext, SignUpActivity.class));
@@ -58,27 +58,27 @@ public class SignInActivity extends AppCompatActivity {
     public void startSignIn() {
         if (!isValidSignInForm()) {
             Toast.makeText(getBaseContext(), "Login Failed", Toast.LENGTH_LONG).show();
-            btnSignIn.setEnabled(true);
+            btnStartSignIn.setEnabled(true);
             return;
         }
-        btnSignIn.setEnabled(false);
+        btnStartSignIn.setEnabled(false);
 
-        String userEmail = etuserEmail.getText().toString();
-        String userPwd = etuserPwd.getText().toString();
+        String userEmail = etUserEmail.getText().toString();
+        String userPwd = etUserPwd.getText().toString();
 
-        Retrofit rfInstance;
-        rfInstance = RetrofitInstance.getInstance();
+        Retrofit rfInstance = RetrofitInstance.getInstance();
         APIInterface service = rfInstance.create(APIInterface.class);
 
         Call<ResponseBody> requestSignIn = service.signin(userEmail, userPwd);
         requestSignIn.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Response<ResponseBody> rb = response;
+                //Response<ResponseBody> rb = response;
                 Toast.makeText(getBaseContext(), "Login success", Toast.LENGTH_LONG).show();
 
                 //TODO(Jelldo): get the response and show a status message
                 //TODO(Jelldo): add progressbar, make async
+                int delayMillis = 3000;
                 new android.os.Handler().postDelayed(
                         new Runnable() {
                             @Override
@@ -88,7 +88,7 @@ public class SignInActivity extends AppCompatActivity {
                                 //finish();
                                 //dismiss dialogs, close cursors, close search dialogs
                             }
-                        }, 3000);
+                        }, delayMillis);
             }
 
             @Override
@@ -106,21 +106,21 @@ public class SignInActivity extends AppCompatActivity {
     public boolean isValidSignInForm() {
         boolean isValid = true;
 
-        String userEmail = etuserEmail.getText().toString();
-        String userPwd = etuserPwd.getText().toString();
+        String userEmail = etUserEmail.getText().toString();
+        String userPwd = etUserPwd.getText().toString();
 
         if (userEmail.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()) {
-            etuserEmail.setError("Enter valid email address");
+            etUserEmail.setError("Enter valid email address");
             isValid = false;
         } else {
-            etuserEmail.setError(null);
+            etUserEmail.setError(null);
         }
 
         if (userPwd.isEmpty() || userPwd.length() < 8) {
-            etuserPwd.setError("Longer than alphanumeric characters");
+            etUserPwd.setError("Longer than alphanumeric characters");
             isValid = false;
         } else {
-            etuserPwd.setError(null);
+            etUserPwd.setError(null);
         }
         return isValid;
     }
