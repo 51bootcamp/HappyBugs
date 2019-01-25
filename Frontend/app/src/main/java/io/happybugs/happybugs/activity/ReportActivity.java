@@ -1,4 +1,4 @@
-package io.happybugs.happybugs;
+package io.happybugs.happybugs.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import io.happybugs.happybugs.R;
 
 public class ReportActivity extends AppCompatActivity implements View.OnClickListener{
     ReportButtons buttons;

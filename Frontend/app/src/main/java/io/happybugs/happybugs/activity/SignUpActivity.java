@@ -15,11 +15,11 @@ public class SignUpActivity extends AppCompatActivity {
 
     private Context curContext;
     private EditText etRegEmail;
-    private EditText etRegPw;
-    private EditText etRegPwcheck;
+    private EditText etRegPW;
+    private EditText etRegPWCheck;
     private String userEmail;
-    private String userPw;
-    private String userPwcheck;
+    private String userPW;
+    private String userPWCheck;
     private Button btnSignUp;
 
     @Override
@@ -28,10 +28,10 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         curContext = this;
-        etRegEmail = (EditText) findViewById(R.id.editText_RegEmail);
-        etRegPw = (EditText) findViewById(R.id.editText_RegPwcheck);
-        etRegPwcheck = (EditText) findViewById(R.id.editText_RegPwcheck);
-        btnSignUp = (Button) findViewById(R.id.button_SignUp);
+        etRegEmail = (EditText) findViewById(R.id.editText_reg_email);
+        etRegPW = (EditText) findViewById(R.id.editText_reg_pw);
+        etRegPWCheck = (EditText) findViewById(R.id.editText_reg_pw_check);
+        btnSignUp = (Button) findViewById(R.id.button_signup);
 
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,8 +51,8 @@ public class SignUpActivity extends AppCompatActivity {
         boolean isValid = true;
 
         userEmail = etRegEmail.getText().toString();
-        userPw = etRegPw.getText().toString();
-        userPwcheck = etRegPwcheck.getText().toString();
+        userPW = etRegPW.getText().toString();
+        userPWCheck = etRegPWCheck.getText().toString();
 
         //Check email format
         if (userEmail.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()) {
@@ -62,29 +62,33 @@ public class SignUpActivity extends AppCompatActivity {
             etRegEmail.setError(null);
         }
 
-        if (userPw.isEmpty() || userPw.length() < 6 || userPw.length() > 16) {
-            etRegPw.setError("Between 6 and 16 alphanumeric characters");
+        if (userPW.isEmpty() || userPW.length() < 6 || userPW.length() > 16) {
+            etRegPW.setError("Between 6 and 16 alphanumeric characters");
             isValid = false;
         } else {
-            etRegPw.setError(null);
+            etRegPW.setError(null);
         }
 
         //Check password twice
-        if (!userPwcheck.equals(userPw)) {
+        if (!userPWCheck.equals(userPW)) {
             /* INVALID PASSWORD */
-            etRegPwcheck.setError("Passwords must match");
+            etRegPWCheck.setError("Passwords must match");
             isValid = false;
         } else {
             /* SUCCESSFUL PASSWORD CHECK */
-            etRegPwcheck.setError(null);
+            etRegPWCheck.setError(null);
         }
         return isValid;
     }
 
     private void regUserInfo() {
         userEmail = etRegEmail.getText().toString();
-        userPw = etRegPw.getText().toString();
+        userPW = etRegPW.getText().toString();
         //TODO(Jelldo): register userData
+    }
+
+    public void buttonSignUp(View v) {
+        //TODO(Jelldo): Define button action.
     }
 
 }
