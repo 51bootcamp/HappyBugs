@@ -1,0 +1,10 @@
+{
+  "setting": {
+    "salt" : "",
+    "cookie" : {
+      "maxAge" : 60000
+    },
+    "resave" : false,
+    "saveUninitialized" : true
+  }
+}
