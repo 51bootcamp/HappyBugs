@@ -31,7 +31,7 @@ public class SignUpActivity extends AppCompatActivity {
         etRegEmail = (EditText) findViewById(R.id.editText_RegEmail);
         etRegPw = (EditText) findViewById(R.id.editText_RegPwcheck);
         etRegPwcheck = (EditText) findViewById(R.id.editText_RegPwcheck);
-        btnSignUp = (Button) findViewById(R.id.button_SignUp);
+        btnSignUp = (Button) findViewById(R.id.button_signup);
 
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,6 +85,10 @@ public class SignUpActivity extends AppCompatActivity {
         userEmail = etRegEmail.getText().toString();
         userPw = etRegPw.getText().toString();
         //TODO(Jelldo): register userData
+    }
+
+    public void buttonSignUp(View v) {
+        //TODO(Jelldo): Define button action.
     }
 
 }
