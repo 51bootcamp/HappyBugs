@@ -25,7 +25,7 @@ public class SignInActivity extends AppCompatActivity {
     private Button btnOpenSignUp;
     private Button btnStartSignIn;
     private EditText etUserEmail;
-    private EditText etUserPwd;
+    private EditText etUserPW;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +33,10 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
         curContext = this;
 
-        etUserEmail = (EditText) findViewById(R.id.editText_userEmail);
-        etUserPwd = (EditText) findViewById(R.id.editText_userPwd);
-        btnStartSignIn = (Button) findViewById(R.id.button_SignIn);
-        btnOpenSignUp = (Button) findViewById(R.id.button_OpenSignUp);
+        etUserEmail = (EditText) findViewById(R.id.editText_user_email);
+        etUserPW = (EditText) findViewById(R.id.editText_user_pw);
+        btnStartSignIn = (Button) findViewById(R.id.button_sign_in);
+        btnOpenSignUp = (Button) findViewById(R.id.button_open_sign_up);
 
         btnStartSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,7 +64,7 @@ public class SignInActivity extends AppCompatActivity {
         btnStartSignIn.setEnabled(false);
 
         String userEmail = etUserEmail.getText().toString();
-        String userPwd = etUserPwd.getText().toString();
+        String userPwd = etUserPW.getText().toString();
 
         Retrofit rfInstance = RetrofitInstance.getInstance();
         APIInterface service = rfInstance.create(APIInterface.class);
@@ -108,7 +108,7 @@ public class SignInActivity extends AppCompatActivity {
         boolean isValid = true;
 
         String userEmail = etUserEmail.getText().toString();
-        String userPwd = etUserPwd.getText().toString();
+        String userPwd = etUserPW.getText().toString();
 
         if (userEmail.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()) {
             etUserEmail.setError("Enter valid email address");
@@ -118,10 +118,10 @@ public class SignInActivity extends AppCompatActivity {
         }
 
         if (userPwd.isEmpty() || userPwd.length() < 8) {
-            etUserPwd.setError("Longer than alphanumeric characters");
+            etUserPW.setError("Longer than alphanumeric characters");
             isValid = false;
         } else {
-            etUserPwd.setError(null);
+            etUserPW.setError(null);
         }
         return isValid;
     }
