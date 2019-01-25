@@ -43,7 +43,6 @@ module.exports = (passport) => {
       res.json({
         msg: "signout success"
       });
-=======
     } else {
       res.status(403);
       res.json({

@@ -2,7 +2,6 @@ const models = require('../models');
 const crypto = require('crypto')
 
 module.exports = (app) => {
-
   const passport = require('passport');
   LocalStrategy = require('passport-local').Strategy;
 

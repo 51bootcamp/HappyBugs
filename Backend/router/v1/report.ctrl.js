@@ -1,7 +1,7 @@
 const models = require('../../models');
 
 const createReport = (req, res) => {
-  if(req.isAuthenticated()){
+  if (req.isAuthenticated()) {
     models.report.create({
       what: req.body.data[0].what,
       location: req.body.data[0].location,
@@ -24,7 +24,7 @@ const createReport = (req, res) => {
 };
 
 const showReportList = (req, res) => {
-  if(req.isAuthenticated()){
+  if (req.isAuthenticated()) {
     models.report.findAll({
       where: {
         userID: req.user[0].dataValues.id
@@ -33,7 +33,7 @@ const showReportList = (req, res) => {
       res.status(200);
       res.json(result);
     }).catch((err) => {});
-  } else{
+  } else {
     res.status(401)
     res.json({
       msg: "get report failed"
@@ -90,7 +90,7 @@ const editReport = (req, res) => {
   const newWho = req.body.data[0].who;
   const newDetails = req.body.data[0].details;
 
-  if(req.isAuthenticated()){
+  if (req.isAuthenticated()) {
     models.report.update({
         what: newWhat,
         location: newLocation,
@@ -116,37 +116,6 @@ const editReport = (req, res) => {
     });
   }
 };
-
-const editReport = (req, res) => {
-  const reportId = parseInt(req.query.reportId);
-  //When ID is not a number
-  if (Number.isNaN(reportId)) {
-    return res.status(400).end()
-  }
-  const newWhat = req.body.data[0].what;
-  const newLocation = req.body.data[0].location;
-  const newTime = req.body.data[0].time;
-  const newWho = req.body.data[0].who;
-  const newDetails = req.body.data[0].details;
-
-  models.report.update({
-      what: newWhat,
-      location: newLocation,
-      time: newTime,
-      who: newWho,
-      details: newDetails
-    },{
-      where: {id: reportId}
-  }).then((result) => {
-    if(result == ""){
-      res.json({msg: "ReportId not exist"});
-    } else {
-      res.send("good");
-    };
-  }).catch((err) => {
-    res.json({msg: "error"});
-  });
-}
 
 module.exports = {
   createReport,
