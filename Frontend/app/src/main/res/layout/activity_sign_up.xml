@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".activity.SignUpActivity">
 
+    <EditText
         android:id="@+id/editText_reg_email"
         android:layout_width="265dp"
         android:layout_height="wrap_content"
@@ -19,7 +20,7 @@
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_create_account" />
 
     <EditText
         android:id="@+id/editText_reg_pw"
@@ -56,7 +57,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/button_SignUp"
+        android:id="@+id/button_signup"
         android:layout_width="160dp"
         android:layout_height="43dp"
         android:layout_marginTop="48dp"
@@ -72,7 +73,7 @@
         app:layout_constraintVertical_bias="0.323" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textView_create_account"
         android:layout_width="170dp"
         android:layout_height="38dp"
         android:layout_marginTop="160dp"
