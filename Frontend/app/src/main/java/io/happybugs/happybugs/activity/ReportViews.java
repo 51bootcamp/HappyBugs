@@ -1,4 +1,4 @@
-package io.happybugs.happybugs;
+package io.happybugs.happybugs.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
