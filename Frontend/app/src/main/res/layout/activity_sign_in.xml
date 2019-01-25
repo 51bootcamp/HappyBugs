@@ -7,7 +7,7 @@
     tools:context=".activity.SignInActivity">
 
     <TextView
-        android:id="@+id/txt_welcome"
+        android:id="@+id/textView_welcome"
         android:layout_width="280dp"
         android:layout_height="36dp"
         android:layout_marginTop="160dp"
@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editText_userEmail"
+        android:id="@+id/editText_user_email"
         android:layout_width="265dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -35,10 +35,10 @@
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_welcome" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_welcome" />
 
     <EditText
-        android:id="@+id/editText_userPwd"
+        android:id="@+id/editText_user_pw"
         android:layout_width="265dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -51,10 +51,10 @@
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_userEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/editText_user_email" />
 
     <Button
-        android:id="@+id/button_SignIn"
+        android:id="@+id/button_sign_in"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -69,11 +69,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_OpenSignUp"
+        app:layout_constraintTop_toBottomOf="@+id/button_open_sign_up"
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/button_OpenSignUp"
+        android:id="@+id/button_open_sign_up"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
@@ -82,6 +82,6 @@
         android:textColor="@android:color/background_light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_userPwd" />
+        app:layout_constraintTop_toBottomOf="@+id/editText_user_pw" />
 
 </android.support.constraint.ConstraintLayout>
