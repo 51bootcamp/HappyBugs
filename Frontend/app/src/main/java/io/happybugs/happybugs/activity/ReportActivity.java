@@ -9,8 +9,19 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+import io.happybugs.happybugs.APIInterface.APIInterface;
 import io.happybugs.happybugs.R;
+import io.happybugs.happybugs.network.RetrofitInstance;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class ReportActivity extends AppCompatActivity implements View.OnClickListener{
     ReportButtons buttons;
@@ -50,6 +61,7 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
         buttons.whenBtn.setOnClickListener(this);
         buttons.whoBtn.setOnClickListener(this);
         buttons.detailsBtn.setOnClickListener(this);
+        buttons.saveBtn.setOnClickListener(this);
     }
 
     @Override
@@ -74,6 +86,9 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.detailsBtn:
                 questionClickEvent(editTexts, editTexts.detailsText, checkBoxes.detailsCheck,
                         buttons.saveBtn, views, views.detailsView);
+                break;
+            case R.id.saveBtn:
+                sendReportData();
                 break;
         }
     }
@@ -129,5 +144,48 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
         } else {
             view.setVisibility(View.VISIBLE);
         }
+    }
+
+    // POST report data to server.
+    protected void sendReportData(){
+        JSONObject what = new JSONObject();
+        what.put("what", editTexts.getWhatText());
+        JSONObject location = new JSONObject();
+        location.put("location", editTexts.getWhereText());
+        JSONObject time = new JSONObject();
+        time.put("time", editTexts.getWhenText());
+        JSONObject who = new JSONObject();
+        who.put("who", editTexts.getWhoText());
+        JSONObject details = new JSONObject();
+        details.put("details", editTexts.getDetailsText());
+
+        JSONArray dataArray = new JSONArray();
+        dataArray.add(what);
+        dataArray.add(location);
+        dataArray.add(time);
+        dataArray.add(who);
+        dataArray.add(details);
+
+        JSONObject userReport = new JSONObject();
+        userReport.put("data", dataArray);
+
+        Retrofit rfInstance;
+        rfInstance = RetrofitInstance.getInstance();
+        APIInterface service = rfInstance.create(APIInterface.class);
+
+        Call<ResponseBody> request = service.createReport(userReport);
+        request.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Response rb = response;
+                System.out.println(rb.body());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getBaseContext(), "Creating report failed due to network error",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }
