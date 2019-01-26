@@ -20,24 +20,24 @@ public class ReportEditTexts extends AppCompatActivity {
         this.detailsText = detailsText;
     }
 
-    public EditText getWhatText() {
-        return whatText;
+    public String getWhatText() {
+        return whatText.getText().toString();
     }
 
-    public EditText getWhereText() {
-        return whereText;
+    public String getWhereText() {
+        return whereText.getText().toString();
     }
 
-    public EditText getWhenText() {
-        return whenText;
+    public String getWhenText() {
+        return whenText.getText().toString();
     }
 
-    public EditText getWhoText() {
-        return whoText;
+    public String getWhoText() {
+        return whoText.getText().toString();
     }
 
-    public EditText getDetailsText() {
-        return detailsText;
+    public String getDetailsText() {
+        return detailsText.getText().toString();
     }
 
     // Sets edit texts to invisibility.

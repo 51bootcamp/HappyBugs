@@ -15,4 +15,9 @@ public interface APIInterface {
 
     @POST("api/v1/user/signup/")
     Call<ResponseBody> signup(@Body JSONObject userData);
+
+    // Create report
+    @POST("api/v1/report/create")
+    Call<ResponseBody> createReport(@Body JSONObject reportData);
+
 }
