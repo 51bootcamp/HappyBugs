@@ -8,8 +8,18 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import org.json.simple.JSONObject;
+
+import io.happybugs.happybugs.APIInterface.APIInterface;
 import io.happybugs.happybugs.R;
+import io.happybugs.happybugs.network.RetrofitInstance;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -20,7 +30,7 @@ public class SignUpActivity extends AppCompatActivity {
     private String userEmail;
     private String userPW;
     private String userPWCheck;
-    private Button btnSignUp;
+    private Button btnStartSignUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,26 +40,36 @@ public class SignUpActivity extends AppCompatActivity {
         curContext = this;
         etRegEmail = (EditText) findViewById(R.id.editText_reg_email);
         etRegPW = (EditText) findViewById(R.id.editText_reg_pw);
-        etRegPWCheck = (EditText) findViewById(R.id.editText_reg_pw_check);
-        btnSignUp = (Button) findViewById(R.id.button_signup);
+        etRegPWCheck = (EditText) findViewById(R.id.editText_reg_pw);
+        btnStartSignUp = (Button) findViewById(R.id.button_signup);
 
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
+        btnStartSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO(Jelldo): open HomeActivity if get success register
-                if (isValidSignUpForm()) {
-                    //TODO(Jelldo): if true -> register and open HomeActivity
-                    regUserInfo();
-                    startActivity(new Intent(curContext, MainActivity.class));
-                    //TODO(Jelldo): need to kill SignUpActivity when HomeActivity is opened
-                }
+                startSignUp();
             }
         });
     }
 
+    private void startSignUp() {
+        //Need to discuss which activity should be opened
+        if (!isValidSignUpForm()) {
+            Toast.makeText(getBaseContext(), "SignUp Failed", Toast.LENGTH_LONG).show();
+            btnStartSignUp.setEnabled(true);
+            return;
+        }
+        btnStartSignUp.setEnabled(false);
+        //TODO(Jelldo): open HomeActivity if get success register
+        //Need to discuss which activity should be opened
+        sendUserInfo();
+        startActivity(new Intent(curContext, MainActivity.class));
+        //TODO(Jelldo): need to kill SignUpActivity when HomeActivity is opened
+        //finish();
+    }
+
     private boolean isValidSignUpForm() {
         boolean isValid = true;
-
+        final int USER_PW_LENGTH_MIN = 8;
         userEmail = etRegEmail.getText().toString();
         userPW = etRegPW.getText().toString();
         userPWCheck = etRegPWCheck.getText().toString();
@@ -62,8 +82,8 @@ public class SignUpActivity extends AppCompatActivity {
             etRegEmail.setError(null);
         }
 
-        if (userPW.isEmpty() || userPW.length() < 6 || userPW.length() > 16) {
-            etRegPW.setError("Between 6 and 16 alphanumeric characters");
+        if (userPW.isEmpty() || userPW.length() < USER_PW_LENGTH_MIN) {
+            etRegPW.setError("Password must be longer than 8");
             isValid = false;
         } else {
             etRegPW.setError(null);
@@ -81,14 +101,30 @@ public class SignUpActivity extends AppCompatActivity {
         return isValid;
     }
 
-    private void regUserInfo() {
+    private void sendUserInfo() {
         userEmail = etRegEmail.getText().toString();
         userPW = etRegPW.getText().toString();
+
         //TODO(Jelldo): register userData
-    }
+        Retrofit rfInstance = new RetrofitInstance().getInstance();
+        APIInterface service = rfInstance.create(APIInterface.class);
 
-    public void buttonSignUp(View v) {
-        //TODO(Jelldo): Define button action.
-    }
+        JSONObject userData = new JSONObject();
+        userData.put("email", userEmail);
+        userData.put("password", userPW);
 
+        Call<ResponseBody> requestSignUp = service.signup(userData);
+        requestSignUp.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                //TODO(Jelldo): Make response management
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                //Network Failure
+                Toast.makeText(getBaseContext(), "Sign-Up failed due to network error", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 }
