@@ -80,4 +80,6 @@ typings/
 .dynamodb/
 
 # our config
-.config
+/config/DB_config.json
+/config/server_config.json
+/config/session.json
