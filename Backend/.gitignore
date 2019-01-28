@@ -80,4 +80,4 @@ typings/
 .dynamodb/
 
 # our config
-.config
+.config/
