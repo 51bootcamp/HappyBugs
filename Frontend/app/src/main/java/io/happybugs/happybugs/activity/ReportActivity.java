@@ -96,9 +96,9 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
                 Selection.setSelection((Spannable) editTexts.facebookIDText.getText(),
                         editTexts.facebookIDText.getText().length());
 
-                editTexts.whoText.addTextChangedListener(new whoTextChange(editTexts.whoText, editTexts.facebookIDText,
+                editTexts.whoText.addTextChangedListener(new WhoTextChange(editTexts.whoText, editTexts.facebookIDText,
                         editTexts.whoText, checkBoxes.whoCheck, buttons.saveBtn));
-                editTexts.facebookIDText.addTextChangedListener(new whoTextChange(editTexts.whoText, editTexts.facebookIDText,
+                editTexts.facebookIDText.addTextChangedListener(new WhoTextChange(editTexts.whoText, editTexts.facebookIDText,
                         editTexts.whoText, checkBoxes.whoCheck, buttons.saveBtn));
                 break;
             case R.id.detailsBtn:

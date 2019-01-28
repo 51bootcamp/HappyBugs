@@ -11,7 +11,7 @@ import android.widget.EditText;
 
 import io.happybugs.happybugs.R;
 
-public class whoTextChange implements TextWatcher {
+public class WhoTextChange implements TextWatcher {
     View view;
     EditText facebookIDText;
     EditText whoText;
@@ -19,7 +19,7 @@ public class whoTextChange implements TextWatcher {
     Button saveBtn;
 
 
-    public whoTextChange(View view, EditText facebookIDText, EditText whoText, CheckBox whoCheckBox, Button saveBtn) {
+    public WhoTextChange(View view, EditText facebookIDText, EditText whoText, CheckBox whoCheckBox, Button saveBtn) {
         this.view = view;
         this.facebookIDText = facebookIDText;
         this.whoText = whoText;
