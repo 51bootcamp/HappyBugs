@@ -21,6 +21,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_navigation_main" />
 
+    <ListView
+        android:id="@+id/report_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <TextView
         android:id="@+id/home_title"
         android:layout_width="wrap_content"

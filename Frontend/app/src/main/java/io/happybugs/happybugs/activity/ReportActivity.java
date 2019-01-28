@@ -3,6 +3,8 @@ package io.happybugs.happybugs.activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Selection;
+import android.text.Spannable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
@@ -43,7 +45,9 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
         // Create answer texts.
         editTexts = new ReportEditTexts((EditText) findViewById(R.id.whatText),
                 (EditText) findViewById(R.id.whereText), (EditText) findViewById(R.id.whenText),
-                (EditText) findViewById(R.id.whoText), (EditText) findViewById(R.id.detailsText));
+                (EditText) findViewById(R.id.whoText),
+                (EditText) findViewById(R.id.facebook_edit_text),
+                (EditText) findViewById(R.id.detailsText));
 
         // Create checkboxes.
         // Checkboxes are enabled whenever a question is answered.
@@ -54,6 +58,7 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
         // Create underlines separating questions.
         views = new ReportViews((View) findViewById(R.id.whatView), (View) findViewById(R.id.whereView),
                 (View) findViewById(R.id.whenView), (View) findViewById(R.id.whoView),
+                (View) findViewById(R.id.facebook_text_input),
                 (View) findViewById(R.id.detailsView));
 
         buttons.whatBtn.setOnClickListener(this);
@@ -69,23 +74,33 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
         switch (v.getId()){
             case R.id.whatBtn:
                 questionClickEvent(editTexts, editTexts.whatText, checkBoxes.whatCheck,
-                        buttons.saveBtn, views, views.whatView);
+                        buttons.saveBtn, views, views.whatView, views.facebookView);
                 break;
             case R.id.whereBtn:
                 questionClickEvent(editTexts, editTexts.whereText, checkBoxes.whereCheck,
-                        buttons.saveBtn, views, views.whereView);
+                        buttons.saveBtn, views, views.whereView, views.facebookView);
                 break;
             case R.id.whenBtn:
                 questionClickEvent(editTexts, editTexts.whenText, checkBoxes.whenCheck,
-                        buttons.saveBtn, views, views.whenView);
+                        buttons.saveBtn, views, views.whenView, views.facebookView);
                 break;
             case R.id.whoBtn:
-                questionClickEvent(editTexts, editTexts.whoText, checkBoxes.whoCheck,
-                        buttons.saveBtn, views, views.whoView);
+                enableAnswerText(editTexts, editTexts.whoText, views.facebookView);
+                enableUnderline(views, views.whoView, editTexts.whoText);
+
+                final String prefix = "https://www.facebook.com/";
+                editTexts.facebookIDText.setText(prefix);
+                Selection.setSelection((Spannable) editTexts.facebookIDText.getText(),
+                        editTexts.facebookIDText.getText().length());
+
+                editTexts.whoText.addTextChangedListener(new whoTextChange(editTexts.whoText, editTexts.facebookIDText,
+                        editTexts.whoText, checkBoxes.whoCheck, buttons.saveBtn));
+                editTexts.facebookIDText.addTextChangedListener(new whoTextChange(editTexts.whoText, editTexts.facebookIDText,
+                        editTexts.whoText, checkBoxes.whoCheck, buttons.saveBtn));
                 break;
             case R.id.detailsBtn:
                 questionClickEvent(editTexts, editTexts.detailsText, checkBoxes.detailsCheck,
-                        buttons.saveBtn, views, views.detailsView);
+                        buttons.saveBtn, views, views.detailsView, views.facebookView);
                 break;
             case R.id.saveBtn:
                 sendReportData();
@@ -97,8 +112,8 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
     // It deals with all the actions needed on clicking a question.
     public void questionClickEvent(ReportEditTexts editTexts, EditText editText,
                                    CheckBox checkBox, Button saveBtn,
-                                   ReportViews views, View view){
-        enableAnswerText(editTexts, editText);
+                                   ReportViews views, View view, View facebookView){
+        enableAnswerText(editTexts, editText, facebookView);
         enableBoxes(editText, checkBox, saveBtn);
         enableUnderline(views, view, editText);
     }
@@ -107,12 +122,26 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
     // Opens answer text view for the corresponding question, while closing other answer views.
     // Closes answer text view if it is already opened.
     protected void enableAnswerText(ReportEditTexts editTexts,
-                                    TextView textView){
+                                    TextView textView, View facebookView){
         if (textView.getVisibility() == View.GONE) {
             editTexts.openAndCollapse(editTexts);
+            facebookView.setVisibility(View.GONE);
             textView.setVisibility(View.VISIBLE);
+
+            if (textView == editTexts.whoText){
+                views.facebookView.setVisibility(View.VISIBLE);
+                editTexts.facebookIDText.setVisibility(View.VISIBLE);
+            }
+
         } else {
             textView.setVisibility(View.GONE);
+            views.facebookView.setVisibility(View.GONE);
+            editTexts.facebookIDText.setVisibility(View.GONE);
+
+            if (textView == editTexts.whoText){
+                views.facebookView.setVisibility(View.GONE);
+                editTexts.facebookIDText.setVisibility(View.GONE);
+            }
         }
     }
 

@@ -9,14 +9,16 @@ public class ReportEditTexts extends AppCompatActivity {
     EditText whereText;
     EditText whenText;
     EditText whoText;
+    EditText facebookIDText;
     EditText detailsText;
 
-    public ReportEditTexts(EditText whatText, EditText whereText,
-                     EditText whenText, EditText whoText, EditText detailsText) {
+    public ReportEditTexts(EditText whatText, EditText whereText, EditText whenText,
+                           EditText whoText, EditText facebookIDText, EditText detailsText) {
         this.whatText = whatText;
         this.whereText = whereText;
         this.whenText = whenText;
         this.whoText = whoText;
+        this.facebookIDText = facebookIDText;
         this.detailsText = detailsText;
     }
 
@@ -36,6 +38,11 @@ public class ReportEditTexts extends AppCompatActivity {
         return whoText.getText().toString();
     }
 
+    public String getFacebookIDText(){
+        String temp = facebookIDText.getText().toString();
+        return temp.substring(25);
+    }
+
     public String getDetailsText() {
         return detailsText.getText().toString();
     }
@@ -47,6 +54,7 @@ public class ReportEditTexts extends AppCompatActivity {
         editTexts.whereText.setVisibility(View.GONE);
         editTexts.whenText.setVisibility(View.GONE);
         editTexts.whoText.setVisibility(View.GONE);
+        editTexts.facebookIDText.setVisibility(View.GONE);
         editTexts.detailsText.setVisibility(View.GONE);
     }
 }
