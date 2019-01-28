@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#4CAF50">
+    android:background="#4CAF50"
+    android:orientation="vertical">
 
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/scrollView">
+        android:id="@+id/scrollView"
+        android:layout_weight="1">
 
-        <LinearLayout
+        <RelativeLayout
+            android:id="@+id/questionsView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -70,7 +73,8 @@
                 android:isScrollContainer="true"
                 android:minLines="3"
                 android:scrollbars="vertical"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:maxLength="500"/>
 
             <View
                 android:id="@+id/whatView"
@@ -137,7 +141,8 @@
                 android:hint="Where did it happen?"
                 android:minLines="2"
                 android:scrollbars="vertical"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:maxLength="200"/>
 
             <View
                 android:id="@+id/whereView"
@@ -204,7 +209,8 @@
                 android:hint="When did it happen?"
                 android:minLines="2"
                 android:scrollbars="vertical"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:maxLength="100"/>
 
             <View
                 android:id="@+id/whenView"
@@ -271,7 +277,8 @@
                 android:hint="Who was the perpetrator(s)?"
                 android:minLines="2"
                 android:scrollbars="vertical"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:maxLength="50"/>
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/facebook_text_input"
@@ -302,7 +309,7 @@
                 android:id="@+id/whoView"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:layout_below="@+id/whoText"
+                android:layout_below="@+id/facebook_text_input"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:background="@android:color/white">
@@ -363,7 +370,8 @@
                 android:hint="Anything else you want to report about?"
                 android:minLines="3"
                 android:scrollbars="vertical"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:maxLength="500"/>
 
             <View
                 android:id="@+id/detailsView"
@@ -374,26 +382,19 @@
                 android:layout_marginRight="20dp"
                 android:background="@android:color/white">
             </View>
-
-        </LinearLayout>
+        </RelativeLayout>
     </ScrollView>
 
-
-    <RelativeLayout
+    <Button
+        android:id="@+id/saveBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/scrollView"
-        android:layout_marginBottom="30dp">
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="#FFC107"
+        android:enabled="false"
+        android:text="@string/saveBtn"
+        android:layout_marginBottom="30dp"/>
 
-        <Button
-            android:id="@+id/saveBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="#FFC107"
-            android:enabled="false"
-            android:text="@string/saveBtn" />
-    </RelativeLayout>
-</RelativeLayout>
+</LinearLayout>
