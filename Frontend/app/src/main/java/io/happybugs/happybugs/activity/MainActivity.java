@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity
 
     public boolean userHasReport() {
         //TODO(minoring): Check if the user has reports using REST API.
-        return true;
+        return false;
     }
 
     public void invisibleHomeIntroContents() {
