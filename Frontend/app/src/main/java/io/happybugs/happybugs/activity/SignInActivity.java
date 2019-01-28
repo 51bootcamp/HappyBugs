@@ -58,10 +58,10 @@ public class SignInActivity extends AppCompatActivity {
     public void startSignIn() {
         if (!isValidSignInForm()) {
             Toast.makeText(getBaseContext(), "Login Failed", Toast.LENGTH_LONG).show();
-            btnStartSignIn.setEnabled(true);
+            //btnStartSignIn.setEnabled(true);
             return;
         }
-        btnStartSignIn.setEnabled(false);
+        //btnStartSignIn.setEnabled(false);
 
         String userEmail = etUserEmail.getText().toString();
         String userPwd = etUserPW.getText().toString();
@@ -73,23 +73,27 @@ public class SignInActivity extends AppCompatActivity {
         requestSignIn.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                //TODO(Jelldo): Need an improvement
-                //Response<ResponseBody> rb = response;
-                Toast.makeText(getBaseContext(), "Login success", Toast.LENGTH_LONG).show();
-
-                //TODO(Jelldo): get the response and show a status message
-                //TODO(Jelldo): add progressbar, make async
-                final int DELAY_MILLIS = 3000;
-                new android.os.Handler().postDelayed(
-                        new Runnable() {
-                            @Override
-                            public void run() {
-                                //TODO(Jelldo): need to change into HomeActivity
-                                startActivity(new Intent(curContext, MainActivity.class));
-                                //finish();
-                                //dismiss dialogs, close cursors, close search dialogs
-                            }
-                        }, DELAY_MILLIS);
+                //TODO(Jelldo): get ResponseBody too
+                //Sign-In success
+                if (response.code() == 200) {
+                    //GET Body here
+                    //Toast.makeText(getBaseContext(), "Login success", Toast.LENGTH_LONG).show();
+                    //TODO(Jelldo): add progressbar, make async
+                    final int DELAY_MILLIS = 3000;
+                    new android.os.Handler().postDelayed(
+                            new Runnable() {
+                                @Override
+                                public void run() {
+                                    //TODO(Jelldo): need to change into HomeActivity
+                                    startActivity(new Intent(curContext, MainActivity.class));
+                                    //finish();
+                                    //dismiss dialogs, close cursors, close search dialogs
+                                }
+                            }, DELAY_MILLIS);
+                } else if (response.code() == 401) {
+                    //TODO(Jelldo): show msg under the textfield
+                    Toast.makeText(getBaseContext(), "Failed to login", Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
