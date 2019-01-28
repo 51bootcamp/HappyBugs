@@ -38,7 +38,7 @@ module.exports = (app) => {
         if (result == "") {
           return done(null, false, {msg: 'incorrect user'});
         }
-        if (hashPassword !== result[0].password) {
+        if (hashedPassword !== result[0].password) {
           return done(null, false, {msg: 'incorrect password'});
         }
         return done(null, result[0]);

@@ -1,6 +1,6 @@
 {
   "setting": {
-    "salt" : "",
+    "salt" : "salt",
     "cookie" : {
       "maxAge" : 60000
     },

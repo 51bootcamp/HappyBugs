@@ -3,7 +3,7 @@ const router = express.Router();
 const models = require('../../models');
 const crypto = require('crypto')
 
-const MIN_PASSWORD_LENGTH = 6;
+const minPasswordLength = 8;
 
 module.exports = (passport) => {
   router.use((req, res, next) => {
@@ -62,14 +62,20 @@ module.exports = (passport) => {
     }).then(result => {
       // If data is not found. The result is null.
       if (result == "") {
-        models.user.create({
-          email : req.body.email,
-          password : hashedPassword
-        }).then(result => {
-            res.status(201).json({
-              msg: "Creating ID success"
-            });
-        });
+        if((req.body.password.length < minPasswordLength)) {
+          res.status(400).json({
+            msg :"Password must be at least " + minPasswordLength
+          });
+        } else {
+          models.user.create({
+            email : req.body.email,
+            password : hashedPassword
+          }).then(result => {
+              res.status(201).json({
+                msg: "Account successfully created"
+              });
+          });
+        }
       } else {
         res.status(409).json({
           msg: "Creating ID failed"
