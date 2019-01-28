@@ -3,7 +3,7 @@ const router = express.Router();
 const models = require('../../models');
 const crypto = require('crypto')
 
-const minPasswordLength = 8;
+const MIN_PASSWORD_LENGTH = 8;
 
 module.exports = (passport) => {
   router.use((req, res, next) => {
@@ -24,14 +24,14 @@ module.exports = (passport) => {
   router.get('/signin-success', (req, res) => {
     res.status(200);
     res.json({
-      msg: "signin success"
+      msg: "Signin success"
     });
   });
 
   router.get('/signin-failure', (req, res) => {
     res.status(401);
     res.json({
-      msg: "signin failed"
+      msg: "Signin failed"
     });
   });
 
@@ -41,12 +41,12 @@ module.exports = (passport) => {
       req.session.destroy();
       res.clearCookie('sid');
       res.json({
-        msg: "signout success"
+        msg: "Signout success"
       });
     } else {
       res.status(403);
       res.json({
-        msg: "signout failed"
+        msg: "Signout failed"
       });
     }
   });
@@ -62,9 +62,9 @@ module.exports = (passport) => {
     }).then(result => {
       // If data is not found. The result is null.
       if (result == "") {
-        if((req.body.password.length < minPasswordLength)) {
+        if((req.body.password.length < MIN_PASSWORD_LENGTH)) {
           res.status(400).json({
-            msg :"Password must be at least " + minPasswordLength
+            msg :"Password must be at least " + MIN_PASSWORD_LENGTH
           });
         } else {
           models.user.create({
@@ -78,7 +78,7 @@ module.exports = (passport) => {
         }
       } else {
         res.status(409).json({
-          msg: "Creating ID failed"
+          msg: "This member already exists"
         })
       }
     }).catch(err => {

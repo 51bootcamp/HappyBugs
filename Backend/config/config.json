@@ -1,8 +1,8 @@
 {
   "development": {
-    "username": "",
-    "password": "",
-    "database": "",
+    "username": "root",
+    "password": "1234",
+    "database": "FIRST",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
@@ -19,6 +19,5 @@
     "database": "database_production",
     "host": "127.0.0.1",
     "dialect": "mysql"
-  },
-  "port": 
+  } 
 }
