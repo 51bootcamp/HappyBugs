@@ -8,13 +8,12 @@ import java.util.List;
 public class ReportDataList {
     @SerializedName("reportList")
     @Expose
-    private List<ReportData> reportList;
+    private List<String> reportList;
+    //private ReportData rd;
 
-    public List<ReportData> getReportList() {
-        if (reportList != null) {
-            return reportList;
-        } else {
-            return null;
-        }
+    public List<String> getReportList() {
+        //rd = new ReportData();
+        //reportList.add(rd.getReportId());
+        return reportList;
     }
 }
