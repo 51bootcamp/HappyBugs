@@ -15,8 +15,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
+import io.happybugs.happybugs.APIInterface.APIInterface;
 import io.happybugs.happybugs.R;
+import io.happybugs.happybugs.models.ReportData;
+import io.happybugs.happybugs.models.ReportDataList;
+import io.happybugs.happybugs.network.RetrofitInstance;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
 import android.widget.ListView;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -60,7 +71,23 @@ public class MainActivity extends AppCompatActivity
 
     public boolean userHasReport() {
         //TODO(minoring): Check if the user has reports using REST API.
-        return true;
+        Retrofit rfInstance = RetrofitInstance.getInstance();
+        APIInterface service = rfInstance.create(APIInterface.class);
+
+        Call<ReportDataList> request = service.showReportList();
+        request.enqueue(new Callback<ReportDataList>() {
+            @Override
+            public void onResponse(Call<ReportDataList> call, Response<ReportDataList> response) {
+                ReportDataList responseBody = response.body();
+                System.out.println(responseBody.getReportList());
+            }
+
+            @Override
+            public void onFailure(Call<ReportDataList> call, Throwable t) {
+
+            }
+        });
+        return false;
     }
 
     public void invisibleHomeIntroContents() {
