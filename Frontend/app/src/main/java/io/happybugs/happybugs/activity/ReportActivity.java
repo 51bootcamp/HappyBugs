@@ -91,11 +91,6 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
                 enableAnswerText(editTexts, editTexts.whoText, views.facebookView);
                 enableUnderline(views, views.whoView, editTexts.whoText);
 
-                final String prefix = "https://www.facebook.com/";
-                editTexts.facebookIDText.setText(prefix);
-                Selection.setSelection((Spannable) editTexts.facebookIDText.getText(),
-                        editTexts.facebookIDText.getText().length());
-
                 editTexts.whoText.addTextChangedListener(new WhoTextChange(editTexts.whoText, editTexts.facebookIDText,
                         editTexts.whoText, checkBoxes.whoCheck, buttons.saveBtn));
                 editTexts.facebookIDText.addTextChangedListener(new WhoTextChange(editTexts.whoText, editTexts.facebookIDText,

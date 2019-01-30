@@ -34,30 +34,21 @@ public class WhoTextChange implements TextWatcher {
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        switch (view.getId()){
-            case R.id.whoText:
-                whoCheckBox.setChecked((whoText.getText().length() > 0)? true: false);
-            case R.id.facebook_edit_text:
-                if (!s.toString().startsWith("https://www.facebook.com/")) {
-                    facebookIDText.setText("https://www.facebook.com/");
-                    Selection.setSelection((Spannable) facebookIDText.getText(),
-                            facebookIDText.getText().length());
-                }
-                whoCheckBox.setChecked((facebookIDText.getText().length() > 25)? true: false);
-        }
-        saveBtn.setEnabled(true);
+
     }
 
     @Override
     public void afterTextChanged(Editable s) {
-        switch (view.getId()){
-            case R.id.facebook_edit_text:
-                // Set prefix for facebook ID profile link.
-                if (!s.toString().startsWith("https://www.facebook.com/")) {
-                    facebookIDText.setText("https://www.facebook.com/");
-                    Selection.setSelection((Spannable) facebookIDText.getText(),
-                            facebookIDText.getText().length());
-                }
+        if (whoText.getText().hashCode() == s.hashCode()){
+            whoCheckBox.setChecked((whoText.getText().length() > 0)? true: false);
+        } else if (facebookIDText.getText().hashCode() == s.hashCode()) {
+            whoCheckBox.setChecked((facebookIDText.getText().length() > 25) ? true : false);
+
+            if (!s.toString().startsWith("https://www.facebook.com/")) {
+                facebookIDText.setText("https://www.facebook.com/");
+                Selection.setSelection((Spannable) facebookIDText.getText(),
+                        facebookIDText.getText().length());
+            }
         }
         whoCheckBox.setChecked((whoText.getText().length() != 0) ||
                 (facebookIDText.getText().length() > 25));
