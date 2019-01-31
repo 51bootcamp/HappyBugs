@@ -21,7 +21,7 @@ import android.widget.ListView;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private Context curContext = this;
+    private Context currContext = this;
     private Button btnStartReport;
 
     @Override
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity
         btnStartReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(curContext,ReportActivity.class));
+                startActivity(new Intent(currContext,ReportActivity.class));
             }
         });
 
