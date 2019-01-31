@@ -1,26 +1,48 @@
 const models = require('../../models');
 
 const createReport = (req, res) => {
-  if (req.isAuthenticated()) {
+  if (!req.isAuthenticated()) {
+    res.status(403);
+    res.json({
+      msg : "you are not logined"
+    });
+    res.end();
+    return ;
+  }
+
+  models.perpetrator.findOrCreate({
+    where: {
+      facebook_url: req.body.data[0].facebook_url
+    }
+  }).then((result) => {
     models.report.create({
       what: req.body.data[0].what,
       location: req.body.data[0].location,
       time: req.body.data[0].time,
       who: req.body.data[0].who,
       details: req.body.data[0].details,
+      perpetratorID: result[0].id,
       userID: req.user[0].dataValues.id
     }).then((result) => {
-      res.status(201);
-      res.json({
-        msg: "Report is made successfully"
-      });
+      models.report.count({
+        group: ['userID', 'perpetratorID'],
+        attributes: ['userID', 'perpetratorID'],
+        where: {
+          perpetratorID: result.perpetratorID
+        }
+      }).then((count) => {
+          models.perpetrator.update({
+            count: count.length
+          },{
+            where: {
+              id: count[0].perpetratorID
+            }
+          });
+          res.json(count.length);
+        });
     });
-  } else {
-    res.status(403);
-    res.json({
-      msg : "You are not logged in"
-    });
-  }
+  });
+
 };
 
 const showReportList = (req, res) => {
