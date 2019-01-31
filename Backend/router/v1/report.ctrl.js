@@ -38,7 +38,9 @@ const createReport = (req, res) => {
               id: count[0].perpetratorID
             }
           });
-          res.json(count.length);
+          res.status(201).json({
+            msg: "you are not logged in"
+          });
         });
     });
   });
