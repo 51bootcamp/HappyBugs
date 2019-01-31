@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const router = express.Router();
 const session = require('express-session');
 const sessionSet = require('./config/session.json');
-const config = require('./config/config.json');
+const config = require('./config/server_config.json');
 
 models.sequelize.sync();
 
@@ -27,5 +27,5 @@ const rootRouter = require('./router/index')(passport);
 app.use('/api', rootRouter);
 
 app.listen(config.port || 80, () => {
-  console.log(config.port)
+  console.log("server start :", config.port)
 });
