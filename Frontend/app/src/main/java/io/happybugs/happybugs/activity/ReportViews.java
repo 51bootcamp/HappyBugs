@@ -8,14 +8,16 @@ public class ReportViews extends AppCompatActivity {
     View whereView;
     View whenView;
     View whoView;
+    View facebookView;
     View detailsView;
 
-    public ReportViews(View whatView, View whereView,
-                 View whenView, View whoView, View detailsView) {
+    public ReportViews(View whatView, View whereView, View whenView,
+                       View whoView, View facebookView, View detailsView) {
         this.whatView = whatView;
         this.whereView = whereView;
         this.whenView = whenView;
         this.whoView = whoView;
+        this.facebookView = facebookView;
         this.detailsView = detailsView;
     }
 

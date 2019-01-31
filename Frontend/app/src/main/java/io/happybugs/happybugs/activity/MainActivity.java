@@ -16,11 +16,12 @@ import android.view.MenuItem;
 import android.widget.Button;
 
 import io.happybugs.happybugs.R;
+import android.widget.ListView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private Context curContext=this;
+    private Context curContext = this;
     private Button btnStartReport;
 
     @Override
@@ -50,6 +51,34 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        if (userHasReport()) {
+            invisibleHomeIntroContents();
+            showReportList();
+        }
+    }
+
+    public boolean userHasReport() {
+        //TODO(minoring): Check if the user has reports using REST API.
+        return false;
+    }
+
+    public void invisibleHomeIntroContents() {
+        findViewById(R.id.home_title).setVisibility(View.GONE);
+        findViewById(R.id.home_content).setVisibility(View.GONE);
+        findViewById(R.id.button_startreport).setVisibility(View.GONE);
+    }
+
+    public void showReportList() {
+        //TODO(minoring): Change hard-coded report list to REST API json response.
+        ListView reportListView = (ListView) findViewById(R.id.report_listview);
+        ReportListViewAdapter reportListViewAdapter = new ReportListViewAdapter();
+
+        reportListViewAdapter.addItem("Greyhound divisively hello coldly");
+        reportListViewAdapter.addItem("Greyhound divisively hello coldly");
+        reportListViewAdapter.addItem("Greyhound divisively hello coldly");
+
+        reportListView.setAdapter(reportListViewAdapter);
     }
 
     @Override
@@ -64,19 +93,14 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
