@@ -32,7 +32,7 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
     ReportEditTexts editTexts;
     ReportCheckBoxes checkBoxes;
     ReportViews views;
-    Context curContext = this;
+    Context currContext = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -197,7 +197,7 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
         userReport.put("data", dataArray);
 
         Retrofit rfInstance;
-        rfInstance = RetrofitInstance.getInstance();
+        rfInstance = RetrofitInstance.getInstance(currContext);
         APIInterface service = rfInstance.create(APIInterface.class);
 
         Call<ResponseBody> request = service.createReport(userReport);
@@ -207,7 +207,7 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
                 Response rb = response;
                 System.out.println(rb.body());
                 //success
-                startActivity(new Intent(curContext, MainActivity.class));
+                startActivity(new Intent(currContext, MainActivity.class));
             }
 
             @Override
