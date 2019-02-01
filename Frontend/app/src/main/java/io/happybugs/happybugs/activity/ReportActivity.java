@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,7 +44,7 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
         buttons = new ReportButtons((Button) findViewById(R.id.whatBtn),
                 (Button) findViewById(R.id.whereBtn), (Button) findViewById(R.id.whenBtn),
                 (Button) findViewById(R.id.whoBtn), (Button) findViewById(R.id.detailsBtn),
-                (Button) findViewById(R.id.saveBtn));
+                (Button) findViewById(R.id.saveBtn), (ImageButton) findViewById(R.id.close_report_act));
 
         // Create answer texts.
         editTexts = new ReportEditTexts((EditText) findViewById(R.id.whatText),
@@ -70,6 +71,7 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
         buttons.whoBtn.setOnClickListener(this);
         buttons.detailsBtn.setOnClickListener(this);
         buttons.saveBtn.setOnClickListener(this);
+        buttons.closeBtn.setOnClickListener(this);
     }
 
     @Override
@@ -103,6 +105,9 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.saveBtn:
                 sendReportData();
                 break;
+            case R.id.close_report_act:
+                Intent intent = new Intent(currContext, MainActivity.class);
+                startActivity(intent);
         }
     }
 

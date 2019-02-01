@@ -5,6 +5,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#4CAF50"
     android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/close_report_act"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp"
+            android:src="@android:drawable/ic_delete"
+            android:background="#00ff0000"
+            android:tint="@android:color/white"/>
+
+        <TextView
+            android:layout_toRightOf="@+id/close_report_act"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Report"
+            android:layout_marginBottom="30dp"
+            android:layout_marginLeft="10dp"
+            android:background="#00ff0000"
+            android:paddingTop="30dp"
+            android:textColor="@android:color/white"
+            android:textSize="20dp"/>
+
+    </RelativeLayout>
 
     <ScrollView
         android:layout_width="wrap_content"
