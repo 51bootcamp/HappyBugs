@@ -2,7 +2,7 @@ const models = require('../../models');
 
 const createReport = (req, res) => {
   if (!req.isAuthenticated()) {
-    return res.status(403).json({msg: "You are not logged in"});
+    return res.status(403).json({statusCode: 3005});
   }
   models.report.create({
     what: req.body.data[0].what,
@@ -15,13 +15,13 @@ const createReport = (req, res) => {
     res.status(201);
     res.json({id: result.dataValues.id});
   }).catch((err) => {
-    res.json({msg: "Error: failed to create report"});
+    res.json({statusCode: 3006});
   });
 };
 
 const showReportList = (req, res) => {
   if (!req.isAuthenticated()) {
-    return res.status(403).json({msg: "You are not logged in"});
+    return res.status(403).json({statusCode: 3005});
   }
   models.report.findAll({
     where: {
@@ -31,13 +31,13 @@ const showReportList = (req, res) => {
     res.status(200);
     res.json(result);
   }).catch((err) => {
-    res.json({msg: "Error: failed to load all reports"});
+    res.json({statusCode: 3007});
   });
 };
 
 const findReport = (req, res) => {
   if (!req.isAuthenticated()) {
-    return res.status(403).json({msg: "You are not logged in"});
+    return res.status(403).json({statusCode: 3005});
   }
   const reportId = parseInt(req.query.reportId);
   if (Number.isNaN(reportId)) {
@@ -49,18 +49,18 @@ const findReport = (req, res) => {
     }
   }).then ((result) => {
     if (result == 0) {
-      res.json({msg: "The reportId does not exist"});
+      res.json({statusCode: 1002});
     } else {
       res.json(result);
     }
   }).catch((err) => {
-    res.json({msg: "Error: failed to load this report"});
+    res.json({statusCode: 3008});
   });
 };
 
 const deleteReport = (req, res) => {
   if (!req.isAuthenticated()) {
-    return res.status(403).json({msg: "You are not logged in"});
+    return res.status(403).json({statusCode: 3005});
   }
   const reportId = parseInt(req.query.reportId);
   if (Number.isNaN(reportId)) {
@@ -72,18 +72,18 @@ const deleteReport = (req, res) => {
     }
   }).then((result) => {
     if (result == 0) {
-      res.json({msg: "The reportId does not exist"});
+      res.json({statusCode: 1002});
     } else {
       res.status(204).end();
     }
   }).catch((err) => {
-    res.json({msg: "Error: failed to delete this report"});
+    res.json({statusCode: 3009});
   });
 };
 
 const editReport = (req, res) => {
   if (!req.isAuthenticated()) {
-    return res.status(403).json({msg: "You are not logged in"});
+    return res.status(403).json({statusCode: 3005});
   }
   const reportId = parseInt(req.query.reportId);
   if (Number.isNaN(reportId)) {
@@ -105,12 +105,12 @@ const editReport = (req, res) => {
       where: {id: reportId}
   }).then((result) => {
     if (result == 0) {
-      res.json({msg: "The reportId does not exist"});
+      res.json({statusCode: 1002});
     } else {
       res.status(200).end();
     }
   }).catch((err) => {
-    res.json({msg: "Error: failed to edit this repart"});
+    res.json({statusCode: 3010});
   });
 };
 
