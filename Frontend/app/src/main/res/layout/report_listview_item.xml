@@ -1,50 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
     <LinearLayout
         android:id="@+id/linear"
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="4">
-
-        <TextView
+        android:layout_weight="4"
+        android:orientation="vertical"
+        android:layout_marginTop="35dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginLeft="50dp">
+        <TableRow
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Report"
-            android:id="@+id/report_title"
-            android:textSize="24dp"
-            android:textColor="#000000"
-            android:gravity="center_vertical"
-            android:layout_weight="2" />
-
+            android:layout_height="67dp"
+            android:layout_marginTop="3dp">
+            <TextView
+                android:id="@+id/report_title"
+                android:layout_width="233dp"
+                android:layout_height="73dp"
+                android:layout_weight="2"
+                android:gravity="center_vertical"
+                android:text="Report"
+                android:textColor="#000000"
+                android:textSize="20sp"/>
+            <TextView
+                android:id="@+id/report_created_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:text="Dec 27, 2018"/>
+        </TableRow>
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="New Text"
             android:id="@+id/report_content"
-            android:textSize="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="New Text"
             android:textColor="#666666"
-            android:layout_weight="1" />
+            android:textSize="16dp"/>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="67dp"
+            android:layout_marginTop="10dp">
+            <Button
+                android:id="@+id/btn_report_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/linear"
+                android:layout_weight="4"
+                android:text="@string/home_report_edit"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginRight="10dp"
+                android:radius="3dp"
+                android:background="#ffffff"/>
+            <Button
+                android:id="@+id/btn_report_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linear"
+                android:layout_toRightOf="@id/btn_report_edit"
+                android:layout_weight="4"
+                android:text="@string/home_report_delete"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginLeft="10dp"
+                android:radius="3dp"
+                android:background="#ffffff"/>
+        </TableRow>
     </LinearLayout>
-
-    <Button
-        android:layout_below="@id/linear"
-        android:id="@+id/btn_report_edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="4"
-        android:text="@string/home_report_edit" />
-
-    <Button
-        android:layout_below="@+id/linear"
-        android:layout_toRightOf="@id/btn_report_edit"
-        android:id="@+id/btn_report_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="4"
-        android:text="@string/home_report_delete" />
-
 </RelativeLayout>
