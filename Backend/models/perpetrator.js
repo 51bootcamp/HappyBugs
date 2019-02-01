@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true,
       allowNull: false,
     },
-    count: {
+    reporting_user_count: {
       type: DataTypes.INTEGER,
       allowNull: true,
       defaultValue: 0

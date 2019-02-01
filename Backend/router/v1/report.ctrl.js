@@ -10,6 +10,8 @@ const createReport = (req, res) => {
     return ;
   }
 
+  let reportedID;
+
   models.perpetrator.findOrCreate({
     where: {
       facebook_url: req.body.data[0].facebook_url
@@ -24,6 +26,8 @@ const createReport = (req, res) => {
       perpetratorID: result[0].id,
       userID: req.user[0].dataValues.id
     }).then((result) => {
+      reportedID = result.id;
+
       models.report.count({
         group: ['userID', 'perpetratorID'],
         attributes: ['userID', 'perpetratorID'],
@@ -32,19 +36,18 @@ const createReport = (req, res) => {
         }
       }).then((count) => {
           models.perpetrator.update({
-            count: count.length
+            reporting_user_count: count.length
           },{
             where: {
               id: count[0].perpetratorID
             }
           });
           res.status(201).json({
-            msg: "you are not logged in"
+            id: reportedID
           });
         });
     });
   });
-
 };
 
 const showReportList = (req, res) => {
