@@ -1,14 +1,14 @@
 package io.happybugs.happybugs.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.Selection;
-import android.text.Spannable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -135,7 +135,7 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
                 views.facebookView.setVisibility(View.VISIBLE);
                 editTexts.facebookIDText.setVisibility(View.VISIBLE);
             }
-
+            showKeyboard((EditText) textView);
         } else {
             textView.setVisibility(View.GONE);
             views.facebookView.setVisibility(View.GONE);
@@ -145,6 +145,7 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
                 views.facebookView.setVisibility(View.GONE);
                 editTexts.facebookIDText.setVisibility(View.GONE);
             }
+            closeKeyboard((EditText) textView);
         }
     }
 
@@ -175,6 +176,39 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
             view.setVisibility(View.INVISIBLE);
         } else {
             view.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void showKeyboard(final EditText editText){
+        editText.requestFocus();
+        final InputMethodManager imm = (InputMethodManager)
+                getSystemService(Activity.INPUT_METHOD_SERVICE);
+
+        if (isSoftKeyboardShown(imm, editText)){
+            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+        }
+        buttons.saveBtn.setVisibility(View.GONE);
+    }
+
+    public void closeKeyboard(EditText editText){
+        editText.clearFocus();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+        buttons.saveBtn.setVisibility(View.VISIBLE);
+    }
+
+
+    protected  boolean isSoftKeyboardShown(InputMethodManager imm, View v){
+        KeyboardActionResult result = new KeyboardActionResult();
+        int res;
+
+        imm.showSoftInput(v, 0, result);
+        res = result.getResult();
+        if (res == InputMethodManager.RESULT_UNCHANGED_SHOWN ||
+                res == InputMethodManager.RESULT_UNCHANGED_HIDDEN) {
+            return true;
+        } else {
+            return false;
         }
     }
 
