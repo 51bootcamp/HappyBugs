@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -23,7 +24,7 @@ import retrofit2.Retrofit;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    private Context curContext;
+    private Context currContext;
     private EditText etRegEmail;
     private EditText etRegPW;
     private EditText etRegPWCheck;
@@ -37,7 +38,7 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        curContext = this;
+        currContext = this;
         etRegEmail = (EditText) findViewById(R.id.editText_reg_email);
         etRegPW = (EditText) findViewById(R.id.editText_reg_pw);
         etRegPWCheck = (EditText) findViewById(R.id.editText_reg_pw);
@@ -55,16 +56,14 @@ public class SignUpActivity extends AppCompatActivity {
         //Need to discuss which activity should be opened
         if (!isValidSignUpForm()) {
             Toast.makeText(getBaseContext(), "SignUp Failed", Toast.LENGTH_LONG).show();
-            btnStartSignUp.setEnabled(true);
+            //btnStartSignUp.setEnabled(true);
             return;
         }
-        btnStartSignUp.setEnabled(false);
+        //btnStartSignUp.setEnabled(false);
         //TODO(Jelldo): open HomeActivity if get success register
         //Need to discuss which activity should be opened
         sendUserInfo();
-        startActivity(new Intent(curContext, MainActivity.class));
-        //TODO(Jelldo): need to kill SignUpActivity when HomeActivity is opened
-        //finish();
+
     }
 
     private boolean isValidSignUpForm() {
@@ -106,7 +105,7 @@ public class SignUpActivity extends AppCompatActivity {
         userPW = etRegPW.getText().toString();
 
         //TODO(Jelldo): register userData
-        Retrofit rfInstance = new RetrofitInstance().getInstance();
+        Retrofit rfInstance = new RetrofitInstance().getInstance(currContext);
         APIInterface service = rfInstance.create(APIInterface.class);
 
         JSONObject userData = new JSONObject();
@@ -117,7 +116,18 @@ public class SignUpActivity extends AppCompatActivity {
         requestSignUp.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                //TODO(Jelldo): Make response management
+                if (response.code() == 201) {
+                    //Succeed to sign up
+                    startActivity(new Intent(currContext, MainActivity.class));
+                    //TODO(Jelldo): need to kill SignUpActivity when HomeActivity is opened
+                    //finish();
+                } else if (response.code() == 409) {
+                    //ID has already been taken
+                    Toast.makeText(getBaseContext(), "That email is taken. Try another.", Toast.LENGTH_LONG).show();
+                } else if (response.code() == 400) {
+                    //PW Shorter than 8
+                    Toast.makeText(getBaseContext(), "Password should be longer than 8.", Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override

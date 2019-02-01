@@ -302,7 +302,8 @@
                     android:layout_height="wrap_content"
                     android:hint="Facebook profile"
                     android:visibility="gone"
-                    android:minLines="2"/>
+                    android:minLines="2"
+                    android:text="https://www.facebook.com/"/>
             </android.support.design.widget.TextInputLayout>
 
             <View

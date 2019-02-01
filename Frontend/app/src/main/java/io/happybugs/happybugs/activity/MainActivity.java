@@ -3,7 +3,9 @@ package io.happybugs.happybugs.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,14 +17,45 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
+import io.happybugs.happybugs.APIInterface.APIInterface;
 import io.happybugs.happybugs.R;
+import io.happybugs.happybugs.model.UserReportList;
+import io.happybugs.happybugs.network.RetrofitInstance;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
 import android.widget.ListView;
+
+import org.json.simple.JSONArray;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private Context curContext = this;
+    private Context currContext = this;
     private Button btnStartReport;
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.nav_home:
+                    startActivity(new Intent(currContext, MainActivity.class));
+                    return true;
+                case R.id.nav_create:
+                    startActivity(new Intent(currContext, ReportActivity.class));
+                    return true;
+                case R.id.nav_account:
+                    //TODO(minoring): Build after account view is created.
+                    return true;
+            }
+            return false;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +66,13 @@ public class MainActivity extends AppCompatActivity
         btnStartReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(curContext,ReportActivity.class));
+                startActivity(new Intent(currContext, ReportActivity.class));
             }
         });
 
         BottomNavigationView bottomNavigationView =
                 (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -52,6 +86,23 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        Retrofit rfInstance = RetrofitInstance.getInstance(currContext);
+        APIInterface service = rfInstance.create(APIInterface.class);
+
+        Call<UserReportList> requestReportList = service.getReportList();
+        requestReportList.enqueue(new Callback<UserReportList>() {
+            @Override
+            public void onResponse(Call<UserReportList> call, Response<UserReportList> response) {
+                List<UserReportList> userReportLists = response.body().getData();
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<UserReportList> call, Throwable t) {
+
+            }
+        });
+
         if (userHasReport()) {
             invisibleHomeIntroContents();
             showReportList();
@@ -60,7 +111,7 @@ public class MainActivity extends AppCompatActivity
 
     public boolean userHasReport() {
         //TODO(minoring): Check if the user has reports using REST API.
-        return true;
+        return false;
     }
 
     public void invisibleHomeIntroContents() {

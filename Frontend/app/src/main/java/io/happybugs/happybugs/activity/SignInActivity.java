@@ -21,7 +21,7 @@ import retrofit2.Retrofit;
 
 public class SignInActivity extends AppCompatActivity {
 
-    private Context curContext;
+    private Context currContext;
     private Button btnOpenSignUp;
     private Button btnStartSignIn;
     private EditText etUserEmail;
@@ -31,7 +31,7 @@ public class SignInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
-        curContext = this;
+        currContext = this;
 
         etUserEmail = (EditText) findViewById(R.id.editText_user_email);
         etUserPW = (EditText) findViewById(R.id.editText_user_pw);
@@ -50,7 +50,7 @@ public class SignInActivity extends AppCompatActivity {
         btnOpenSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(curContext, SignUpActivity.class));
+                startActivity(new Intent(currContext, SignUpActivity.class));
             }
         });
     }
@@ -58,38 +58,42 @@ public class SignInActivity extends AppCompatActivity {
     public void startSignIn() {
         if (!isValidSignInForm()) {
             Toast.makeText(getBaseContext(), "Login Failed", Toast.LENGTH_LONG).show();
-            btnStartSignIn.setEnabled(true);
+            //btnStartSignIn.setEnabled(true);
             return;
         }
-        btnStartSignIn.setEnabled(false);
+        //btnStartSignIn.setEnabled(false);
 
         String userEmail = etUserEmail.getText().toString();
         String userPwd = etUserPW.getText().toString();
 
-        Retrofit rfInstance = RetrofitInstance.getInstance();
+        Retrofit rfInstance = RetrofitInstance.getInstance(currContext);
         APIInterface service = rfInstance.create(APIInterface.class);
 
         Call<ResponseBody> requestSignIn = service.signin(userEmail, userPwd);
         requestSignIn.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                //TODO(Jelldo): Need an improvement
-                //Response<ResponseBody> rb = response;
-                Toast.makeText(getBaseContext(), "Login success", Toast.LENGTH_LONG).show();
-
-                //TODO(Jelldo): get the response and show a status message
-                //TODO(Jelldo): add progressbar, make async
-                final int DELAY_MILLIS = 3000;
-                new android.os.Handler().postDelayed(
-                        new Runnable() {
-                            @Override
-                            public void run() {
-                                //TODO(Jelldo): need to change into HomeActivity
-                                startActivity(new Intent(curContext, MainActivity.class));
-                                //finish();
-                                //dismiss dialogs, close cursors, close search dialogs
-                            }
-                        }, DELAY_MILLIS);
+                //TODO(Jelldo): get ResponseBody too
+                //Sign-In success
+                if (response.code() == 200) {
+                    //GET Body here
+                    //Toast.makeText(getBaseContext(), "Login success", Toast.LENGTH_LONG).show();
+                    //TODO(Jelldo): add progressbar, make async
+                    final int DELAY_MILLIS = 3000;
+                    new android.os.Handler().postDelayed(
+                            new Runnable() {
+                                @Override
+                                public void run() {
+                                    //TODO(Jelldo): need to change into HomeActivity
+                                    startActivity(new Intent(currContext, MainActivity.class));
+                                    //finish();
+                                    //dismiss dialogs, close cursors, close search dialogs
+                                }
+                            }, DELAY_MILLIS);
+                } else if (response.code() == 401) {
+                    //TODO(Jelldo): show msg under the textfield
+                    Toast.makeText(getBaseContext(), "Failed to login", Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
