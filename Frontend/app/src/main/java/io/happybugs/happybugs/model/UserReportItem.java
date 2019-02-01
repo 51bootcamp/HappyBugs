@@ -4,22 +4,44 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class UserReportItem {
-    @SerializedName("created_date")
+
+    @SerializedName("id")
     @Expose
-    private String createdDate;
+    private Integer id;
     @SerializedName("what")
     @Expose
     private String what;
-    @SerializedName("reportId")
+    @SerializedName("location")
     @Expose
-    private String reportId;
+    private String location;
+    @SerializedName("who")
+    @Expose
+    private String who;
+    @SerializedName("time")
+    @Expose
+    private String time;
+    @SerializedName("details")
+    @Expose
+    private String details;
+    @SerializedName("type")
+    @Expose
+    private Object type;
+    @SerializedName("createdAt")
+    @Expose
+    private String createdAt;
+    @SerializedName("updatedAt")
+    @Expose
+    private String updatedAt;
+    @SerializedName("userID")
+    @Expose
+    private Integer userID;
 
-    public String getCreatedDate() {
-        return createdDate;
+    public Integer getId() {
+        return id;
     }
 
-    public void setCreatedDate(String createdDate) {
-        this.createdDate = createdDate;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getWhat() {
@@ -30,11 +52,67 @@ public class UserReportItem {
         this.what = what;
     }
 
-    public String getReportId() {
-        return reportId;
+    public String getLocation() {
+        return location;
     }
 
-    public void setReportId(String reportId) {
-        this.reportId = reportId;
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getWho() {
+        return who;
+    }
+
+    public void setWho(String who) {
+        this.who = who;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
+    public Object getType() {
+        return type;
+    }
+
+    public void setType(Object type) {
+        this.type = type;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public Integer getUserID() {
+        return userID;
+    }
+
+    public void setUserID(Integer userID) {
+        this.userID = userID;
     }
 }

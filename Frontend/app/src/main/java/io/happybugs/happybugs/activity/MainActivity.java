@@ -3,6 +3,7 @@ package io.happybugs.happybugs.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.NetworkOnMainThreadException;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.util.Log;
@@ -16,27 +17,26 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
-
 import io.happybugs.happybugs.APIInterface.APIInterface;
 import io.happybugs.happybugs.R;
+import io.happybugs.happybugs.model.UserReportItem;
 import io.happybugs.happybugs.model.UserReportList;
 import io.happybugs.happybugs.network.RetrofitInstance;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-
 import android.widget.ListView;
-
+import android.widget.Toast;
 import org.json.simple.JSONArray;
-
+import java.io.IOException;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private Context currContext = this;
-    private Button btnStartReport;
+    Call<UserReportList> requestReportList;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -62,39 +62,32 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnStartReport = (Button) findViewById(R.id.button_startreport);
-        btnStartReport.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(currContext, ReportActivity.class));
-            }
-        });
-
-        BottomNavigationView bottomNavigationView =
-                (BottomNavigationView) findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
         Retrofit rfInstance = RetrofitInstance.getInstance(currContext);
         APIInterface service = rfInstance.create(APIInterface.class);
+        requestReportList = service.getReportList();
 
-        Call<UserReportList> requestReportList = service.getReportList();
+        navigationSettings();
+        showReportList();
+    }
+
+    public void showReportList() {
+        final ListView reportListView = (ListView) findViewById(R.id.report_listview);
+        final ReportListViewAdapter reportListViewAdapter = new ReportListViewAdapter();
+
         requestReportList.enqueue(new Callback<UserReportList>() {
             @Override
             public void onResponse(Call<UserReportList> call, Response<UserReportList> response) {
-                List<UserReportList> userReportLists = response.body().getData();
-                finish();
+                try {
+                    List<UserReportItem> userReportList = response.body().getData();
+                    if (!(userReportList.isEmpty())) {
+                        invisibleHomeIntroContents();
+                        reportListViewAdapter.addAll(userReportList);
+                        reportListView.setAdapter(reportListViewAdapter);
+                    }
+                } catch (NullPointerException e) {
+                    startActivity(new Intent(currContext, SignInActivity.class));
+                    finish();
+                }
             }
 
             @Override
@@ -102,34 +95,12 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
-
-        if (userHasReport()) {
-            invisibleHomeIntroContents();
-            showReportList();
-        }
-    }
-
-    public boolean userHasReport() {
-        //TODO(minoring): Check if the user has reports using REST API.
-        return false;
     }
 
     public void invisibleHomeIntroContents() {
         findViewById(R.id.home_title).setVisibility(View.GONE);
         findViewById(R.id.home_content).setVisibility(View.GONE);
         findViewById(R.id.button_startreport).setVisibility(View.GONE);
-    }
-
-    public void showReportList() {
-        //TODO(minoring): Change hard-coded report list to REST API json response.
-        ListView reportListView = (ListView) findViewById(R.id.report_listview);
-        ReportListViewAdapter reportListViewAdapter = new ReportListViewAdapter();
-
-        reportListViewAdapter.addItem("Greyhound divisively hello coldly");
-        reportListViewAdapter.addItem("Greyhound divisively hello coldly");
-        reportListViewAdapter.addItem("Greyhound divisively hello coldly");
-
-        reportListView.setAdapter(reportListViewAdapter);
     }
 
     @Override
@@ -182,5 +153,33 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void navigationSettings() {
+        Button btnStartReport = (Button) findViewById(R.id.button_startreport);
+        btnStartReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(currContext, ReportActivity.class));
+            }
+        });
+
+        BottomNavigationView bottomNavigationView =
+                (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close);
+
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 }
