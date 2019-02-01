@@ -44,7 +44,7 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
         buttons = new ReportButtons((Button) findViewById(R.id.whatBtn),
                 (Button) findViewById(R.id.whereBtn), (Button) findViewById(R.id.whenBtn),
                 (Button) findViewById(R.id.whoBtn), (Button) findViewById(R.id.detailsBtn),
-                (Button) findViewById(R.id.saveBtn), (ImageButton) findViewById(R.id.deleteBtn));
+                (Button) findViewById(R.id.saveBtn), (ImageButton) findViewById(R.id.close_report_act));
 
         // Create answer texts.
         editTexts = new ReportEditTexts((EditText) findViewById(R.id.whatText),
@@ -105,7 +105,7 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.saveBtn:
                 sendReportData();
                 break;
-            case R.id.deleteBtn:
+            case R.id.close_report_act:
                 Intent intent = new Intent(currContext, MainActivity.class);
                 startActivity(intent);
         }
