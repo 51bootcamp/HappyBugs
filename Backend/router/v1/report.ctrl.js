@@ -4,18 +4,44 @@ const createReport = (req, res) => {
   if (!req.isAuthenticated()) {
     return res.status(403).json({statusCode: 3005});
   }
-  models.report.create({
-    what: req.body.data[0].what,
-    location: req.body.data[0].location,
-    time: req.body.data[0].time,
-    who: req.body.data[0].who,
-    details: req.body.data[0].details,
-    userID: req.user[0].dataValues.id
+
+  let reportedID;
+
+  models.perpetrator.findOrCreate({
+    where: {
+      facebook_url: req.body.data[0].facebook_url
+    }
   }).then((result) => {
-    res.status(201);
-    res.json({id: result.dataValues.id});
-  }).catch((err) => {
-    res.json({statusCode: 3006});
+    models.report.create({
+      what: req.body.data[0].what,
+      location: req.body.data[0].location,
+      time: req.body.data[0].time,
+      who: req.body.data[0].who,
+      details: req.body.data[0].details,
+      perpetratorID: result[0].id,
+      userID: req.user[0].dataValues.id
+    }).then((result) => {
+      reportedID = result.id;
+
+      models.report.count({
+        group: ['userID', 'perpetratorID'],
+        attributes: ['userID', 'perpetratorID'],
+        where: {
+          perpetratorID: result.perpetratorID
+        }
+      }).then((count) => {
+          models.perpetrator.update({
+            reporting_user_count: count.length
+          },{
+            where: {
+              id: count[0].perpetratorID
+            }
+          });
+          res.status(201).json({
+            id: reportedID
+          });
+        });
+    });
   });
 };
 

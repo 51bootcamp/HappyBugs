@@ -29,11 +29,12 @@ module.exports = (sequelize, DataTypes) => {
     type: {
       type: DataTypes.STRING(1),
       allowNull: true,
-    },
+    }
   });
 
   report.associate = (models) => {
     report.belongsTo(models.user, {foreignKey: 'userID'});
+    report.belongsTo(models.perpetrator, {foreignKey: 'perpetratorID'})
   };
 
   return report;
