@@ -71,7 +71,7 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
         buttons.whoBtn.setOnClickListener(this);
         buttons.detailsBtn.setOnClickListener(this);
         buttons.saveBtn.setOnClickListener(this);
-        buttons.deletBtn.setOnClickListener(this);
+        buttons.closeBtn.setOnClickListener(this);
     }
 
     @Override

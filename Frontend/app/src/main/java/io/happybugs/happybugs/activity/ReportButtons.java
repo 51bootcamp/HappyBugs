@@ -12,17 +12,17 @@ public class ReportButtons extends AppCompatActivity {
     Button whoBtn;
     Button detailsBtn;
     Button saveBtn;
-    ImageButton deletBtn;
+    ImageButton closeBtn;
 
     public ReportButtons(Button whatBtn, Button whereBtn, Button whenBtn,
-                   Button whoBtn, Button detailsBtn, Button saveBtn, ImageButton delteBtn) {
+                   Button whoBtn, Button detailsBtn, Button saveBtn, ImageButton closeBtn) {
         this.whatBtn = whatBtn;
         this.whereBtn = whereBtn;
         this.whenBtn = whenBtn;
         this.whoBtn = whoBtn;
         this.detailsBtn = detailsBtn;
         this.saveBtn = saveBtn;
-        this.deletBtn = delteBtn;
+        this.closeBtn = closeBtn;
     }
 
     public Button getWhatBtn() {
