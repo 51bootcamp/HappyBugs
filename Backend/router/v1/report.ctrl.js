@@ -29,7 +29,7 @@ const showReportList = (req, res) => {
     }
   }).then((result) => {
     res.status(200);
-    res.json(result);
+    res.json({data: result});
   }).catch((err) => {
     res.json({statusCode: 3007});
   });
@@ -51,7 +51,7 @@ const findReport = (req, res) => {
     if (result == 0) {
       res.json({statusCode: 1002});
     } else {
-      res.json(result);
+      res.json({data: result});
     }
   }).catch((err) => {
     res.json({statusCode: 3008});
