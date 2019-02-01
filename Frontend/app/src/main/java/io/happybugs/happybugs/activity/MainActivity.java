@@ -3,6 +3,7 @@ package io.happybugs.happybugs.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -23,6 +24,25 @@ public class MainActivity extends AppCompatActivity
 
     private Context currContext = this;
     private Button btnStartReport;
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.nav_home:
+                    startActivity(new Intent(currContext, MainActivity.class));
+                    return true;
+                case R.id.nav_create:
+                    startActivity(new Intent(currContext, ReportActivity.class));
+                    return true;
+                case R.id.nav_account:
+                    //TODO(minoring): Build after account view is created.
+                    return true;
+            }
+            return false;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +53,13 @@ public class MainActivity extends AppCompatActivity
         btnStartReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(currContext,ReportActivity.class));
+                startActivity(new Intent(currContext, ReportActivity.class));
             }
         });
 
         BottomNavigationView bottomNavigationView =
                 (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
