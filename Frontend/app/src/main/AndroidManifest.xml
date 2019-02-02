@@ -24,7 +24,7 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity android:name=".activity.ReportActivity"
-            android:windowSoftInputMode="adjustPan"
+            android:windowSoftInputMode="adjustResize"
             android:parentActivityName=".activity.MainActivity">
         </activity>
     </application>
