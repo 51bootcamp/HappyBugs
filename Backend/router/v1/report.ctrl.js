@@ -78,7 +78,12 @@ const findReport = (req, res) => {
   models.report.findAll({
     where: {
       id: reportId
-    }
+    },
+    include: [{
+      model: models.perpetrator,
+      attributes: ['facebook_url', 'reporting_user_count']
+    }],
+    attributes: ['id', 'what', 'location', 'who', 'time', 'details', 'type', 'createdAt', 'updatedAt']
   }).then ((result) => {
     if (result == 0) {
       res.json({statusCode: 1002});
