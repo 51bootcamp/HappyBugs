@@ -8,14 +8,14 @@ function updatePerpetrator (perpetratorID) {
       perpetratorID: perpetratorID
     }
   }).then((count) => {
-      models.perpetrator.update({
-        reporting_user_count: count.length
-      },{
-        where: {
-          id: perpetratorID
-        }
-      });
+    models.perpetrator.update({
+      reporting_user_count: count.length
+    },{
+      where: {
+        id: perpetratorID
+      }
     });
+  });
 }
 
 const createReport = (req, res) => {
@@ -28,19 +28,19 @@ const createReport = (req, res) => {
       facebook_url: req.body.data[0].facebook_url
     }
   }).then((result) => {
+    let pid = result[0].id;
+
     models.report.create({
       what: req.body.data[0].what,
       location: req.body.data[0].location,
       time: req.body.data[0].time,
       who: req.body.data[0].who,
       details: req.body.data[0].details,
-      perpetratorID: result[0].id,
+      perpetratorID: pid,
       userID: req.user[0].dataValues.id
     }).then((result2) => {
       updatePerpetrator(result2.perpetratorID);
-      res.status(201).json({
-        id: result2.id
-      });
+      res.status(201).json({id: result2.id});
     });
   });
 };
@@ -104,39 +104,19 @@ const deleteReport = (req, res) => {
   if (Number.isNaN(reportId)) {
     return res.status(400).end();
   }
-
-  models.report.findAll({
-   where: {
-     id: reportId,
-     userID: req.user[0].dataValues.id
-   }
+  models.report.destroy({
+    where: {
+      id: reportId
+    }
   }).then((result) => {
-
-      models.report.destroy({where: {
-        id: reportId,
-        userID: req.user[0].dataValues.id
-      }}).then((desresult) => {
-            if (!desresult) {
-              res.json({statusCode: 1002})
-            } else {
-              res.json({
-                statusCode: 120
-              })
-            }
-        });
-
-        return result;
-  }).then((result) => {
-    console.log(result);
-    if (result != 0) {
-      console.log(result[0].perpetratorID);
-      updatePerpetrator(result[0].perpetratorID);
+    if (result == 0) {
+      res.json({statusCode: 1002});
+    } else {
+      res.status(204).end();
     }
   }).catch((err) => {
-    console.log(err);
     res.json({statusCode: 3009});
   });
-
 };
 
 const editReport = (req, res) => {
