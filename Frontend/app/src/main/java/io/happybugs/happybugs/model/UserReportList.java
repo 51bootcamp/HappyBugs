@@ -8,13 +8,13 @@ import java.util.List;
 public class UserReportList {
     @SerializedName("data")
     @Expose
-    private List<UserReportList> data = null;
+    private List<UserReportItem> data = null;
 
-    public List<UserReportList> getData() {
+    public List<UserReportItem> getData() {
         return data;
     }
 
-    public void setData(List<UserReportList> data) {
+    public void setData(List<UserReportItem> data) {
         this.data = data;
     }
 }

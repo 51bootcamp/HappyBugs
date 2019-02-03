@@ -9,8 +9,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import io.happybugs.happybugs.R;
+import io.happybugs.happybugs.model.UserReportItem;
+import io.happybugs.happybugs.model.UserReportList;
 
 public class ReportListViewAdapter extends BaseAdapter {
 
@@ -62,5 +65,11 @@ public class ReportListViewAdapter extends BaseAdapter {
         item.setReportContent(content);
 
         reportList.add(item);
+    }
+
+    public void addAll(List<UserReportItem> userReportList) {
+        for (UserReportItem item : userReportList) {
+            addItem(item.getWhat());
+        }
     }
 }
