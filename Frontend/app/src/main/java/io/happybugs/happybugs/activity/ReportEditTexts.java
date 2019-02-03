@@ -39,8 +39,8 @@ public class ReportEditTexts extends AppCompatActivity {
     }
 
     public String getFacebookIDText(){
-        String temp = facebookIDText.getText().toString();
-        return temp.substring(25);
+        String uniqueURL = facebookIDText.getText().toString();
+        return uniqueURL.substring(25);
     }
 
     public String getDetailsText() {
