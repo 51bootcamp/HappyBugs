@@ -19,6 +19,8 @@ import android.widget.Toast;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.util.ArrayList;
+
 import io.happybugs.happybugs.APIInterface.APIInterface;
 import io.happybugs.happybugs.R;
 import io.happybugs.happybugs.network.RetrofitInstance;
@@ -41,6 +43,7 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
 
+        currContext = this;
         // Create question buttons and 'Save and Exit' button.
         buttons = new ReportButtons((Button) findViewById(R.id.whatBtn),
                 (Button) findViewById(R.id.whereBtn), (Button) findViewById(R.id.whenBtn),
@@ -224,35 +227,24 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
 
     // POST report data to server.
     protected void sendReportData() {
-        JSONObject what = new JSONObject();
-        what.put("what", editTexts.getWhatText());
-        JSONObject location = new JSONObject();
-        location.put("location", editTexts.getWhereText());
-        JSONObject time = new JSONObject();
-        time.put("time", editTexts.getWhenText());
-        JSONObject who = new JSONObject();
-        who.put("who", editTexts.getWhoText());
-        JSONObject details = new JSONObject();
-        details.put("details", editTexts.getDetailsText());
-        JSONObject facebookURL = new JSONObject();
-        facebookURL.put("facebook_url", editTexts.getFacebookIDText());
+        JSONObject innerObj = new JSONObject();
+        innerObj.put("what", editTexts.getWhatText());
+        innerObj.put("location", editTexts.getWhereText());
+        innerObj.put("time", editTexts.getWhenText());
+        innerObj.put("who", editTexts.getWhoText());
+        innerObj.put("details", editTexts.getDetailsText());
+        innerObj.put("facebook_url", editTexts.getFacebookIDText());
 
-        JSONArray dataArray = new JSONArray();
-        dataArray.add(what);
-        dataArray.add(location);
-        dataArray.add(time);
-        dataArray.add(who);
-        dataArray.add(details);
-        dataArray.add(facebookURL);
+        ArrayList<JSONObject> dataArray = new ArrayList<>();
+        dataArray.add(innerObj);
 
-        JSONObject userReport = new JSONObject();
-        userReport.put("data", dataArray);
+        JSONObject outerObj = new JSONObject();
+        outerObj.put("data", dataArray);
 
-        Retrofit rfInstance;
-        rfInstance = RetrofitInstance.getInstance(currContext);
+        Retrofit rfInstance = RetrofitInstance.getInstance(currContext);
         APIInterface service = rfInstance.create(APIInterface.class);
 
-        Call<ResponseBody> request = service.createReport(userReport);
+        Call<ResponseBody> request = service.createReport(outerObj);
         request.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
