@@ -1,11 +1,27 @@
 const models = require('../../models');
 
+function updatePerpetrator (perpetratorID) {
+  models.report.count({
+    group: ['userID', 'perpetratorID'],
+    attributes: ['userID', 'perpetratorID'],
+    where: {
+      perpetratorID: perpetratorID
+    }
+  }).then((count) => {
+      models.perpetrator.update({
+        reporting_user_count: count.length
+      },{
+        where: {
+          id: perpetratorID
+        }
+      });
+    });
+}
+
 const createReport = (req, res) => {
   if (!req.isAuthenticated()) {
     return res.status(403).json({statusCode: 3005});
   }
-
-  let reportedID;
 
   models.perpetrator.findOrCreate({
     where: {
@@ -20,27 +36,11 @@ const createReport = (req, res) => {
       details: req.body.data[0].details,
       perpetratorID: result[0].id,
       userID: req.user[0].dataValues.id
-    }).then((result) => {
-      reportedID = result.id;
-
-      models.report.count({
-        group: ['userID', 'perpetratorID'],
-        attributes: ['userID', 'perpetratorID'],
-        where: {
-          perpetratorID: result.perpetratorID
-        }
-      }).then((count) => {
-          models.perpetrator.update({
-            reporting_user_count: count.length
-          },{
-            where: {
-              id: count[0].perpetratorID
-            }
-          });
-          res.status(201).json({
-            id: reportedID
-          });
-        });
+    }).then((result2) => {
+      updatePerpetrator(result2.perpetratorID);
+      res.status(201).json({
+        id: result2.id
+      });
     });
   });
 };
@@ -77,7 +77,8 @@ const findReport = (req, res) => {
   }
   models.report.findAll({
     where: {
-      id: reportId
+      id: reportId,
+      userID: req.user[0].dataValues.id
     },
     include: [{
       model: models.perpetrator,
@@ -103,19 +104,39 @@ const deleteReport = (req, res) => {
   if (Number.isNaN(reportId)) {
     return res.status(400).end();
   }
-  models.report.destroy({
-    where: {
-      id: reportId
-    }
+
+  models.report.findAll({
+   where: {
+     id: reportId,
+     userID: req.user[0].dataValues.id
+   }
   }).then((result) => {
-    if (result == 0) {
-      res.json({statusCode: 1002});
-    } else {
-      res.status(204).end();
+
+      models.report.destroy({where: {
+        id: reportId,
+        userID: req.user[0].dataValues.id
+      }}).then((desresult) => {
+            if (!desresult) {
+              res.json({statusCode: 1002})
+            } else {
+              res.json({
+                statusCode: 120
+              })
+            }
+        });
+
+        return result;
+  }).then((result) => {
+    console.log(result);
+    if (result != 0) {
+      console.log(result[0].perpetratorID);
+      updatePerpetrator(result[0].perpetratorID);
     }
   }).catch((err) => {
+    console.log(err);
     res.json({statusCode: 3009});
   });
+
 };
 
 const editReport = (req, res) => {
@@ -139,7 +160,10 @@ const editReport = (req, res) => {
       who: newWho,
       details: newDetails
     },{
-      where: {id: reportId}
+      where: {
+        id: reportId,
+        userID: req.user[0].dataValues.id
+      }
   }).then((result) => {
     if (result == 0) {
       res.json({statusCode: 1002});
