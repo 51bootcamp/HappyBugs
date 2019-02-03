@@ -19,6 +19,8 @@ import android.widget.Toast;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.util.ArrayList;
+
 import io.happybugs.happybugs.APIInterface.APIInterface;
 import io.happybugs.happybugs.R;
 import io.happybugs.happybugs.network.RetrofitInstance;
@@ -34,17 +36,20 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
     ReportCheckBoxes checkBoxes;
     ReportViews views;
     Context currContext;
+    InputMethodManager imm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
 
+        currContext = this;
         // Create question buttons and 'Save and Exit' button.
         buttons = new ReportButtons((Button) findViewById(R.id.whatBtn),
                 (Button) findViewById(R.id.whereBtn), (Button) findViewById(R.id.whenBtn),
                 (Button) findViewById(R.id.whoBtn), (Button) findViewById(R.id.detailsBtn),
-                (Button) findViewById(R.id.saveBtn), (ImageButton) findViewById(R.id.close_report_act));
+                (Button) findViewById(R.id.saveBtn),
+                (ImageButton) findViewById(R.id.close_report_act));
 
         // Create answer texts.
         editTexts = new ReportEditTexts((EditText) findViewById(R.id.whatText),
@@ -65,6 +70,10 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
                 (View) findViewById(R.id.facebook_text_input),
                 (View) findViewById(R.id.detailsView));
 
+        imm = (InputMethodManager)
+                getSystemService(Activity.INPUT_METHOD_SERVICE);
+
+        startReport(editTexts.whatText, views.whatView, buttons.saveBtn);
         buttons.whatBtn.setOnClickListener(this);
         buttons.whereBtn.setOnClickListener(this);
         buttons.whenBtn.setOnClickListener(this);
@@ -93,10 +102,12 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
                 enableAnswerText(editTexts, editTexts.whoText, views.facebookView);
                 enableUnderline(views, views.whoView, editTexts.whoText);
 
-                editTexts.whoText.addTextChangedListener(new WhoTextChange(editTexts.whoText, editTexts.facebookIDText,
-                        editTexts.whoText, checkBoxes.whoCheck, buttons.saveBtn));
-                editTexts.facebookIDText.addTextChangedListener(new WhoTextChange(editTexts.whoText, editTexts.facebookIDText,
-                        editTexts.whoText, checkBoxes.whoCheck, buttons.saveBtn));
+                editTexts.whoText.addTextChangedListener(new WhoTextChange(editTexts.whoText,
+                        editTexts.facebookIDText, editTexts.whoText,
+                        checkBoxes.whoCheck, buttons.saveBtn));
+                editTexts.facebookIDText.addTextChangedListener(new WhoTextChange(editTexts.whoText,
+                        editTexts.facebookIDText, editTexts.whoText,
+                        checkBoxes.whoCheck, buttons.saveBtn));
                 break;
             case R.id.detailsBtn:
                 questionClickEvent(editTexts, editTexts.detailsText, checkBoxes.detailsCheck,
@@ -111,6 +122,12 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    // Start report with what question text open.
+    public void startReport(EditText editText, View view, Button button){
+        editText.setVisibility(View.VISIBLE);
+        view.setVisibility(View.GONE);
+        button.setVisibility(View.GONE);
+    }
     // This is an event handler function of question click event.
     // It deals with all the actions needed on clicking a question.
     public void questionClickEvent(ReportEditTexts editTexts, EditText editText,
@@ -181,8 +198,6 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
 
     public void showKeyboard(final EditText editText){
         editText.requestFocus();
-        final InputMethodManager imm = (InputMethodManager)
-                getSystemService(Activity.INPUT_METHOD_SERVICE);
 
         if (isSoftKeyboardShown(imm, editText)){
             imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
@@ -192,13 +207,11 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
 
     public void closeKeyboard(EditText editText){
         editText.clearFocus();
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
         buttons.saveBtn.setVisibility(View.VISIBLE);
     }
 
-
-    protected  boolean isSoftKeyboardShown(InputMethodManager imm, View v){
+    protected boolean isSoftKeyboardShown(InputMethodManager imm, View v){
         KeyboardActionResult result = new KeyboardActionResult();
         int res;
 
@@ -214,35 +227,24 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
 
     // POST report data to server.
     protected void sendReportData() {
-        JSONObject what = new JSONObject();
-        what.put("what", editTexts.getWhatText());
-        JSONObject location = new JSONObject();
-        location.put("location", editTexts.getWhereText());
-        JSONObject time = new JSONObject();
-        time.put("time", editTexts.getWhenText());
-        JSONObject who = new JSONObject();
-        who.put("who", editTexts.getWhoText());
-        JSONObject details = new JSONObject();
-        details.put("details", editTexts.getDetailsText());
-        JSONObject facebookURL = new JSONObject();
-        facebookURL.put("facebook_url", editTexts.getFacebookIDText());
+        JSONObject innerObj = new JSONObject();
+        innerObj.put("what", editTexts.getWhatText());
+        innerObj.put("location", editTexts.getWhereText());
+        innerObj.put("time", editTexts.getWhenText());
+        innerObj.put("who", editTexts.getWhoText());
+        innerObj.put("details", editTexts.getDetailsText());
+        innerObj.put("facebook_url", editTexts.getFacebookIDText());
 
-        JSONArray dataArray = new JSONArray();
-        dataArray.add(what);
-        dataArray.add(location);
-        dataArray.add(time);
-        dataArray.add(who);
-        dataArray.add(details);
-        dataArray.add(facebookURL);
+        ArrayList<JSONObject> dataArray = new ArrayList<>();
+        dataArray.add(innerObj);
 
-        JSONObject userReport = new JSONObject();
-        userReport.put("data", dataArray);
+        JSONObject outerObj = new JSONObject();
+        outerObj.put("data", dataArray);
 
-        Retrofit rfInstance;
-        rfInstance = RetrofitInstance.getInstance(currContext);
+        Retrofit rfInstance = RetrofitInstance.getInstance(currContext);
         APIInterface service = rfInstance.create(APIInterface.class);
 
-        Call<ResponseBody> request = service.createReport(userReport);
+        Call<ResponseBody> request = service.createReport(outerObj);
         request.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
