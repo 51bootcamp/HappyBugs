@@ -1,19 +1,20 @@
 package io.happybugs.happybugs.activity;
 
+import android.content.ContentUris;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 
 public class ReportEditTexts extends AppCompatActivity {
-    EditText whatText;
-    EditText whereText;
-    EditText whenText;
-    EditText whoText;
+    CustomEditText whatText;
+    CustomEditText whereText;
+    CustomEditText whenText;
+    CustomEditText whoText;
     EditText facebookIDText;
-    EditText detailsText;
+    CustomEditText detailsText;
 
-    public ReportEditTexts(EditText whatText, EditText whereText, EditText whenText,
-                           EditText whoText, EditText facebookIDText, EditText detailsText) {
+    public ReportEditTexts(CustomEditText whatText, CustomEditText whereText, CustomEditText whenText,
+                           CustomEditText whoText, EditText facebookIDText, CustomEditText detailsText) {
         this.whatText = whatText;
         this.whereText = whereText;
         this.whenText = whenText;
