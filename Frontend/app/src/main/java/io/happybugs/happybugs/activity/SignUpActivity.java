@@ -41,7 +41,7 @@ public class SignUpActivity extends AppCompatActivity {
         currContext = this;
         etRegEmail = (EditText) findViewById(R.id.editText_reg_email);
         etRegPW = (EditText) findViewById(R.id.editText_reg_pw);
-        etRegPWCheck = (EditText) findViewById(R.id.editText_reg_pw);
+        etRegPWCheck = (EditText) findViewById(R.id.editText_reg_pw_check);
         btnStartSignUp = (Button) findViewById(R.id.button_signup);
 
         btnStartSignUp.setOnClickListener(new View.OnClickListener() {
