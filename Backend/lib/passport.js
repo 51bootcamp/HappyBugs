@@ -1,5 +1,8 @@
 const models = require('../models');
-const crypto = require('crypto')
+const crypto = require('crypto');
+
+const loginLimitCount = 3;
+const restrictTime = 30;
 
 module.exports = (app) => {
   const passport = require('passport');
@@ -36,10 +39,16 @@ module.exports = (app) => {
         }
       }).then(result => {
         if (result == "") {
-          return done(null, false, {msg: 'incorrect user'});
+          return done(null, false, {msg: 'Incorrect user'});
+        }
+        // Check number of login attempts
+        // Last login attempt time - current login attempt time
+        // Limit login attempt to a 30 minute
+        if (result[0].loginFailCount == loginLimitCount && ((Date.now() - Number(new Date(result[0].updatedAt)))/100000) < restrictTime) {
+          return done(null, false, {msg: 'Login restricted'});
         }
         if (hashedPassword !== result[0].password) {
-          return done(null, false, {msg: 'incorrect password'});
+          return done(null, false, {msg: 'Incorrect id or password'});
         }
         return done(null, result[0]);
       });
