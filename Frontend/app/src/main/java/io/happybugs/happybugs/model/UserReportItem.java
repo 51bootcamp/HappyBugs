@@ -32,9 +32,9 @@ public class UserReportItem {
     @SerializedName("updatedAt")
     @Expose
     private String updatedAt;
-    @SerializedName("userID")
+    @SerializedName("perpetrator")
     @Expose
-    private Integer userID;
+    private Perpetrator perpetrator;
 
     public Integer getId() {
         return id;
@@ -108,11 +108,12 @@ public class UserReportItem {
         this.updatedAt = updatedAt;
     }
 
-    public Integer getUserID() {
-        return userID;
+    public Perpetrator getPerpetrator() {
+        return perpetrator;
     }
 
-    public void setUserID(Integer userID) {
-        this.userID = userID;
+    public void setPerpetrator(Perpetrator perpetrator) {
+        this.perpetrator = perpetrator;
     }
+
 }
