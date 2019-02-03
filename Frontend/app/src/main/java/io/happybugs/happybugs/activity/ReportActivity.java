@@ -224,6 +224,8 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
         who.put("who", editTexts.getWhoText());
         JSONObject details = new JSONObject();
         details.put("details", editTexts.getDetailsText());
+        JSONObject facebookURL = new JSONObject();
+        facebookURL.put("facebook_url", editTexts.getFacebookIDText());
 
         JSONArray dataArray = new JSONArray();
         dataArray.add(what);
@@ -231,6 +233,7 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
         dataArray.add(time);
         dataArray.add(who);
         dataArray.add(details);
+        dataArray.add(facebookURL);
 
         JSONObject userReport = new JSONObject();
         userReport.put("data", dataArray);
