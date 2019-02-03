@@ -42,4 +42,9 @@
     <string name="whoBtn">Who</string>
     <string name="detailsBtn">Details</string>
     <string name="saveBtn">Save and Exit</string>
+    <string name="dialog_msg">Your report will be erased by closing the page.
+        Are you sure you want to close?</string>
+    <string name="dialog_title">Close Report</string>
+    <string name="dialog_yes_btn">Yes</string>
+    <string name="dialog_no_btn">No</string>
 </resources>

@@ -33,7 +33,7 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
     ReportEditTexts editTexts;
     ReportCheckBoxes checkBoxes;
     ReportViews views;
-    Context currContext = this;
+    Context currContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,8 +106,8 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
                 sendReportData();
                 break;
             case R.id.close_report_act:
-                Intent intent = new Intent(currContext, MainActivity.class);
-                startActivity(intent);
+                CloseReportDialog dialog = new CloseReportDialog();
+                dialog.show(getSupportFragmentManager(), "close");
         }
     }
 
