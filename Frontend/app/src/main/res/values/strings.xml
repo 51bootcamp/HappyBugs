@@ -9,7 +9,19 @@
     <string name="nav_home">Home</string>
     <string name="nav_create">Create</string>
     <string name="nav_account">Account</string>
-    <string name="home_title"><b>What To Expect at Happy Maker</b></string>
+    <!--IntroActivity-->
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="got_it">GOT IT</string>
+    <string name="slide1_title">We are here to Hear You</string>
+    <string name="slide1_desc">Step out to take action when you decide to</string>
+    <string name="slide2_title">Private and Safe Space</string>
+    <string name="slide2_desc">Provide a private and reliable space for recording incidents</string>
+    <string name="slide3_title">Matching System</string>
+    <string name="slide3_desc">Connect other people who have been assaulted by the same perpetrator</string>
+    <string name="get_started">Get Started</string>
+    <!--Home-->
+    <string name="home_title"><b>What To Expect at HearYou</b></string>
     <string name="home_content">
         We want to empower you to make the\n
         choice that\'s right for you. Here\'s what you\n
@@ -25,7 +37,7 @@
     <string name="home_report_delete">DELETE</string>
     <string name="start_report_button">START A NEW REPORT</string>
     <!--SignIn & SignUp-->
-    <string name="text_welcome">Welcome To PeaceMaker</string>
+    <string name="text_welcome">Welcome To HearYou</string>
     <string name="text_email">Email</string>
     <string name="text_password">Password</string>
     <string name="text_login">LOG IN</string>

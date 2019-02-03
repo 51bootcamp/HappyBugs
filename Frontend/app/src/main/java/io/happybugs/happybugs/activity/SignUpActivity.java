@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -53,17 +52,11 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void startSignUp() {
-        //Need to discuss which activity should be opened
         if (!isValidSignUpForm()) {
             Toast.makeText(getBaseContext(), "SignUp Failed", Toast.LENGTH_LONG).show();
-            //btnStartSignUp.setEnabled(true);
             return;
         }
-        //btnStartSignUp.setEnabled(false);
-        //TODO(Jelldo): open HomeActivity if get success register
-        //Need to discuss which activity should be opened
         sendUserInfo();
-
     }
 
     private boolean isValidSignUpForm() {
@@ -88,7 +81,6 @@ public class SignUpActivity extends AppCompatActivity {
             etRegPW.setError(null);
         }
 
-        //Check password twice
         if (!userPWCheck.equals(userPW)) {
             /* INVALID PASSWORD */
             etRegPWCheck.setError("Passwords must match");
@@ -104,7 +96,6 @@ public class SignUpActivity extends AppCompatActivity {
         userEmail = etRegEmail.getText().toString();
         userPW = etRegPW.getText().toString();
 
-        //TODO(Jelldo): register userData
         Retrofit rfInstance = new RetrofitInstance().getInstance(currContext);
         APIInterface service = rfInstance.create(APIInterface.class);
 
@@ -117,22 +108,17 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.code() == 201) {
-                    //Succeed to sign up
                     startActivity(new Intent(currContext, MainActivity.class));
-                    //TODO(Jelldo): need to kill SignUpActivity when HomeActivity is opened
-                    //finish();
+                    finish();
                 } else if (response.code() == 409) {
-                    //ID has already been taken
                     Toast.makeText(getBaseContext(), "That email is taken. Try another.", Toast.LENGTH_LONG).show();
                 } else if (response.code() == 400) {
-                    //PW Shorter than 8
                     Toast.makeText(getBaseContext(), "Password should be longer than 8.", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                //Network Failure
                 Toast.makeText(getBaseContext(), "Sign-Up failed due to network error", Toast.LENGTH_LONG).show();
             }
         });
