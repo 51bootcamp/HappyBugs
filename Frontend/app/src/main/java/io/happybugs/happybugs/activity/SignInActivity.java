@@ -41,12 +41,9 @@ public class SignInActivity extends AppCompatActivity {
         btnStartSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO(Jelldo): make counter for preventing multiple login attempts
-                //Will be defined in Backend
                 startSignIn();
             }
         });
-
         btnOpenSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,11 +55,8 @@ public class SignInActivity extends AppCompatActivity {
     public void startSignIn() {
         if (!isValidSignInForm()) {
             Toast.makeText(getBaseContext(), "Login Failed", Toast.LENGTH_LONG).show();
-            //btnStartSignIn.setEnabled(true);
             return;
         }
-        //btnStartSignIn.setEnabled(false);
-
         String userEmail = etUserEmail.getText().toString();
         String userPwd = etUserPW.getText().toString();
 
@@ -74,20 +68,16 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 //TODO(Jelldo): get ResponseBody too
-                //Sign-In success
                 if (response.code() == 200) {
-                    //GET Body here
-                    //Toast.makeText(getBaseContext(), "Login success", Toast.LENGTH_LONG).show();
                     //TODO(Jelldo): add progressbar, make async
-                    final int DELAY_MILLIS = 3000;
+                    final int DELAY_MILLIS = 1500;
                     new android.os.Handler().postDelayed(
                             new Runnable() {
                                 @Override
                                 public void run() {
                                     //TODO(Jelldo): need to change into HomeActivity
                                     startActivity(new Intent(currContext, MainActivity.class));
-                                    //finish();
-                                    //dismiss dialogs, close cursors, close search dialogs
+                                    finish();
                                 }
                             }, DELAY_MILLIS);
                 } else if (response.code() == 401) {
@@ -98,7 +88,6 @@ public class SignInActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                //Network Failure
                 Toast.makeText(getBaseContext(), "Login failed due to network error", Toast.LENGTH_LONG).show();
             }
         });
@@ -120,7 +109,6 @@ public class SignInActivity extends AppCompatActivity {
         } else {
             etUserEmail.setError(null);
         }
-
         if (userPwd.isEmpty() || userPwd.length() < 8) {
             etUserPW.setError("Longer than alphanumeric characters");
             isValid = false;
