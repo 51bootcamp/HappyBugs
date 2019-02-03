@@ -49,10 +49,16 @@ const showReportList = (req, res) => {
   if (!req.isAuthenticated()) {
     return res.status(403).json({statusCode: 3005});
   }
+
   models.report.findAll({
     where: {
       userID: req.user[0].dataValues.id
-    }
+    },
+    include: [{
+      model: models.perpetrator,
+      attributes: ['facebook_url', 'reporting_user_count']
+    }],
+    attributes: ['id', 'what', 'location', 'who', 'time', 'details', 'type', 'createdAt', 'updatedAt']
   }).then((result) => {
     res.status(200);
     res.json({data: result});
@@ -72,7 +78,12 @@ const findReport = (req, res) => {
   models.report.findAll({
     where: {
       id: reportId
-    }
+    },
+    include: [{
+      model: models.perpetrator,
+      attributes: ['facebook_url', 'reporting_user_count']
+    }],
+    attributes: ['id', 'what', 'location', 'who', 'time', 'details', 'type', 'createdAt', 'updatedAt']
   }).then ((result) => {
     if (result == 0) {
       res.json({statusCode: 1002});
