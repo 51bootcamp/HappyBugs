@@ -101,18 +101,31 @@ const deleteReport = (req, res) => {
     return res.status(403).json({statusCode: 3005});
   }
   const reportId = parseInt(req.query.reportId);
+  const userId = req.user[0].dataValues.id;
   if (Number.isNaN(reportId)) {
     return res.status(400).end();
   }
-  models.report.destroy({
+  
+  models.report.findAll({
     where: {
-      id: reportId
+      id: reportId,
+      userID: userId
     }
   }).then((result) => {
     if (result == 0) {
       res.json({statusCode: 1002});
     } else {
-      res.status(204).end();
+      let pid = result[0].perpetratorID;
+
+      models.report.destroy({
+        where: {
+          id: reportId,
+          userID: userId
+        }
+      }).then((destroyResult) => {
+        updatePerpetrator(pid);
+        res.status(204).end();
+      });
     }
   }).catch((err) => {
     res.json({statusCode: 3009});
