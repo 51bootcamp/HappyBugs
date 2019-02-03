@@ -19,20 +19,20 @@ public class CloseReportDialog extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(R.string.dialog_msg)
-                .setTitle(R.string.dialog_title)
-                .setPositiveButton(R.string.dialog_yes_btn, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(getContext(), MainActivity.class);
-                        startActivity(intent);
-                    }
-                })
-                .setNegativeButton(R.string.dialog_no_btn, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
+               .setTitle(R.string.dialog_title)
+               .setPositiveButton(R.string.dialog_yes_btn, new DialogInterface.OnClickListener() {
+                   @Override
+                   public void onClick(DialogInterface dialog, int which) {
+                       Intent intent = new Intent(getContext(), MainActivity.class);
+                       startActivity(intent);
+                   }
+               })
+               .setNegativeButton(R.string.dialog_no_btn, new DialogInterface.OnClickListener() {
+                   @Override
+                   public void onClick(DialogInterface dialog, int which) {
+                       dialog.cancel();
+                   }
+               });
         return builder.create();
     }
 }
