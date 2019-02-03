@@ -23,16 +23,12 @@ module.exports = (passport) => {
 
   router.get('/signin-success', (req, res) => {
     res.status(200);
-    res.json({
-      msg: "Signin success"
-    });
+    res.json({statusCode: 2001});
   });
 
   router.get('/signin-failure', (req, res) => {
     res.status(401);
-    res.json({
-      msg: "Signin failed"
-    });
+    res.json({statusCode: 3001});
   });
 
   router.get('/signout', (req, res) => {
@@ -40,14 +36,10 @@ module.exports = (passport) => {
       res.status(200);
       req.session.destroy();
       res.clearCookie('sid');
-      res.json({
-        msg: "Signout success"
-      });
+      res.json({statusCode: 2002});
     } else {
       res.status(403);
-      res.json({
-        msg: "Signout failed"
-      });
+      res.json({statusCode: 3002});
     }
   });
 
@@ -63,23 +55,17 @@ module.exports = (passport) => {
       // If data is not found. The result is null.
       if (result == "") {
         if((req.body.password.length < MIN_PASSWORD_LENGTH)) {
-          res.status(400).json({
-            msg :"Password must be at least " + MIN_PASSWORD_LENGTH
-          });
+          res.status(400).json({statusCode: 3003});
         } else {
           models.user.create({
             email : req.body.email,
             password : hashedPassword
           }).then(result => {
-              res.status(201).json({
-                msg: "Account successfully created"
-              });
+              res.status(201).json({statusCode: 2003});
           });
         }
       } else {
-        res.status(409).json({
-          msg: "This member already exists"
-        })
+        res.status(409).json({statusCode: 3004});
       }
     }).catch(err => {
       res.send(err);
