@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -52,11 +53,11 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
                 (ImageButton) findViewById(R.id.close_report_act));
 
         // Create answer texts.
-        editTexts = new ReportEditTexts((EditText) findViewById(R.id.whatText),
-                (EditText) findViewById(R.id.whereText), (EditText) findViewById(R.id.whenText),
-                (EditText) findViewById(R.id.whoText),
+        editTexts = new ReportEditTexts((CustomEditText) findViewById(R.id.whatText),
+                (CustomEditText) findViewById(R.id.whereText), (CustomEditText) findViewById(R.id.whenText),
+                (CustomEditText) findViewById(R.id.whoText),
                 (EditText) findViewById(R.id.facebook_edit_text),
-                (EditText) findViewById(R.id.detailsText));
+                (CustomEditText) findViewById(R.id.detailsText));
 
         // Create checkboxes.
         // Checkboxes are enabled whenever a question is answered.
@@ -81,6 +82,8 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
         buttons.detailsBtn.setOnClickListener(this);
         buttons.saveBtn.setOnClickListener(this);
         buttons.closeBtn.setOnClickListener(this);
+
+        onKeyboardDownPressed();
     }
 
     @Override
@@ -202,13 +205,29 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
         if (isSoftKeyboardShown(imm, editText)){
             imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
         }
-        buttons.saveBtn.setVisibility(View.GONE);
+        // Give time lapse between showing keyboard and setting save button to invisibility.
+        final int DELAY_MILLIS = 100;
+        new android.os.Handler().postDelayed(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        buttons.saveBtn.setVisibility(View.GONE);
+                    }
+                }, DELAY_MILLIS);
     }
 
     public void closeKeyboard(EditText editText){
         editText.clearFocus();
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-        buttons.saveBtn.setVisibility(View.VISIBLE);
+        // Give time lapse between closing keyboard and setting save button to visibility.
+        final int DELAY_MILLIS = 100;
+        new android.os.Handler().postDelayed(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        buttons.saveBtn.setVisibility(View.VISIBLE);
+                    }
+                }, DELAY_MILLIS);
     }
 
     protected boolean isSoftKeyboardShown(InputMethodManager imm, View v){
@@ -220,8 +239,31 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
         if (res == InputMethodManager.RESULT_UNCHANGED_SHOWN ||
                 res == InputMethodManager.RESULT_UNCHANGED_HIDDEN) {
             return true;
-        } else {
-            return false;
+        }
+        return false;
+    }
+
+    // Shows save button when keyboard down button pressed.
+    protected void onKeyboardDownPressed(){
+        CustomEditText[] texts = {editTexts.whatText, editTexts.whereText, editTexts.whenText,
+                editTexts.whoText, editTexts.detailsText};
+        for (CustomEditText text : texts) {
+            text.setKeyImeChangeListener(new CustomEditText.KeyImeChange() {
+                @Override
+                public void onKeyIme(int keyCode, KeyEvent event) {
+                    if (KeyEvent.KEYCODE_BACK == event.getKeyCode()) {
+                        // Give time lapse between closing keyboard and setting save button to visibility.
+                        final int DELAY_MILLIS = 200;
+                        new android.os.Handler().postDelayed(
+                                new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        buttons.saveBtn.setVisibility(View.VISIBLE);
+                                    }
+                                }, DELAY_MILLIS);
+                    }
+                }
+            });
         }
     }
 
