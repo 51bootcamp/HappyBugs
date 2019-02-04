@@ -118,7 +118,7 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
                         buttons.saveBtn, views, views.detailsView, views.facebookView);
                 break;
             case R.id.saveBtn:
-                enableSaveBtn();
+                sendCreatedReport();
                 break;
             case R.id.close_report_act:
                 CloseReportDialog dialog = new CloseReportDialog();
@@ -272,7 +272,7 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
 
     // Report saved only if user writes more than certain amount of what text.
     // Make toast if save button is not clickable.
-    protected void enableSaveBtn() {
+    protected void sendCreatedReport() {
         String whatText = editTexts.whatText.getText().toString();
         if (whatText.isEmpty()) {
             buttons.saveBtn.setClickable(false);
