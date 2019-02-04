@@ -7,6 +7,7 @@ import io.happybugs.happybugs.model.UserReportList;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -24,4 +25,7 @@ public interface APIInterface {
 
     @GET("api/v1/report/list")
     Call<UserReportList> getReportList();
+
+    @DELETE("api/v1/report/delete")
+    Call<ResponseBody> deleteReport(@Query("reportId") int id);
 }
