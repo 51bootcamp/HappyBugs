@@ -9,11 +9,12 @@ When unfortunate incidents, such as sexual assault/harassment occur, victims oft
 ### We are here to hear you.
 
 <div>
-  <image width=200" style="margin:50px" src="https://user-images.githubusercontent.com/40487883/52197123-49410b80-2813-11e9-9360-df7a1ad6c936.jpeg"><image width=200" style="margin:50px" src="https://user-images.githubusercontent.com/40487883/52197134-4f36ec80-2813-11e9-8054-cac041463cb4.jpeg">
-<image width=200" style="margin:50px" src="https://user-images.githubusercontent.com/40487883/52197139-5231dd00-2813-11e9-8318-d144eb2a180d.jpeg">
+  <image width="180" src="https://user-images.githubusercontent.com/40487883/52197123-49410b80-2813-11e9-9360-df7a1ad6c936.jpeg">
+<image width="180" src="https://user-images.githubusercontent.com/40487883/52197134-4f36ec80-2813-11e9-8054-cac041463cb4.jpeg"><br>
+<image width="180" src="https://user-images.githubusercontent.com/40487883/52197139-5231dd00-2813-11e9-8318-d144eb2a180d.jpeg">
+<image width="180" src="https://user-images.githubusercontent.com/40487883/52198607-3e3caa00-2818-11e9-86eb-9d2a52df187c.jpeg">
 </div>   
                                                                                                                                                  
-## Record   
 
 
 
