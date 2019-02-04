@@ -11,7 +11,7 @@ import io.happybugs.happybugs.R;
 
 public class SplashScreen extends AppCompatActivity {
     Context currContext = this;
-    private final int SPLASH_DISPLAY_LENGTH = 2500;
+    private final int SPLASH_DISPLAY_LENGTH = 1500;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
