@@ -18,13 +18,15 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import io.happybugs.happybugs.APIInterface.APIInterface;
 import io.happybugs.happybugs.R;
+import io.happybugs.happybugs.model.UserReportItem;
+import io.happybugs.happybugs.model.UserReportList;
 import io.happybugs.happybugs.network.RetrofitInstance;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -39,6 +41,8 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
     ReportViews views;
     Context currContext;
     InputMethodManager imm;
+    Call<UserReportList> requestReportList;
+    Boolean isFromBtnEditReport;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +50,7 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_report);
 
         currContext = this;
+        isFromBtnEditReport = false;
         // Create question buttons and 'Save and Exit' button.
         buttons = new ReportButtons((Button) findViewById(R.id.whatBtn),
                 (Button) findViewById(R.id.whereBtn), (Button) findViewById(R.id.whenBtn),
@@ -87,6 +92,46 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
 
         onKeyboardDownPressed();
         textTouchListener();
+
+        Retrofit rfInstance = RetrofitInstance.getInstance(currContext);
+        APIInterface service = rfInstance.create(APIInterface.class);
+
+        try {
+            isFromBtnEditReport = getIntent().getExtras().getBoolean("isFromBtnEditReport");
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+        if (isFromBtnEditReport) {
+            final int reportID = getIntent().getExtras().getInt("reportID");
+            requestReportList = service.findReport(reportID);
+            requestReportList.enqueue(new Callback<UserReportList>() {
+                @Override
+                public void onResponse(Call<UserReportList> call, Response<UserReportList> response) {
+                    if (response.code() == 200) {
+                        List<UserReportItem> userReportItems = response.body().getData();
+                        editTexts.whatText.setText(userReportItems.get(0).getWhat());
+                        editTexts.whereText.setText(userReportItems.get(0).getLocation());
+                        editTexts.whenText.setText(userReportItems.get(0).getTime());
+                        editTexts.whoText.setText(userReportItems.get(0).getWho());
+                        editTexts.detailsText.setText(userReportItems.get(0).getDetails());
+                        //TODO(Jelldo): Set facebookIDtext without using String fb concat if it is available
+                        final String fb = "https://www.facebook.com/";
+                        editTexts.facebookIDText.setText(fb.concat(userReportItems.get(0).getPerpetrator().getFacebookUrl()));
+                    } else if (response.code() == 403) {
+                        Toast.makeText(getBaseContext(), "Editing report failed due to session expiration",
+                                Toast.LENGTH_LONG).show();
+                    } else if (response.code() == 400) {
+                        //reportID != Integer
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<UserReportList> call, Throwable t) {
+                    Toast.makeText(getBaseContext(), "Editing report failed due to network error",
+                            Toast.LENGTH_LONG).show();
+                }
+            });
+        }
     }
 
     @Override
@@ -120,7 +165,11 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
                         buttons.saveBtn, views, views.detailsView, views.facebookView);
                 break;
             case R.id.saveBtn:
-                sendCreatedReport();
+                if (isFromBtnEditReport) {
+                    sendEditedReportData();
+                } else {
+                    sendCreatedReport();
+                }
                 break;
             case R.id.close_report_act:
                 CloseReportDialog dialog = new CloseReportDialog();
@@ -129,7 +178,7 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     // Start report with what question text open.
-    public void startReport(EditText editText, View view, Button button){
+    public void startReport(EditText editText, View view, Button button) {
         editText.setVisibility(View.VISIBLE);
         view.setVisibility(View.GONE);
         button.setVisibility(View.VISIBLE);
@@ -205,10 +254,10 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    public void showKeyboard(final EditText editText){
+    public void showKeyboard(final EditText editText) {
         editText.requestFocus();
 
-        if (isSoftKeyboardShown(imm, editText)){
+        if (isSoftKeyboardShown(imm, editText)) {
             imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
         }
         // Give time lapse between showing keyboard and setting save button to invisibility.
@@ -222,7 +271,7 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
                 }, DELAY_MILLIS);
     }
 
-    public void closeKeyboard(EditText editText){
+    public void closeKeyboard(EditText editText) {
         editText.clearFocus();
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
         // Give time lapse between closing keyboard and setting save button to visibility.
@@ -236,7 +285,7 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
                 }, DELAY_MILLIS);
     }
 
-    protected boolean isSoftKeyboardShown(InputMethodManager imm, View v){
+    protected boolean isSoftKeyboardShown(InputMethodManager imm, View v) {
         KeyboardActionResult result = new KeyboardActionResult();
         int res;
 
@@ -250,7 +299,7 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     // Shows save button when keyboard down button pressed.
-    protected void onKeyboardDownPressed(){
+    protected void onKeyboardDownPressed() {
         CustomEditText[] texts = {editTexts.whatText, editTexts.whereText, editTexts.whenText,
                 editTexts.whoText, editTexts.detailsText};
         for (CustomEditText text : texts) {
@@ -290,19 +339,70 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
             Toast.makeText(getBaseContext(), "Please fill out WHAT happened.",
                     Toast.LENGTH_SHORT).show();
             buttons.saveBtn.setClickable(true);
-        } else if (whatText.length() < 20){
+        } else if (whatText.length() < 20) {
             buttons.saveBtn.setClickable(false);
             Toast.makeText(getBaseContext(), "Please fill out more on WHAT happened.",
                     Toast.LENGTH_SHORT).show();
             buttons.saveBtn.setClickable(true);
         } else {
             buttons.saveBtn.setClickable(true);
-            sendReportData();
+            sendNewReportData();
         }
     }
 
     // POST report data to server.
-    protected void sendReportData() {
+    protected void sendNewReportData() {
+        Retrofit rfInstance = RetrofitInstance.getInstance(currContext);
+        APIInterface service = rfInstance.create(APIInterface.class);
+
+        Call<ResponseBody> requestCreatedReport = service.createReport(userData());
+        requestCreatedReport.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.code() == 201) {
+                    startActivity(new Intent(currContext, MainActivity.class));
+                } else if (response.code() == 403) {
+                    Toast.makeText(getBaseContext(), "Your session has expired. Please login again.",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getBaseContext(), "Creating report failed due to network error",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    protected void sendEditedReportData() {
+        Retrofit rfInstance = RetrofitInstance.getInstance(currContext);
+        APIInterface service = rfInstance.create(APIInterface.class);
+
+        Call<ResponseBody> requestEditReport = service.editReport(getIntent().getExtras().getInt("reportID"), userData());
+        requestEditReport.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.code() == 200) {
+                    //edit success
+                    startActivity(new Intent(getBaseContext(), MainActivity.class));
+                    finish();
+                } else if (response.code() == 403) {
+                    Toast.makeText(getBaseContext(), "Your session has expired. Please login again.", Toast.LENGTH_LONG).show();
+                } else if (response.code() == 400) {
+                    //reportID!=integer
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getBaseContext(), "Editing report failed due to network error",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    protected JSONObject userData() {
         JSONObject innerObj = new JSONObject();
         innerObj.put("what", editTexts.getWhatText());
         innerObj.put("location", editTexts.getWhereText());
@@ -316,23 +416,6 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
 
         JSONObject outerObj = new JSONObject();
         outerObj.put("data", dataArray);
-
-        Retrofit rfInstance = RetrofitInstance.getInstance(currContext);
-        APIInterface service = rfInstance.create(APIInterface.class);
-
-        Call<ResponseBody> request = service.createReport(outerObj);
-        request.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Response rb = response;
-                startActivity(new Intent(currContext, MainActivity.class));
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(getBaseContext(), "Creating report failed due to network error",
-                        Toast.LENGTH_LONG).show();
-            }
-        });
+        return outerObj;
     }
 }

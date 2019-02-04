@@ -3,10 +3,8 @@ package io.happybugs.happybugs.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.NetworkOnMainThreadException;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -27,15 +25,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import android.widget.ListView;
-import android.widget.Toast;
-import org.json.simple.JSONArray;
-import java.io.IOException;
+
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private Context currContext = this;
+    private Button btnEditReport;
     Call<UserReportList> requestReportList;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
