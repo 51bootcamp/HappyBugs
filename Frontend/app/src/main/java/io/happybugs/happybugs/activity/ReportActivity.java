@@ -291,8 +291,6 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 Response rb = response;
-                System.out.println(rb.body());
-                //success
                 startActivity(new Intent(currContext, MainActivity.class));
             }
 
