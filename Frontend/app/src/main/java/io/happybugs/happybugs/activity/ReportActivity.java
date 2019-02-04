@@ -75,6 +75,7 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
                 getSystemService(Activity.INPUT_METHOD_SERVICE);
 
         startReport(editTexts.whatText, views.whatView, buttons.saveBtn);
+
         buttons.whatBtn.setOnClickListener(this);
         buttons.whereBtn.setOnClickListener(this);
         buttons.whenBtn.setOnClickListener(this);
@@ -117,7 +118,7 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
                         buttons.saveBtn, views, views.detailsView, views.facebookView);
                 break;
             case R.id.saveBtn:
-                sendReportData();
+                enableSaveBtn();
                 break;
             case R.id.close_report_act:
                 CloseReportDialog dialog = new CloseReportDialog();
@@ -130,7 +131,9 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
         editText.setVisibility(View.VISIBLE);
         view.setVisibility(View.GONE);
         button.setVisibility(View.GONE);
+        enableBoxes(editTexts.whatText, checkBoxes.whatCheck, buttons.saveBtn);
     }
+
     // This is an event handler function of question click event.
     // It deals with all the actions needed on clicking a question.
     public void questionClickEvent(ReportEditTexts editTexts, EditText editText,
@@ -264,6 +267,26 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
                     }
                 }
             });
+        }
+    }
+
+    // Report saved only if user writes more than certain amount of what text.
+    // Make toast if save button is not clickable.
+    protected void enableSaveBtn() {
+        String whatText = editTexts.whatText.getText().toString();
+        if (whatText.isEmpty()) {
+            buttons.saveBtn.setClickable(false);
+            Toast.makeText(getBaseContext(), "Please fill out WHAT happened.",
+                    Toast.LENGTH_SHORT).show();
+            buttons.saveBtn.setClickable(true);
+        } else if (whatText.length() < 20){
+            buttons.saveBtn.setClickable(false);
+            Toast.makeText(getBaseContext(), "Please fill out more on WHAT happened.",
+                    Toast.LENGTH_SHORT).show();
+            buttons.saveBtn.setClickable(true);
+        } else {
+            buttons.saveBtn.setClickable(true);
+            sendReportData();
         }
     }
 
