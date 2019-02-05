@@ -104,7 +104,6 @@ public class ReportListViewAdapter extends BaseAdapter {
                 sendReportID.putExtra("isFromBtnEditReport", true);
                 sendReportID.putExtra("reportID",reportListViewItem.getReportId());
                 v.getContext().startActivity(sendReportID);
-                //((Activity)v.getContext()).finish(); Don't use this
             }
         });
         return convertView;

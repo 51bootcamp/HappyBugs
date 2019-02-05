@@ -261,7 +261,7 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
             imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
         }
         // Give time lapse between showing keyboard and setting save button to invisibility.
-        final int DELAY_MILLIS = 50;
+        final int DELAY_MILLIS = 30;
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     @Override
@@ -275,7 +275,7 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
         editText.clearFocus();
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
         // Give time lapse between closing keyboard and setting save button to visibility.
-        final int DELAY_MILLIS = 50;
+        final int DELAY_MILLIS = 30;
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     @Override
@@ -308,7 +308,7 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
                 public void onKeyIme(int keyCode, KeyEvent event) {
                     if (KeyEvent.KEYCODE_BACK == event.getKeyCode()) {
                         // Give time lapse between closing keyboard and setting save button to visibility.
-                        final int DELAY_MILLIS = 50;
+                        final int DELAY_MILLIS = 30;
                         new android.os.Handler().postDelayed(
                                 new Runnable() {
                                     @Override
