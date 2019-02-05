@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     facebook_url: {
       type: DataTypes.STRING,
+      allowNull: true,
     }
   });
 
