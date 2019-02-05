@@ -23,8 +23,7 @@ public class CloseReportDialog extends DialogFragment {
                .setPositiveButton(R.string.dialog_yes_btn, new DialogInterface.OnClickListener() {
                    @Override
                    public void onClick(DialogInterface dialog, int which) {
-                       Intent intent = new Intent(getContext(), MainActivity.class);
-                       startActivity(intent);
+                       startActivity(new Intent(getContext(), MainActivity.class));
                    }
                })
                .setNegativeButton(R.string.dialog_no_btn, new DialogInterface.OnClickListener() {

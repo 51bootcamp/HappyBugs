@@ -1,6 +1,5 @@
 package io.happybugs.happybugs.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -61,8 +60,8 @@ public class ReportListViewAdapter extends BaseAdapter {
 
         final ReportListViewItem reportListViewItem = reportList.get(position);
 
-        TextView titleTextView = (TextView) convertView.findViewById(R.id.report_title);
-        TextView descTextView = (TextView) convertView.findViewById(R.id.report_content);
+        TextView titleTextView = (TextView) convertView.findViewById(R.id.textView_report_title);
+        TextView descTextView = (TextView) convertView.findViewById(R.id.textView_report_content);
         descTextView.setText(reportListViewItem.getReportContent());
 
         Button btnEditReport = (Button) convertView.findViewById(R.id.button_edit_report);
