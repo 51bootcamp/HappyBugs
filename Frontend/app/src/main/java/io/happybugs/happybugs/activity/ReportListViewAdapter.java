@@ -3,6 +3,7 @@ package io.happybugs.happybugs.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,8 +30,7 @@ public class ReportListViewAdapter extends BaseAdapter {
     private Context currContext;
     private ArrayList<ReportListViewItem> reportList = new ArrayList<ReportListViewItem>();
 
-    public ReportListViewAdapter() {
-    }
+    public ReportListViewAdapter() { }
 
     @Override
     public int getCount() {
@@ -62,8 +62,12 @@ public class ReportListViewAdapter extends BaseAdapter {
         final ReportListViewItem reportListViewItem = reportList.get(position);
 
         TextView titleTextView = (TextView) convertView.findViewById(R.id.report_title);
-        TextView descTextView = (TextView) convertView.findViewById(R.id.report_content);
-        descTextView.setText(reportListViewItem.getReportContent());
+        TextView contentTextView = (TextView) convertView.findViewById(R.id.report_content);
+
+        if (!reportListViewItem.getReportTitle().equals("")) {
+            titleTextView.setText((reportListViewItem.getReportTitle()));
+        }
+        contentTextView.setText(reportListViewItem.getReportContent());
 
         Button btnEditReport = (Button) convertView.findViewById(R.id.button_edit_report);
         Button btnDeleteReport = (Button) convertView.findViewById(R.id.button_delete_report);
@@ -99,19 +103,18 @@ public class ReportListViewAdapter extends BaseAdapter {
         btnEditReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //get reportID and send to ReportActivity
                 Intent sendReportID = new Intent(v.getContext(), ReportActivity.class);
                 sendReportID.putExtra("isFromBtnEditReport", true);
                 sendReportID.putExtra("reportID",reportListViewItem.getReportId());
                 v.getContext().startActivity(sendReportID);
-                //((Activity)v.getContext()).finish(); Don't use this
             }
         });
         return convertView;
     }
 
-    public void addItem(String content, int reportId) {
+    public void addItem(String title, String content, int reportId) {
         ReportListViewItem item = new ReportListViewItem();
+        item.setReportTitle(title);
         item.setReportContent(content);
         item.setReportId(reportId);
 
@@ -120,7 +123,7 @@ public class ReportListViewAdapter extends BaseAdapter {
 
     public void addAll(List<UserReportItem> userReportList) {
         for (UserReportItem item : userReportList) {
-            addItem(item.getWhat(), item.getId());
+            addItem(item.getTime(), item.getWhat(), item.getId());
         }
     }
 }
