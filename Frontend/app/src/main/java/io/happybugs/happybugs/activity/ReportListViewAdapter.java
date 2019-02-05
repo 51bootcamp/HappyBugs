@@ -1,8 +1,8 @@
 package io.happybugs.happybugs.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +17,6 @@ import java.util.List;
 import io.happybugs.happybugs.APIInterface.APIInterface;
 import io.happybugs.happybugs.R;
 import io.happybugs.happybugs.model.UserReportItem;
-import io.happybugs.happybugs.model.UserReportList;
 import io.happybugs.happybugs.network.RetrofitInstance;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -27,7 +26,11 @@ import retrofit2.Retrofit;
 
 public class ReportListViewAdapter extends BaseAdapter {
 
+    private Context currContext;
     private ArrayList<ReportListViewItem> reportList = new ArrayList<ReportListViewItem>();
+
+    public ReportListViewAdapter() {
+    }
 
     @Override
     public int getCount() {
@@ -58,12 +61,12 @@ public class ReportListViewAdapter extends BaseAdapter {
 
         final ReportListViewItem reportListViewItem = reportList.get(position);
 
-        TextView titleTextView = (TextView) convertView.findViewById(R.id.report_title) ;
-        TextView descTextView = (TextView) convertView.findViewById(R.id.report_content) ;
+        TextView titleTextView = (TextView) convertView.findViewById(R.id.report_title);
+        TextView descTextView = (TextView) convertView.findViewById(R.id.report_content);
         descTextView.setText(reportListViewItem.getReportContent());
 
-        Button btnEditReport = (Button) convertView.findViewById(R.id.btn_report_edit);
-        Button btnDeleteReport = (Button) convertView.findViewById(R.id.btn_report_delete);
+        Button btnEditReport = (Button) convertView.findViewById(R.id.button_edit_report);
+        Button btnDeleteReport = (Button) convertView.findViewById(R.id.button_delete_report);
 
         btnDeleteReport.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +96,17 @@ public class ReportListViewAdapter extends BaseAdapter {
             }
         });
 
+        btnEditReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //get reportID and send to ReportActivity
+                Intent sendReportID = new Intent(v.getContext(), ReportActivity.class);
+                sendReportID.putExtra("isFromBtnEditReport", true);
+                sendReportID.putExtra("reportID",reportListViewItem.getReportId());
+                v.getContext().startActivity(sendReportID);
+                //((Activity)v.getContext()).finish(); Don't use this
+            }
+        });
         return convertView;
     }
 

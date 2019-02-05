@@ -108,7 +108,7 @@
 
             <Button
                 android:layout_marginLeft="5dp"
-                android:id="@+id/btn_report_edit"
+                android:id="@+id/button_edit_report"
                 android:layout_width="66dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
@@ -117,14 +117,15 @@
                 android:textColor="@color/colorPrimary"
                 app:layout_constraintBottom_toBottomOf="@id/textView"
                 tools:layout_editor_absoluteX="0dp" />
+
             <Button
-                android:id="@+id/btn_report_delete"
+                android:id="@+id/button_delete_report"
                 android:layout_width="66dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/linear"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="40dp"
-                android:layout_toRightOf="@id/btn_report_edit"
+                android:layout_toRightOf="@id/button_edit_report"
                 android:layout_weight="4"
                 android:background="@drawable/btn_delete"
                 android:text="@string/home_report_delete"
