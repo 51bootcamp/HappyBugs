@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -85,6 +86,7 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
         buttons.closeBtn.setOnClickListener(this);
 
         onKeyboardDownPressed();
+        textTouchListener();
     }
 
     @Override
@@ -130,7 +132,8 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
     public void startReport(EditText editText, View view, Button button){
         editText.setVisibility(View.VISIBLE);
         view.setVisibility(View.GONE);
-        button.setVisibility(View.GONE);
+        button.setVisibility(View.VISIBLE);
+        showKeyboard(editTexts.whatText);
         enableBoxes(editTexts.whatText, checkBoxes.whatCheck, buttons.saveBtn);
     }
 
@@ -209,7 +212,7 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
             imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
         }
         // Give time lapse between showing keyboard and setting save button to invisibility.
-        final int DELAY_MILLIS = 100;
+        final int DELAY_MILLIS = 50;
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     @Override
@@ -223,7 +226,7 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
         editText.clearFocus();
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
         // Give time lapse between closing keyboard and setting save button to visibility.
-        final int DELAY_MILLIS = 100;
+        final int DELAY_MILLIS = 50;
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     @Override
@@ -256,7 +259,7 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
                 public void onKeyIme(int keyCode, KeyEvent event) {
                     if (KeyEvent.KEYCODE_BACK == event.getKeyCode()) {
                         // Give time lapse between closing keyboard and setting save button to visibility.
-                        final int DELAY_MILLIS = 200;
+                        final int DELAY_MILLIS = 50;
                         new android.os.Handler().postDelayed(
                                 new Runnable() {
                                     @Override
@@ -268,6 +271,14 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
                 }
             });
         }
+    }
+
+    protected void textTouchListener(){
+        editTexts.onTextTouched(editTexts.whatText, buttons.saveBtn);
+        editTexts.onTextTouched(editTexts.whereText, buttons.saveBtn);
+        editTexts.onTextTouched(editTexts.whenText, buttons.saveBtn);
+        editTexts.onTextTouched(editTexts.whoText, buttons.saveBtn);
+        editTexts.onTextTouched(editTexts.detailsText, buttons.saveBtn);
     }
 
     // Report saved only if user writes more than certain amount of what text.
