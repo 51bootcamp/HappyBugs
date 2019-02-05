@@ -28,9 +28,9 @@ const createReport = (req, res) => {
       facebook_url: req.body.data[0].facebook_url
     }
   }).then((result) => {
-    let pid = null;
+    let perpetrator_id = null;
     if (result[0].facebook_url) {
-      pid = result[0].id;
+      perpetrator_id = result[0].id;
     }
     models.report.create({
       what: req.body.data[0].what,
@@ -38,11 +38,11 @@ const createReport = (req, res) => {
       time: req.body.data[0].time,
       who: req.body.data[0].who,
       details: req.body.data[0].details,
-      perpetratorID: pid,
+      perpetratorID: perpetrator_id,
       userID: req.user[0].dataValues.id
-    }).then((result2) => {
-      updatePerpetrator(result2.perpetratorID);
-      res.status(201).json({id: result2.id});
+    }).then((createResult) => {
+      updatePerpetrator(createResult.perpetratorID);
+      res.status(201).json({id: createResult.id});
     });
   });
 };
@@ -117,7 +117,7 @@ const deleteReport = (req, res) => {
     if (result == 0) {
       res.json({statusCode: 1002});
     } else {
-      let pid = result[0].perpetratorID;
+      let perpetrator_id = result[0].perpetratorID;
 
       models.report.destroy({
         where: {
@@ -125,7 +125,7 @@ const deleteReport = (req, res) => {
           userID: userId
         }
       }).then((destroyResult) => {
-        updatePerpetrator(pid);
+        updatePerpetrator(perpetrator_id);
         res.status(204).end();
       });
     }
@@ -165,10 +165,10 @@ const editReport = (req, res) => {
         where: {
           facebook_url: newFacebookUrl
         }
-      }).then((result2) => {
-        let pid = null;
-        if (result2[0].facebook_url) {
-          pid = result2[0].id;
+      }).then((createResult) => {
+        let perpetrator_id = null;
+        if (createResult[0].facebook_url) {
+          perpetrator_id = createResult[0].id;
         }
         models.report.update({
           what: newWhat,
@@ -176,14 +176,14 @@ const editReport = (req, res) => {
           time: newTime,
           who: newWho,
           details: newDetails,
-          perpetratorID: pid
+          perpetratorID: perpetrator_id
         },{
           where: {
             id: reportId,
             userID: userId
           }
         }).then((result) => {
-          updatePerpetrator(pid);
+          updatePerpetrator(perpetrator_id);
           updatePerpetrator(pastFacebookId);
           res.status(200).end();
         });
