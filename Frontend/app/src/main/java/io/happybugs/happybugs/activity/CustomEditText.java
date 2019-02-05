@@ -4,6 +4,9 @@ import android.content.Context;
 import android.support.v7.widget.AppCompatEditText;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
 
 public class CustomEditText extends AppCompatEditText {
 
@@ -20,7 +23,6 @@ public class CustomEditText extends AppCompatEditText {
     public interface KeyImeChange {
         public void onKeyIme(int keyCode, KeyEvent event);
     }
-
     @Override
     public boolean onKeyPreIme(int keyCode, KeyEvent event) {
         if (keyImeChangeListener != null) {

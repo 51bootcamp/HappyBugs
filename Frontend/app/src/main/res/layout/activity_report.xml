@@ -30,7 +30,7 @@
             android:background="#00ff0000"
             android:paddingTop="30dp"
             android:textColor="@android:color/white"
-            android:textSize="22dp"
+            android:textSize="20dp"
             android:textStyle="bold"/>
 
     </RelativeLayout>
@@ -45,7 +45,8 @@
             android:id="@+id/questionsView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginTop="10dp">
 
             <RelativeLayout
                 android:id="@+id/linear1"
@@ -76,7 +77,7 @@
                     android:text="@string/whatBtn"
                     android:textAllCaps="false"
                     android:textColor="@android:color/white"
-                    android:textSize="20dp" />
+                    android:textSize="18dp" />
 
                 <ImageButton
                     android:id="@+id/whatArrow"
@@ -146,7 +147,7 @@
                     android:text="@string/whereBtn"
                     android:textAllCaps="false"
                     android:textColor="@android:color/white"
-                    android:textSize="20dp" />
+                    android:textSize="18dp" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
@@ -214,7 +215,7 @@
                     android:text="@string/whenText"
                     android:textAllCaps="false"
                     android:textColor="@android:color/white"
-                    android:textSize="20dp" />
+                    android:textSize="18dp" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
@@ -282,7 +283,7 @@
                     android:text="@string/whoBtn"
                     android:textAllCaps="false"
                     android:textColor="@android:color/white"
-                    android:textSize="20dp" />
+                    android:textSize="18dp" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
@@ -376,7 +377,7 @@
                     android:text="@string/detailsBtn"
                     android:textAllCaps="false"
                     android:textColor="@android:color/white"
-                    android:textSize="20dp" />
+                    android:textSize="18dp" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
