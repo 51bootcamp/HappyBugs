@@ -28,19 +28,21 @@ const createReport = (req, res) => {
       facebook_url: req.body.data[0].facebook_url
     }
   }).then((result) => {
-    let pid = result[0].id;
-
+    let perpetrator_id = null;
+    if (result[0].facebook_url) {
+      perpetrator_id = result[0].id;
+    }
     models.report.create({
       what: req.body.data[0].what,
       location: req.body.data[0].location,
       time: req.body.data[0].time,
       who: req.body.data[0].who,
       details: req.body.data[0].details,
-      perpetratorID: pid,
+      perpetratorID: perpetrator_id,
       userID: req.user[0].dataValues.id
-    }).then((result2) => {
-      updatePerpetrator(result2.perpetratorID);
-      res.status(201).json({id: result2.id});
+    }).then((createResult) => {
+      updatePerpetrator(createResult.perpetratorID);
+      res.status(201).json({id: createResult.id});
     });
   });
 };
@@ -115,7 +117,7 @@ const deleteReport = (req, res) => {
     if (result == 0) {
       res.json({statusCode: 1002});
     } else {
-      let pid = result[0].perpetratorID;
+      let perpetrator_id = result[0].perpetratorID;
 
       models.report.destroy({
         where: {
@@ -123,7 +125,7 @@ const deleteReport = (req, res) => {
           userID: userId
         }
       }).then((destroyResult) => {
-        updatePerpetrator(pid);
+        updatePerpetrator(perpetrator_id);
         res.status(204).end();
       });
     }
@@ -137,6 +139,7 @@ const editReport = (req, res) => {
     return res.status(403).json({statusCode: 3005});
   }
   const reportId = parseInt(req.query.reportId);
+  const userId = req.user[0].dataValues.id;
   if (Number.isNaN(reportId)) {
     return res.status(400).end();
   }
@@ -145,23 +148,47 @@ const editReport = (req, res) => {
   const newTime = req.body.data[0].time;
   const newWho = req.body.data[0].who;
   const newDetails = req.body.data[0].details;
+  const newFacebookUrl = req.body.data[0].facebook_url;
 
-  models.report.update({
-      what: newWhat,
-      location: newLocation,
-      time: newTime,
-      who: newWho,
-      details: newDetails
-    },{
-      where: {
-        id: reportId,
-        userID: req.user[0].dataValues.id
-      }
-  }).then((result) => {
+  models.report.findAll({
+    where: {
+      id: reportId,
+      userID: userId
+    }
+  }).then ((result) => {
     if (result == 0) {
       res.json({statusCode: 1002});
     } else {
-      res.status(200).end();
+      let pastFacebookId = result[0].perpetratorID;
+
+      models.perpetrator.findOrCreate({
+        where: {
+          facebook_url: newFacebookUrl
+        }
+      }).then((createResult) => {
+        let perpetrator_id = null;
+        if (createResult[0].facebook_url) {
+          perpetrator_id = createResult[0].id;
+        }
+        models.report.update({
+          what: newWhat,
+          location: newLocation,
+          time: newTime,
+          who: newWho,
+          details: newDetails,
+          perpetratorID: perpetrator_id
+        },{
+          where: {
+            id: reportId,
+            userID: userId
+          }
+        }).then((result) => {
+          updatePerpetrator(perpetrator_id);
+          updatePerpetrator(pastFacebookId);
+          res.status(200).end();
+        });
+        
+      });
     }
   }).catch((err) => {
     res.json({statusCode: 3010});
