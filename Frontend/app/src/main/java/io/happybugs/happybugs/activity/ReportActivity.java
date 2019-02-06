@@ -116,7 +116,12 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
                         editTexts.detailsText.setText(userReportItems.get(0).getDetails());
                         //TODO(Jelldo): Set facebookIDtext without using String fb concat if it is available
                         final String fb = "https://www.facebook.com/";
-                        editTexts.facebookIDText.setText(fb.concat(userReportItems.get(0).getPerpetrator().getFacebookUrl()));
+                        try {
+                            editTexts.facebookIDText.setText(fb.concat(userReportItems.get(0).getPerpetrator().getFacebookUrl()));
+                        } catch (NullPointerException e) {
+                            e.printStackTrace();
+                            editTexts.facebookIDText.setText(fb);
+                        }
                     } else if (response.code() == 403) {
                         Toast.makeText(getBaseContext(), "Editing report failed due to session expiration",
                                 Toast.LENGTH_LONG).show();
@@ -322,7 +327,7 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    protected void textTouchListener(){
+    protected void textTouchListener() {
         editTexts.onTextTouched(editTexts.whatText, buttons.saveBtn);
         editTexts.onTextTouched(editTexts.whereText, buttons.saveBtn);
         editTexts.onTextTouched(editTexts.whenText, buttons.saveBtn);

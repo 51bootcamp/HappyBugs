@@ -41,7 +41,7 @@
         </TableRow>
 
         <TextView
-            android:id="@+id/report_content"
+            android:id="@+id/textView_report_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
