@@ -60,8 +60,8 @@ public class ReportListViewAdapter extends BaseAdapter {
 
         final ReportListViewItem reportListViewItem = reportList.get(position);
 
-        TextView titleTextView = (TextView) convertView.findViewById(R.id.report_title);
-        TextView contentTextView = (TextView) convertView.findViewById(R.id.report_content);
+        TextView titleTextView = (TextView) convertView.findViewById(R.id.textView_report_title);
+        TextView contentTextView = (TextView) convertView.findViewById(R.id.textView_report_content);
 
         if (!reportListViewItem.getReportTitle().equals("")) {
             titleTextView.setText((reportListViewItem.getReportTitle()));
