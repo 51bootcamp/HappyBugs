@@ -71,17 +71,6 @@ public class SignInActivity extends AppCompatActivity {
                 if (response.code() == 200) {
                     startActivity(new Intent(currContext, MainActivity.class));
                     finish();
-//                    //TODO(Jelldo): add progressbar, make async
-//                    final int DELAY_MILLIS = 1500;
-//                    new android.os.Handler().postDelayed(
-//                            new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    //TODO(Jelldo): need to change into HomeActivity
-//                                    startActivity(new Intent(currContext, MainActivity.class));
-//                                    finish();
-//                                }
-//                            }, DELAY_MILLIS);
                 } else if (response.code() == 401) {
                     //TODO(Jelldo): show msg under the textfield
                     Toast.makeText(getBaseContext(), "Failed to login", Toast.LENGTH_LONG).show();
