@@ -15,10 +15,12 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     password: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false
     },
-    loginFailCount: {
-      type: DataTypes.INTEGER
+    isVerified: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
     }
   });
 
