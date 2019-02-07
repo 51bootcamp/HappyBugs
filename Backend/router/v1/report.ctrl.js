@@ -31,10 +31,8 @@ const createReport = (req, res) => {
       facebook_url: facebookUrl
     }
   }).then((result) => {
-    let perpetrator_id = null;
-    if (result[0].facebook_url) {
-      perpetrator_id = result[0].id;
-    }
+    let perpetrator_id = result[0].id;
+
     models.report.create({
       what: req.body.data[0].what,
       location: req.body.data[0].location,
