@@ -73,7 +73,7 @@ public class SignInActivity extends AppCompatActivity {
                     finish();
                 } else if (response.code() == 401) {
                     //TODO(Jelldo): show msg under the textfield
-                    Toast.makeText(getBaseContext(), "Failed to login", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(), "Failed to login. Too many invalid login attempts may lock your account.", Toast.LENGTH_LONG).show();
                 }
             }
 
