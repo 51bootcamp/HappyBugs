@@ -61,4 +61,6 @@
     <string name="dialog_yes_btn">Yes</string>
     <string name="dialog_no_btn">No</string>
     <string name="facebook_URL">https://www.facebook.com/</string>
+    <!--Report List View Item-->
+    <string name="matching_found">matching reports found</string>
 </resources>

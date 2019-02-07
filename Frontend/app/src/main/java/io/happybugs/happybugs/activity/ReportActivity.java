@@ -116,7 +116,12 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
                         editTexts.detailsText.setText(userReportItems.get(0).getDetails());
                         //TODO(Jelldo): Set facebookIDtext without using String fb concat if it is available
                         final String fb = "https://www.facebook.com/";
-                        editTexts.facebookIDText.setText(fb.concat(userReportItems.get(0).getPerpetrator().getFacebookUrl()));
+                        try {
+                            editTexts.facebookIDText.setText(fb.concat(userReportItems.get(0).getPerpetrator().getFacebookUrl()));
+                        } catch (NullPointerException e) {
+                            e.printStackTrace();
+                            editTexts.facebookIDText.setText(fb);
+                        }
                     } else if (response.code() == 403) {
                         Toast.makeText(getBaseContext(), "Editing report failed due to session expiration",
                                 Toast.LENGTH_LONG).show();
@@ -261,7 +266,7 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
             imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
         }
         // Give time lapse between showing keyboard and setting save button to invisibility.
-        final int DELAY_MILLIS = 50;
+        final int DELAY_MILLIS = 40;
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     @Override
@@ -275,7 +280,7 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
         editText.clearFocus();
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
         // Give time lapse between closing keyboard and setting save button to visibility.
-        final int DELAY_MILLIS = 50;
+        final int DELAY_MILLIS = 40;
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     @Override
@@ -308,7 +313,7 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
                 public void onKeyIme(int keyCode, KeyEvent event) {
                     if (KeyEvent.KEYCODE_BACK == event.getKeyCode()) {
                         // Give time lapse between closing keyboard and setting save button to visibility.
-                        final int DELAY_MILLIS = 50;
+                        final int DELAY_MILLIS = 40;
                         new android.os.Handler().postDelayed(
                                 new Runnable() {
                                     @Override
@@ -322,7 +327,7 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    protected void textTouchListener(){
+    protected void textTouchListener() {
         editTexts.onTextTouched(editTexts.whatText, buttons.saveBtn);
         editTexts.onTextTouched(editTexts.whereText, buttons.saveBtn);
         editTexts.onTextTouched(editTexts.whenText, buttons.saveBtn);

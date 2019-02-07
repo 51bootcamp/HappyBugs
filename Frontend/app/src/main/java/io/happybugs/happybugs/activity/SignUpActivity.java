@@ -66,7 +66,6 @@ public class SignUpActivity extends AppCompatActivity {
         userPW = etRegPW.getText().toString();
         userPWCheck = etRegPWCheck.getText().toString();
 
-        //Check email format
         if (userEmail.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()) {
             etRegEmail.setError("Enter valid email address");
             isValid = false;

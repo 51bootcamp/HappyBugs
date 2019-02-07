@@ -22,10 +22,13 @@ const createReport = (req, res) => {
   if (!req.isAuthenticated()) {
     return res.status(403).json({statusCode: 3005});
   }
-
+  let facebookUrl = req.body.data[0].facebook_url;
+  if (!facebookUrl){
+    facebookUrl = null;
+  }
   models.perpetrator.findOrCreate({
     where: {
-      facebook_url: req.body.data[0].facebook_url
+      facebook_url: facebookUrl
     }
   }).then((result) => {
     let perpetrator_id = null;

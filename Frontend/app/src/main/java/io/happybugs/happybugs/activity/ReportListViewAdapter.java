@@ -29,8 +29,7 @@ public class ReportListViewAdapter extends BaseAdapter {
     private Context currContext;
     private ArrayList<ReportListViewItem> reportList = new ArrayList<ReportListViewItem>();
 
-    public ReportListViewAdapter() {
-    }
+    public ReportListViewAdapter() { }
 
     @Override
     public int getCount() {

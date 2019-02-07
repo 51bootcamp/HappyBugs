@@ -7,12 +7,20 @@ public class ReportListViewItem {
     private int reportUserCount;
     private String createdAt;
 
+    public void setReportTitle(String reportTitle) {
+        this.reportTitle = reportTitle;
+    }
+
     public void setReportContent(String content) {
         reportContent = content;
     }
 
     public void setReportId(int reportId) {
         this.reportId = reportId;
+    }
+
+    public String getReportTitle() {
+        return reportTitle;
     }
 
     public String getReportContent() {
