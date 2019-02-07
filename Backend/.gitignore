@@ -83,3 +83,7 @@ typings/
 /config/DB_config.json
 /config/server_config.json
 /config/session.json
+/config/email_config.json
+
+#for mac
+*.DS_store

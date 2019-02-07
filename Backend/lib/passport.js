@@ -41,6 +41,10 @@ module.exports = (app) => {
         if (result == "") {
           return done(null, false, {msg: 'Incorrect user'});
         }
+        // Check email is verified
+        if (result[0].isVerified == false) {
+          return done(null, false, {msg: 'This email is not verified'});
+        }
         // Check number of login attempts
         // Last login attempt time - current login attempt time
         // Limit login attempt to a 30 minute

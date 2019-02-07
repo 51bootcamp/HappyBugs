@@ -3,6 +3,8 @@ const router = express.Router();
 const models = require('../../models');
 const crypto = require('crypto');
 const Sequelize = require('sequelize');
+const verification = require('../../lib/verification/verificationEmail.js')
+const path = require('path');
 
 const minPasswordLength = 8;
 const loginLimitCount = 3;
@@ -118,10 +120,12 @@ module.exports = (passport) => {
             password : hashedPassword,
             loginFailCount : 0
           }).then(result => {
-              res.status(201).json({
-                statusCode: 2003
-              });
+            verification.sendMail(result);
+            res.status(201).json({
+              statusCode: 2003
+            });
           }).catch((err) => {
+            console.log(err);
             res.status(400).json({
               statusCode: 3013
             });
@@ -133,12 +137,24 @@ module.exports = (passport) => {
         })
       }
     }).catch((err) => {
+      console.log(err);
       res.status(520).json({
         statusCode: 4000
       });
     });
   });
 
+  router.use(express.static(__dirname + '../../../HTML'));
+
+  router.post('/verify', (req, res) => {
+    verification.verify(req.query.token).then((result) => {
+      if (result) {
+        res.sendFile(path.join(__dirname, "../../HTML/verified.html"));
+      } else {
+        res.sendFile(path.join(__dirname, "../../HTML/verifiedFail.html"));
+      }
+    });
+  });
 
   return router;
 };

@@ -6,6 +6,8 @@ const router = express.Router();
 const session = require('express-session');
 const sessionSet = require('./config/session.json');
 const config = require('./config/server_config.json');
+const path = require('path');
+
 
 models.sequelize.sync();
 
