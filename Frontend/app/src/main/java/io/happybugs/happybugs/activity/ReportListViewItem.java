@@ -11,16 +11,16 @@ public class ReportListViewItem {
         this.reportTitle = reportTitle;
     }
 
+    public String getReportTitle() {
+        return reportTitle;
+    }
+
     public void setReportContent(String content) {
         reportContent = content;
     }
 
     public void setReportId(int reportId) {
         this.reportId = reportId;
-    }
-
-    public String getReportTitle() {
-        return reportTitle;
     }
 
     public String getReportContent() {
@@ -37,14 +37,6 @@ public class ReportListViewItem {
 
     public void setReportUserCount(int reportUserCount) {
         this.reportUserCount = reportUserCount;
-    }
-
-    public String getReportTitle() {
-        return reportTitle;
-    }
-
-    public void setReportTitle(String reportTitle) {
-        this.reportTitle = reportTitle;
     }
 
     public String getCreatedAt() {
