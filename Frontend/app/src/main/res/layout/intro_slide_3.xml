@@ -16,12 +16,11 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
-        android:src="@drawable/ic_h3"
-        android:tint="@android:color/background_light"
         app:layout_constraintBottom_toTopOf="@+id/textView_slide3_head"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/intro_slide_img3"/>
 
     <TextView
         android:id="@+id/textView_slide3_head"
@@ -30,7 +29,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="360dp"
+        android:layout_marginTop="380dp"
         android:text="@string/slide3_title"
         android:textAlignment="center"
         android:textColor="@android:color/white"
@@ -57,6 +56,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_slide3_head"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="1.0" />
 
 </android.support.constraint.ConstraintLayout>
