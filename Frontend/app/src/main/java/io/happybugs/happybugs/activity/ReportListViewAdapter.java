@@ -61,7 +61,7 @@ public class ReportListViewAdapter extends BaseAdapter {
         final ReportListViewItem reportListViewItem = reportList.get(position);
 
         TextView titleTextView = (TextView) convertView.findViewById(R.id.textView_report_title);
-        TextView descTextView = (TextView) convertView.findViewById(R.id.report_content);
+        TextView descTextView = (TextView) convertView.findViewById(R.id.textView_report_content);
         TextView textViewCreatedAt = (TextView) convertView.findViewById(R.id.textView_report_created_date);
 
         descTextView.setText(reportListViewItem.getReportContent());
