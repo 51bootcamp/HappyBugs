@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_screen3">
+    android:background="@color/white">
 
     <ImageView
         android:id="@+id/imageView_ic3"
@@ -12,15 +12,13 @@
         android:layout_height="304dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="44dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView_slide3_head"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/intro_slide_img3"/>
+        app:srcCompat="@drawable/intro_slide_img3" />
 
     <TextView
         android:id="@+id/textView_slide3_head"
@@ -32,7 +30,7 @@
         android:layout_marginTop="380dp"
         android:text="@string/slide3_title"
         android:textAlignment="center"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         android:textSize="@dimen/slide_title"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,20 +40,19 @@
     <TextView
         android:id="@+id/textView_slide3_below"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="74dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="220dp"
+        android:layout_marginBottom="204dp"
         android:paddingLeft="@dimen/desc_padding"
         android:paddingRight="@dimen/desc_padding"
         android:text="@string/slide3_desc"
         android:textAlignment="center"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         android:textSize="@dimen/slide_desc"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_slide3_head"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_slide3_head" />
 
 </android.support.constraint.ConstraintLayout>

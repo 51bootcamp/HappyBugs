@@ -42,6 +42,8 @@ public class MainActivity extends AppCompatActivity
             switch (item.getItemId()) {
                 case R.id.nav_home:
                     //startActivity(new Intent(currContext, MainActivity.class));
+                    finish();
+                    startActivity(getIntent());
                     return true;
                 case R.id.nav_create:
                     startActivity(new Intent(currContext, ReportActivity.class));
