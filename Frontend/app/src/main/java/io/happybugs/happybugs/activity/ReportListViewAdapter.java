@@ -1,6 +1,7 @@
 package io.happybugs.happybugs.activity;
 
 import android.content.Context;
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -86,6 +87,9 @@ public class ReportListViewAdapter extends BaseAdapter {
                         if (response.code() == 204) {
                             reportList.remove(pos);
                             notifyDataSetChanged();
+                            if (reportList.isEmpty()) {
+                                context.startActivity(new Intent(context, MainActivity.class));
+                            }
                         } else {
                             Toast.makeText(context, "Failed to delete", Toast.LENGTH_LONG).show();
                         }
