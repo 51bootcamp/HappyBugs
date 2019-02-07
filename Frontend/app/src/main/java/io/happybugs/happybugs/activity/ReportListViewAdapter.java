@@ -61,15 +61,16 @@ public class ReportListViewAdapter extends BaseAdapter {
         final ReportListViewItem reportListViewItem = reportList.get(position);
 
         TextView titleTextView = (TextView) convertView.findViewById(R.id.textView_report_title);
-        TextView contentTextView = (TextView) convertView.findViewById(R.id.textView_report_content);
+        TextView descTextView = (TextView) convertView.findViewById(R.id.report_content);
+        TextView textViewCreatedAt = (TextView) convertView.findViewById(R.id.textView_report_created_date);
 
-        if (!reportListViewItem.getReportTitle().equals("")) {
-            titleTextView.setText((reportListViewItem.getReportTitle()));
-        }
-        contentTextView.setText(reportListViewItem.getReportContent());
+        descTextView.setText(reportListViewItem.getReportContent());
+        //TODO(Jelldo): Change createdAt by date
+        //textViewCreatedAt.setText(reportListViewItem.getCreatedAt());
 
         Button btnEditReport = (Button) convertView.findViewById(R.id.button_edit_report);
         Button btnDeleteReport = (Button) convertView.findViewById(R.id.button_delete_report);
+        Button btnReportingUserCount = (Button) convertView.findViewById(R.id.button_perpetrator_match);
 
         btnDeleteReport.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +80,6 @@ public class ReportListViewAdapter extends BaseAdapter {
 
                 Call<ResponseBody> requestDeleteReport = service.deleteReport(
                         reportListViewItem.getReportId());
-
                 requestDeleteReport.enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -104,25 +104,35 @@ public class ReportListViewAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent sendReportID = new Intent(v.getContext(), ReportActivity.class);
                 sendReportID.putExtra("isFromBtnEditReport", true);
-                sendReportID.putExtra("reportID",reportListViewItem.getReportId());
+                sendReportID.putExtra("reportID", reportListViewItem.getReportId());
                 v.getContext().startActivity(sendReportID);
             }
         });
+
+        if (!reportListViewItem.getReportTitle().equals("")) {
+            titleTextView.setText(reportListViewItem.getReportTitle());
+        } else {
+            String createdAt = reportListViewItem.getCreatedAt();
+            titleTextView.setText("Report");
+        }
+        btnReportingUserCount.setText(Integer.toString(reportListViewItem.getReportUserCount() - 1));
         return convertView;
     }
 
-    public void addItem(String title, String content, int reportId) {
+    public void addItem(String title, String content, int reportId, int reportingUserCount, String createdAt) {
         ReportListViewItem item = new ReportListViewItem();
         item.setReportTitle(title);
         item.setReportContent(content);
         item.setReportId(reportId);
+        item.setReportUserCount(reportingUserCount);
+        item.setCreatedAt(createdAt);
 
         reportList.add(item);
     }
 
     public void addAll(List<UserReportItem> userReportList) {
         for (UserReportItem item : userReportList) {
-            addItem(item.getTime(), item.getWhat(), item.getId());
+            addItem(item.getTime(), item.getWhat(), item.getId(), item.getPerpetrator().getReportingUserCount(), item.getCreatedAt());
         }
     }
 }

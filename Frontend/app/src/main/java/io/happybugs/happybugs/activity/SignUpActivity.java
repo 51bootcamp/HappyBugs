@@ -108,6 +108,7 @@ public class SignUpActivity extends AppCompatActivity {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.code() == 201) {
                     startActivity(new Intent(currContext, SignInActivity.class));
+                    Toast.makeText(getBaseContext(), R.string.text_email_auth, Toast.LENGTH_LONG).show();
                     finish();
                 } else if (response.code() == 409) {
                     Toast.makeText(getBaseContext(), "That email is taken. Try another.", Toast.LENGTH_LONG).show();
