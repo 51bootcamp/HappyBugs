@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.nav_home:
-                    startActivity(new Intent(currContext, MainActivity.class));
+                    //startActivity(new Intent(currContext, MainActivity.class));
                     return true;
                 case R.id.nav_create:
                     startActivity(new Intent(currContext, ReportActivity.class));

@@ -47,6 +47,7 @@
     <string name="text_ask_email">What\'s your email?</string>
     <string name="text_ask_password">Pick a password</string>
     <string name="text_password_check">Re-enter password</string>
+    <string name="text_email_auth">We just sent the email to authenticate your account. Please check your email.</string>
     <!--Create Report-->
     <string name="whatBtn">What</string>
     <string name="whereBtn">Where</string>
